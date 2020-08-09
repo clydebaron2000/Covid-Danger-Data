@@ -197,10 +197,10 @@ function findRateGroup(number) {
         return "r150";
     } else if (number <= 200) {
         return "r200";
-    } else if (number > 200) {
-        return "r500"
+    } else if (number <=500) {
+        return "r500";
     } else {
-        return false;
+        return "rMore";
     }
 }
 
