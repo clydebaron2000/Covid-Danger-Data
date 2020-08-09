@@ -60,8 +60,9 @@ const californiaCounties = [
     { "name": "Yolo", "censusCode": "113", "population": "" },
     { "name": "Yuba", "censusCode": "115", "population": "" },
 ]
+let wholeData;
 
-const CaliforniaStatewideCountiesID = "999";
+
 
 
 
@@ -79,7 +80,6 @@ $.ajax({
 })
 
 
-
 // let csvCounty = "San Diego"
 // let csvURL = "https://data.ca.gov/api/3/action/datastore_search?resource_id=926fd08f-cc91-4828-af38-bd45de97f8c3&q=" + csvCounty;
 
@@ -91,6 +91,7 @@ $.ajax({
     method: "GET"
 }).then(function (response) {
     getReady();
+    wholeData = response;
 
     for (let county of californiaCounties) {
         console.log(county.name);
@@ -99,9 +100,14 @@ $.ajax({
 
         let totalNewCases = setLast14(response, recentIndex);
         console.log(`14 day cases: ${totalNewCases}`);
+        county.recentCases = totalNewCases;
 
         let ratePer = calculateRate(totalNewCases, county.population);
         console.log(`Rate per 100,000: ${ratePer.toFixed(0)}`);
+        county.infectionRate = ratePer;
+
+        let fatalityRate = parseInt(response[recentIndex].totalcountdeaths)/parseInt(response[recentIndex].totalcountconfirmed) * 100;
+        county.fatalityRate = fatalityRate;
 
         let newClass = findRateGroup(ratePer);
         $(`#${county.name.replace(/\s/g, "_")}`).addClass(newClass);
@@ -114,9 +120,15 @@ $.ajax({
 
 
 
+//FUNCTIONS
+
 //remove loading gif when ajax query is returned
 function getReady() {
     $("#loading").css("display", "none");
+
+    $("path").on("click", displayCounty);
+    $("polyline").on("click", displayCounty);
+    $("polygon").on("click", displayCounty);
 
     $("path").addClass("hover");
     $("polyline").addClass("hover");
@@ -204,3 +216,48 @@ function locateCountyPopulation(dataset) {
         }
     }
 }
+
+//display county info on click
+function displayCounty(e){
+    
+    const info = $("#info");
+    info.empty();
+    info.css("display", "block");
+
+    const countyName = $(this).attr("id").replace(/_/g, " ");
+    console.log(countyName);
+
+    const thisCounty = findCounty(countyName);
+    console.log(thisCounty);
+
+    const countyHeader = $(`<h5>${thisCounty.name} County</h5>`);
+    info.append(countyHeader);
+    info.append($("<hr>"))
+
+    const countyRecent = $(`<p><strong>Cases in last 14 days: </strong>${thisCounty.recentCases}</p>`);
+    info.append(countyRecent);
+
+    const countyInfectionRate = $(`<p><strong>Infections/100,000: </strong>${thisCounty.infectionRate.toFixed(1)}</p>`);
+    info.append(countyInfectionRate);
+    
+    const infectionInfo = $("<p class='fine-print'>Infection rate calculated by new cases in past 14 days over total population, times 100,000</p>")
+    info.append(infectionInfo);
+
+    const countyFatalityRate = $(`<p><strong>Fatality rate: </strong>${thisCounty.fatalityRate.toFixed(1)}%</p>`);
+    info.append(countyFatalityRate);
+    
+    const fatalityInfo = $("<p class='fine-print'>Fatality rate calculated by total deaths over total cases, times 100</p>");
+    info.append(fatalityInfo);
+
+
+}
+
+
+//search queryData.message for a particular county
+function findCounty(needle) {
+    for (let item of californiaCounties) {
+        if (item.name === needle) {
+            return item
+        }
+    }
+  };

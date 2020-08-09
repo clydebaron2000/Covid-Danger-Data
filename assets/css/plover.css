@@ -1,3 +1,7 @@
+#main {
+  position: relative;
+}
+
 
 /* SVG INTERACTIVE MAP */
 
@@ -38,15 +42,25 @@ svg {
 
 /* STATE CLICK INFO */
 
+hr {
+  border: none;
+  border-top: solid black 1px;
+}
+
+p {
+  font-size: 12px;
+}
+
+.fine-print {
+  font-size: 9px;
+  margin-top: -10px;
+}
+
 #info {
-  width: 30vw;
-  height: 30vw;
-  position: absolute;
-  top: 0;
-  right: 0;
+
   border: 1px solid teal;
   border-radius: 10px;
-  margin: 20px;
+  margin: 5px;
   display: none;
   padding-left: 20px;
   padding-right: 20px;

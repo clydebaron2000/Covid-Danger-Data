@@ -14,37 +14,36 @@
 </head>
 
 <body>
-
+    <div id="main">
     <div id="map-holder">
 
     <img id="loading" src="./assets/images/loading.gif"/>
-
-    <div id="info"></div>
-
     
-    <div id="title">14 day rate per 100k pop:</div>
-    <div id="legend">
-        <div class="label">0-1: 
-        <div class="r1 legend"></div></div>
-        <div class="label">2-5: 
-        <div class="r5 legend"></div></div>
-        <div class="label">6-15: 
-        <div class="r15 legend"></div></div>
-        <div class="label">16-30: 
-        <div class="r30 legend"></div></div>
-        <div class="label">31-50: 
-        <div class="r50 legend"></div></div>
-        <div class="label">51-100: 
-        <div class="r100 legend"></div></div>
-        <div class="label">101-150: 
-        <div class="r150 legend"></div></div>
-        <div class="label">151-200: 
-        <div class="r200 legend"></div></div>
-        <div class="label">201-500: 
-        <div class="r500 legend"></div></div>
-       
-    </div>
-
+    <aside>
+        <div id="title">14 day rate per 100k pop:</div>
+        <div id="legend">
+            <div class="label">0-1: 
+            <div class="r1 legend"></div></div>
+            <div class="label">2-5: 
+            <div class="r5 legend"></div></div>
+            <div class="label">6-15: 
+            <div class="r15 legend"></div></div>
+            <div class="label">16-30: 
+            <div class="r30 legend"></div></div>
+            <div class="label">31-50: 
+            <div class="r50 legend"></div></div>
+            <div class="label">51-100: 
+            <div class="r100 legend"></div></div>
+            <div class="label">101-150: 
+            <div class="r150 legend"></div></div>
+            <div class="label">151-200: 
+            <div class="r200 legend"></div></div>
+            <div class="label">201-500: 
+            <div class="r500 legend"></div></div>
+        
+        </div>
+    </aside>
+    
     <!--SVG Map of California thanks to Thadius856 on commons.wikimedia.org-->
     <svg version="1.1" id="Map_of_the_counties_of_California_x2C__without_legend" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xapGImg="http://ns.adobe.com/xap/1.0/g/img/" xmlns:cc="http://web.resource.org/cc/" xmlns:ns="http://ns.adobe.com/Variables/1.0/" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:xap="http://ns.adobe.com/xap/1.0/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:ns0="http://ns.adobe.com/SaveForWeb/1.0/" xmlns:dc="http://purl.org/dc/elements/1.1/" sodipodi:docbase="d:\Home\Wikipedia" sodipodi:docname="California county map.svg" inkscape:version="0.44" sodipodi:version="0.32" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="620.843px" height="733.026px" viewBox="0 0 620.843 733.026" enable-background="new 0 0 620.843 733.026" xml:space="preserve"> 
         <switch> 
@@ -115,11 +114,13 @@
         </g> 
         </switch> 
         </svg> 
-    </div>
+    </div><!--/map-holder-->
+
+        <div id="info"></div>
+    </div><!--main-->
 
 <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
 <script src='./assets/js/svg4everybody.js'>svg4everybody();</script>
-<!-- <script src='./assets/js/cal-map.js'></script> -->
 <script src='./assets/js/heat-map.js'></script>
 </body>
 </html>
