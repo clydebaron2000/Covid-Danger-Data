@@ -1,5 +1,5 @@
 .hover:hover {
- fill: orange;
+ opacity: .5;
 }
 
 svg {
