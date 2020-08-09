@@ -1,72 +1,149 @@
 
 const californiaPopulationData = {
-    "Alameda":"1671329",
-    "Alpine":"1129",
-    "Amador":"39752",
-    "Butte":"219186",
-    "Calaveras":"45905",
-    "Colusa":"21547",
-    "Contra Costa":"1153526",
-    "Del Norte":"27812",
-    "El Dorado":"192843",
-    "Fresno":"999101",
-    "Glenn":"28393",
-    "Humboldt":"135558",
-    "Imperial":"181245",
-    "Inyo":"18039",
-    "Kern":"900202",
-    "Kings":"152940",
-    "Lake":"64386",
-    "Lassen":"30573",
-    "Los Angeles":"10039107",
-    "Madera":"157327",
-    "Marin":"258826",
-    "Mariposa":"17203",
-    "Mendocino":"86749",
-    "Merced":"277680",
-    "Modoc":"8841",
-    "Mono":"14444",
-    "Monterey":"434061",
-    "Napa":"137744",
-    "Nevada":"99755",
-    "Orange":"3175692",
-    "Placer":"398329",
-    "Plumas":"18807",
-    "Riverside":"2470546",
-    "Sacramento":"1552058",
-    "San Benito":"62808",
-    "San Bernardino":"2180085",
-    "San Diego":"3338330",
-    "San Francisco":"881549",
-    "San Joaquin":"762148",
-    "San Luis Obispo":"283111",
-    "San Mateo":"766573",
-    "Santa Barbara":"446499",
-    "Santa Clara":"1927852",
-    "Santa Cruz":"273213",
-    "Shasta":"180080",
-    "Sierra":"3005",
-    "Siskiyou":"43539",
-    "Solano":"447643",
-    "Sonoma":"494336",
-    "Stanislaus":"550660",
-    "Sutter":"96971",
-    "Tehama":"65084",
-    "Trinity":"12285",
-    "Tulare":"466195",
-    "Tuolumne":"54478",
-    "Ventura":"846006",
-    "Yolo":"220500",
-    "Yuba":"78668",
+    "Alameda":"",
+    "Alpine":"",
+    "Amador":"",
+    "Butte":"",
+    "Calaveras":"",
+    "Colusa":"",
+    "Contra Costa":"",
+    "Del Norte":"",
+    "El Dorado":"",
+    "Fresno":"",
+    "Glenn":"",
+    "Humboldt":"",
+    "Imperial":"",
+    "Inyo":"",
+    "Kern":"",
+    "Kings":"",
+    "Lake":"",
+    "Lassen":"",
+    "Los Angeles":"",
+    "Madera":"",
+    "Marin":"",
+    "Mariposa":"",
+    "Mendocino":"",
+    "Merced":"",
+    "Modoc":"",
+    "Mono":"",
+    "Monterey":"",
+    "Napa":"",
+    "Nevada":"",
+    "Orange":"",
+    "Placer":"",
+    "Plumas":"",
+    "Riverside":"",
+    "Sacramento":"",
+    "San Benito":"",
+    "San Bernardino":"",
+    "San Diego":"",
+    "San Francisco":"",
+    "San Joaquin":"",
+    "San Luis Obispo":"",
+    "San Mateo":"",
+    "Santa Barbara":"",
+    "Santa Clara":"",
+    "Santa Cruz":"",
+    "Shasta":"",
+    "Sierra":"",
+    "Siskiyou":"",
+    "Solano":"",
+    "Sonoma":"",
+    "Stanislaus":"",
+    "Sutter":"",
+    "Tehama":"",
+    "Trinity":"",
+    "Tulare":"",
+    "Tuolumne":"",
+    "Ventura":"",
+    "Yolo":"",
+    "Yuba":"",
 }
 
+const californiaCountyIDs = {
+    "Alameda":"001",
+    "Alpine":"003",
+    "Amador":"005",
+    "Butte":"007",
+    "Calaveras":"009",
+    "Colusa":"011",
+    "Contra Costa":"013",
+    "Del Norte":"015",
+    "El Dorado":"017",
+    "Fresno":"019",
+    "Glenn":"021",
+    "Humboldt":"023",
+    "Imperial":"025",
+    "Inyo":"027",
+    "Kern":"029",
+    "Kings":"031",
+    "Lake":"033",
+    "Lassen":"035",
+    "Los Angeles":"037",
+    "Madera":"039",
+    "Marin":"041",
+    "Mariposa":"043",
+    "Mendocino":"045",
+    "Merced":"047",
+    "Modoc":"049",
+    "Mono":"051",
+    "Monterey":"053",
+    "Napa":"055",
+    "Nevada":"057",
+    "Orange":"059",
+    "Placer":"061",
+    "Plumas":"063",
+    "Riverside":"065",
+    "Sacramento":"067",
+    "San Benito":"069",
+    "San Bernardino":"071",
+    "San Diego":"073",
+    "San Francisco":"075",
+    "San Joaquin":"077",
+    "San Luis Obispo":"079",
+    "San Mateo":"081",
+    "Santa Barbara":"083",
+    "Santa Clara":"085",
+    "Santa Cruz":"087",
+    "Shasta":"089",
+    "Sierra":"091",
+    "Siskiyou":"093",
+    "Solano":"095",
+    "Sonoma":"097",
+    "Stanislaus":"099",
+    "Sutter":"101",
+    "Tehama":"103",
+    "Trinity":"105",
+    "Tulare":"107",
+    "Tuolumne":"109",
+    "Ventura":"111",
+    "Yolo":"113",
+    "Yuba":"115",
+}
+
+const CaliforniaStatewideCountiesID = "999";
+
 let wholeData;
+let countyCensus;
         
 
 
 
 
         //query current and past county data
+let censusCountyURL = "https://api.census.gov/data/2019/pep/population?key=45876004e2fbfafe56615f040f2172ee79c77643&get=POP&in=state:06&for=county:*";
+
+$.ajax({
+    url: censusCountyURL,
+    method: "GET"
+}).then(function(response){
+    locateCountyPopulation(response);
+})
+
+
+
+
+
 
     // let csvCounty = "San Diego"
     // let csvURL = "https://data.ca.gov/api/3/action/datastore_search?resource_id=926fd08f-cc91-4828-af38-bd45de97f8c3&q=" + csvCounty;
@@ -79,11 +156,11 @@ let wholeData;
         method: "GET"
     }).then(function(response){
         getReady();
-        console.log(response);
         wholeData = response;
 
         for (let key in californiaPopulationData) {
-            let recentIndex = findMostRecent(response, moment().add(-1, "days"), key);
+            console.log(key);
+            let recentIndex = findMostRecent(response, key);
             console.log(`Recent Index: ${recentIndex}`);
 
             let totalNewCases = setLast14(response, recentIndex);
@@ -125,36 +202,24 @@ let wholeData;
   }
 
   
-  function calculateRate(incidence, population) {
-      return (parseInt(incidence)/parseInt(population))*100000;
-  }
+function calculateRate(incidence, population) {
+    return (parseInt(incidence)/parseInt(population))*100000;
+}
 
-  function findMostRecent(dataset, date, countyName){
-      const timestamp = date.format("YYYY-MM-DD");
-      let index = -1;
-    for (let i=0; i<dataset.length; i++){
-        if (dataset[i].date === timestamp && dataset[i].county === countyName) {
-            console.log("found it!");
-            console.log(dataset[i]);
-            newData = dataset[i];
-            console.log(timestamp);
-            index = i;
-            return index;
+function findMostRecent(dataset, countyName){
+    let index = -1;
+    let turns = 0;
 
-        }
-    }
-    if (index === -1) {
+    while (index < 0 && turns < 4) {
         for (let i=0; i<dataset.length; i++){
-            if (dataset[i].date === moment(date).add(-1, "days") && dataset[i].county === countyName) {
-                console.log("found it!");
-                console.log(dataset[i]);
-                newData = dataset[i];
-                console.log(timestamp);
+            if (dataset[i].date === moment().subtract(turns, "days").format("YYYY-MM-DD") && dataset[i].county === countyName) {
+                console.log(moment().subtract(turns, "days").format("YYYY-MM-DD"));
                 index = i;
                 return index;
-    
             }
         }
+        turns++;
+        console.log("");
     }
   }
 
@@ -174,6 +239,7 @@ let wholeData;
     return total;
   }
 
+  //find class for heat map color
   function findRateGroup(number) {
     if (number <= 1) {
         return "r1";
@@ -196,4 +262,17 @@ let wholeData;
     } else {
         return false;
     }
+  }
+
+
+  //get county code from californiaCountyIDs, and find the matching population data from Census API response
+  function locateCountyPopulation(dataset) {
+      for (let countyName in californiaPopulationData){
+          console.log(countyName);
+          for (array of dataset) {
+              if (californiaCountyIDs[countyName] === array[2]) {
+                californiaPopulationData[countyName] = array[0];
+              }
+          }
+      }
   }

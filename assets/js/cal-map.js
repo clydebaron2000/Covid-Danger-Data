@@ -10,18 +10,6 @@ let newData;
 //AJAX QUERIES
 
 
-
-//query US census 2019 data
-let censusURL = "https://api.census.gov/data/2019/pep/population?key=45876004e2fbfafe56615f040f2172ee79c77643&get=POP&in=state:06&for=county:003"
-
-$.ajax({
-    url: censusURL,
-    method: "GET"
-}).then(function(response){
-    console.log(response);
-})
-
-
 //query ncov-19.us api
 $.ajax({
     url: "https://covid19-us-api.herokuapp.com/county",
@@ -31,10 +19,6 @@ $.ajax({
     console.log(queryData);
     getReady();
 })
-
-
-
-
 
 
 
@@ -99,71 +83,6 @@ function displayCounty(e) {
     const fatality = $(`<p>Fatality rate: ${countyData.fatality_rate}</p>`);
     info.append(fatality);
 }
-
-
-
-
-const californiaPopulationData = {
-    "Alameda":"1671329",
-    "Alpine":"1129",
-    "Amador County":"39752",
-    "Butte":"219186",
-    "Calaveras":"45905",
-    "Colusa":"21547",
-    "Contra Costa":"1153526",
-    "Del Norte":"27812",
-    "El Dorado":"192843",
-    "Fresno":"999101",
-    "Glenn":"28393",
-    "Humboldt":"135558",
-    "Imperial":"181245",
-    "Inyo":"18039",
-    "Kern":"900202",
-    "Kings":"152940",
-    "Lake":"64386",
-    "Lassen":"30573",
-    "Los Angeles":"10039107",
-    "Madera":"157327",
-    "Marin":"258826",
-    "Mariposa":"17203",
-    "Mendocino":"86749",
-    "Merced":"277680",
-    "Modoc":"8841",
-    "Mono":"14444",
-    "Monterey":"434061",
-    "Napa":"137744",
-    "Nevada":"99755",
-    "Orange":"3175692",
-    "Placer":"398329",
-    "Plumas":"18807",
-    "Riverside":"2470546",
-    "Sacramento":"1552058",
-    "San Benito":"62808",
-    "San Bernadino":"2180085",
-    "San Diego":"3338330",
-    "San Francisco":"881549",
-    "San Joaquin":"762148",
-    "San Luis Obispo":"283111",
-    "San Mateo":"766573",
-    "Santa Barbara":"446499",
-    "Santa Clara":"1927852",
-    "Santa Cruz":"273213",
-    "Shasta":"180080",
-    "Sierra":"3005",
-    "Siskiyou":"43539",
-    "Solano":"447643",
-    "Sonoma":"494336",
-    "Stanislaus":"550660",
-    "Sutter":"96971",
-    "Tehama":"65084",
-    "Trinity":"12285",
-    "Tulare":"466195",
-    "Tuolumne":"54478",
-    "Ventura":"846006",
-    "Yolo":"220500",
-    "Yuba":"78668",
-}
-
 
 
 
