@@ -75,6 +75,9 @@ function displayCounty(e) {
         console.log(`twoWeekTotal = ${twoWeekTotal}`);
         const ratePer100000 = calculateRate(twoWeekTotal, californiaPopulationData["San Diego"]);
         console.log(`Rate per 100,000 = ${ratePer100000}`);
+
+        const rate = $(`<p>Current infection rate per 100,000: ${ratePer100000}</p>`);
+        info.append(rate);
     })
 
 
@@ -218,14 +221,14 @@ function findCounty(needle) {
     let total = 0;
     let index = dataset.length - 1;
     for (let i = 0; i<14; i++) {
-        console.log(`total = ${total} + ${parseInt(dataset[index].newcountconfirmed)}`);
+        // console.log(`total = ${total} + ${parseInt(dataset[index].newcountconfirmed)}`);
         if (dataset[index].newcountconfirmed){
             total += parseInt(dataset[index].newcountconfirmed);
         }
         
-        console.log(`New total = ${total}`);
+        // console.log(`New total = ${total}`);
         index--;
-        console.log(i);
+        // console.log(i);
     }
     return total;
   }
