@@ -148,6 +148,21 @@ function setNext14(dataset, indexNum) {
     return total;
 }
 
+//return total of all new cases in the last two weeks
+function setNext7(dataset, indexNum) {
+    let total = 0;
+    let index = indexNum;
+    for (let i = 0; i < 7; i++) {
+        if (dataset[index]){
+        if (dataset[index].newcountconfirmed) {
+            total += parseInt(dataset[index].newcountconfirmed);
+        }
+    }
+        index++;
+    }
+    return total;
+}
+
 
 
 //DISPLAY FUNCTIONS
@@ -206,32 +221,68 @@ function setTimeLapseMap(response){
         const newArray = [];
 
 
-        length = findMostRecent(response, county.name) - findFirst(response, county.name);
+        const length = findMostRecent(response, county.name) - findFirst(response, county.name);
         
         
         let addToIndex = 0;
+        let everyOther = false;
 
-        for (let i = 0; i < length/14; i++) {
+        for (let i = 0; i < length/7; i++) {
             const newObject = {};
+            //county name
             newObject.name = county.name;
 
-
+            //index of first county record
             let recentIndex = findFirst(response, county.name)
             newObject.firstIndex = recentIndex;
 
-            let totalNewCases = setNext14(response, recentIndex + addToIndex);
-            newObject.recentCases = totalNewCases;
+            //beginning and end dates for data stretch
+            newObject.startDate = response[recentIndex + addToIndex].date;
+            if (response[recentIndex + addToIndex + 6]){
+                newObject.endDate = response[recentIndex + addToIndex + 6].date;
+            }
 
-            let ratePer = calculateRate(totalNewCases, county.population);
-            newObject.infectionRate = ratePer;
+            //set newCountConfirmed for 7 day period
+            let newCountConfirmed = setNext7(response, recentIndex + addToIndex);
+            newObject.recentCases = newCountConfirmed;
 
-            let fatalityRate = parseInt(response[recentIndex].totalcountdeaths)/parseInt(response[recentIndex].totalcountconfirmed) * 100;
+            //set totalCountConfirmed for 7 day period
+            let totalCountConfirmed = locateLastTotalInPeriod(response, recentIndex+addToIndex);
+
+            //set rate of infection for 7 day period
+            let ratePer7 = calculateRate(newCountConfirmed, county.population);
+            newObject.infectionRate7 = ratePer7;
+
+            //set 14 day infection rate only every other week
+            if (everyOther){
+                let new14DayCount = setNext14(response, recentIndex+addToIndex);
+                let ratePer14 = calculateRate(new14DayCount, county.population);
+                newObject.infectionRate14 = ratePer14;
+            }
+
+            //total fatality rate
+            let totalDeaths = parseInt(response[recentIndex+addToIndex].totalcountdeaths);
+            let totalCases = parseInt(response[recentIndex+addToIndex].totalcountconfirmed);
+    
+            let fatalityRate =  totalDeaths/totalCases * 100;
+            if (isNaN(fatalityRate)) {
+                fatalityRate = 0;
+            }
             newObject.fatalityRate = fatalityRate;
+            newObject.totalCountConfirmed = totalCases;
+            newObject.totalDeaths = totalDeaths;
 
-            newObject.color = findRateGroup(ratePer, county.name);
+            //set color corresponding to rate of infection
+            newObject.color = findRateGroup(ratePer7, county.name);
 
-            addToIndex += 14;
+            //move on to next chunk of data
+            addToIndex += 7;
             newArray.push(newObject);
+            if (everyOther) {
+                everyOther = false;
+            } else {
+                everyOther = true;
+            }
         }
         timeLapseMap.push(newArray);
     }
@@ -323,6 +374,7 @@ function findRateGroup(number, countyName) {
     $(`#${countyName.replace(/\s/g, "_")}`).removeClass();
     $(`#${countyName.replace(/\s/g, "_")}`).addClass("hover");
     $(`#${countyName.replace(/\s/g, "_")}`).addClass(rate);
+    return rate;
 }
 
 //get county code from californiaCountyIDs, and find the matching population data from Census API response
@@ -336,4 +388,11 @@ function locateCountyPopulation(dataset) {
     }
 }
 
-
+function locateLastTotalInPeriod(dataset, indexNum){
+    let total = 0;
+    for (let i = 0; i<7; i++){
+        if (dataset[indexNum + i]){
+            return dataset[indexNum + i].totalcountconfirmed;
+        }
+    }
+}
