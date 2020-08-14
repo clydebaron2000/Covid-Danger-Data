@@ -320,7 +320,7 @@ function getReady() {
     var countyAutofill = {};
     for (var county of californiaCounties) {
         const text = county.name;
-        countyAutofill[text] = null;
+        countyAutofill[text] = 0;
     }
     $("#weekIndex")[0].max = timeLapseMap.length;
     $("#weekIndex").val(timeLapseMap.length);
@@ -330,11 +330,13 @@ function getReady() {
     $("#userCity").on("input click paste change ", function(event) {
         event.preventDefault();
         const input = $(this).val();
-        $("#" + input).trigger("click");
+        if (countyAutofill[input] === 0) $("#" + input).trigger("click");
     });
     var interval;
+    console.log("set-up");
     $("#play").on("click", function(event) {
         event.preventDefault();
+        console.log("hi");
         $("#pause").attr("style", "display:inline");
         $("#play").attr("style", "display:none");
         var range = $("#weekIndex");
