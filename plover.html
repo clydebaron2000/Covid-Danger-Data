@@ -47,7 +47,7 @@
                         <div id="topbarsearch">
                             <div class="input-field col s6 s12 grey-text">
                                 <i class="white-text material-icons prefix" style='top:+.25rem'>search</i>
-                                <input type="text" style='caret-color:white;margin:0;margin-left: 2rem;padding-left:0;background: none;' placeholder="search your city" id="autocomplete-input" class="autocomplete white-text" autocomplete="off">
+                                <input id="userCity" type="text" style='caret-color:white;margin:0;margin-left: 2rem;padding-left:0;background: none;' placeholder="search your city" id="autocomplete-input" class="autocomplete white-text" autocomplete="off">
                                 <!-- onkeyup -->
                             </div>
                         </div>
@@ -311,6 +311,7 @@
             $(".dropdown-trigger").dropdown({
                 belowOrigin: true
             });
+
             $('.collapsible').collapsible();
             var elems = document.querySelectorAll("input[type=range]");
             M.Range.init(elems);

@@ -267,3 +267,18 @@ function locateLastTotalInPeriod(dataset, indexNum) {
         }
     }
 }
+//-------------
+// clyde's new code
+var countyAutofill = {};
+for (var county of californiaCounties) {
+    const text = county.name;
+    countyAutofill[text] = null;
+}
+$('input.autocomplete').autocomplete({
+    data: countyAutofill,
+});
+$("#userCity").on("input click paste change ", function(event) {
+    event.preventDefault();
+    const input = $(this).val();
+    $("#" + input).trigger("click");
+})
