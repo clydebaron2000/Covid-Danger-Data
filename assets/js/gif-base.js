@@ -273,8 +273,8 @@ function getReady() {
         const text = county.name;
         countyAutofill[text] = null;
     }
-    console.log(timeLapseMap.length);
     $("#weekIndex")[0].max = timeLapseMap.length;
+    $("#weekIndex").val(timeLapseMap.length);
     $('input.autocomplete').autocomplete({
         data: countyAutofill,
     });
@@ -286,17 +286,33 @@ function getReady() {
     var interval;
     $("#play").on("click", function(event) {
         event.preventDefault();
+        console.log($(this));
+        $("#pause").attr("style", "display:inline");
+        $("#play").attr("style", "display:none");
         var range = $("#weekIndex");
         console.log("playyy");
-        var i = 0;
+        var i = range.val();
+        if (i >= range[0].max) {
+            i = 0;
+        }
         const timeInterval = 50;
         interval = setInterval(function() {
             range.val(i++);
             // displaying indivdual
             if (i > range[0].max) {
                 clearInterval(interval);
+                clearTimeout(interval);
+                $("#pause").attr("style", "display:none");
+                $("#play").attr("style", "display:inline");
                 //display all
             }
         }, timeInterval);
-    })
+    });
+    $("#pause").on("click", function(event) {
+        event.preventDefault();
+        clearInterval(interval);
+        clearTimeout(interval);
+        $("#pause").attr("style", "display:none");
+        $("#play").attr("style", "display:inline");
+    });
 }
