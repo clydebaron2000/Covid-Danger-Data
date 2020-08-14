@@ -40,7 +40,7 @@
             <ul class="hide-on-sm-and-down right">
                 <li>
                     <a id='drop' class="dropdown-trigger" href="#!" data-target="dropdown1">California<i
-                        class="material-icons right">arrow_drop_down</i></a>
+                            class="material-icons right">arrow_drop_down</i></a>
                 </li>
                 <li>
                     <form class="col s12">
@@ -86,25 +86,30 @@
             </div>
         </div>
         <div class="col s12 m5 l5 grey lighten-3 flexwrap">
-            <label for='dateRange' class='black-text'>Days since the beginning of data (00/00/0000)</label>
-            <form class='block top' style="display:flex">
-                <button id='play'>
+            <label for='weekIndex class=' black-text '>Days since the beginning of data (00/00/0000)</label>
+            <div class=' block top ' style="display:flex">
+                <button id="play">
                     <i class="material-icons">play_arrow</i>
                 </button>
-                <button id='pause' style='display: none;'>
+                <button id="pause" style=' display: none; '>
                     <i class="material-icons">pause</i>
                 </button>
-                <p class="range-field" style='margin:0;width:-webkit-fill-available'>
+                <p class="range-field" style=' margin:0;width:-webkit-fill-available '>
                     <input type="range" id="weekIndex" min="0" max="2" value="2" />
                 </p>
-            </form>
-            <div id="main" class='chart'>
-                <div id="map-holder" style="max-height: 80%;">
+            </div>
+            <div id="main" class=' chart '>
+                <div id="map-holder">
 
                     <img id="loading" src="./assets/images/loading.gif" />
 
                     <aside>
-                        <div id="title">14 day rate per 100k pop:</div>
+                        <div id="title" style=' display:inline-flex;flex-direction: row;justify-content: center; '>
+                            <i class="material-icons">coronavirus</i>
+                            <div style=' margin:0; '>
+                                14 day rate per 100k:
+                            </div>
+                        </div>
                         <div id="legend">
                             <div class="label">0-15:
                                 <div class="r15 legend"></div>
@@ -217,29 +222,29 @@
 
 
     <!-- jquery -->
-    <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js'></script>
+    <script src=' https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js '></script>
     <!-- materialize js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <!-- chart.js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.3/Chart.min.js"></script>
 
-    <script src='./assets/js/svg4everybody.js'>
+    <script src=' ./assets/js/svg4everybody.js '>
         svg4everybody();
     </script>
 
     <script>
-        $(document).ready(function() {
+        $(document).ready(function () {
             $(".dropdown-trigger").dropdown({
                 belowOrigin: true
             });
 
-            $('.collapsible').collapsible();
+            $(' .collapsible ').collapsible();
             var elems = document.querySelectorAll("input[type=range]");
             M.Range.init(elems);
         });
     </script>
 
-    <script src='./assets/js/gif-base.js'></script>
+    <script src=' ./assets/js/gif-base.js '></script>
 
 
 </body>
