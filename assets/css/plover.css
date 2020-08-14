@@ -115,18 +115,18 @@ p {
 /*  HEATMAP COLORS*/
 
 .r1 {
-  fill: palegreen;
-  background-color: palegreen;
+  fill: rgb(76, 133, 238);
+  background-color: rgb(76, 133, 238);
 }
 
 .r5 {
-  fill: rgb(226, 255, 167);
-  background-color: rgb(226, 255, 167);
+  fill: rgb(131, 167, 233);
+  background-color: rgb(131, 167, 233);
 }
 
 .r15 {
-  fill: rgb(249, 255, 167);
-  background-color: rgb(249, 255, 167);
+  fill: rgb(181, 200, 235);
+  background-color: rgb(182, 201, 236);
 }
 
 .r30 {
@@ -156,12 +156,12 @@ p {
 
 .r500 {
   fill: rgb(197, 32, 3);
-  background-color: rgb(197, 32, 3);
+  background-color: rgb(122, 19, 1);
 }
 
 .rMore {
   fill: rgb(122, 19, 1);
-  background-color: rgb(122, 19, 1);
+  background-color: rgb(73, 11, 0);
 }
 
 

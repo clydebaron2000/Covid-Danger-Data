@@ -61,7 +61,9 @@ const californiaCounties = [
     { "name": "Yuba", "censusCode": "115", "population": "" },
 ]
 
-const timeLapseMap = []
+let statewideData = [];
+
+let timeLapseMap = [];
 let wholeData;
 
 
@@ -124,6 +126,20 @@ function setLast14(dataset, indexNum) {
     let total = 0;
     let index = indexNum;
     for (let i = 0; i < 14; i++) {
+        if (dataset[index].newcountconfirmed) {
+            total += parseInt(dataset[index].newcountconfirmed);
+        }
+
+        index--;
+    }
+    return total;
+}
+
+//return total of all new cases in the last two weeks
+function setLast7(dataset, indexNum) {
+    let total = 0;
+    let index = indexNum;
+    for (let i = 0; i < 7; i++) {
         if (dataset[index].newcountconfirmed) {
             total += parseInt(dataset[index].newcountconfirmed);
         }
@@ -225,7 +241,6 @@ function setTimeLapseMap(response){
         
         
         let addToIndex = 0;
-        let everyOther = false;
 
         for (let i = 0; i < length/7; i++) {
             const newObject = {};
@@ -249,16 +264,9 @@ function setTimeLapseMap(response){
             //set totalCountConfirmed for 7 day period
             let totalCountConfirmed = locateLastTotalInPeriod(response, recentIndex+addToIndex);
 
-            //set rate of infection for 7 day period
-            let ratePer7 = calculateRate(newCountConfirmed, county.population);
-            newObject.infectionRate7 = ratePer7;
-
-            //set 14 day infection rate only every other week
-            if (everyOther){
-                let new14DayCount = setNext14(response, recentIndex+addToIndex);
-                let ratePer14 = calculateRate(new14DayCount, county.population);
-                newObject.infectionRate14 = ratePer14;
-            }
+            //set rate of infection for 14 day period
+            let ratePer = calculateRate(setNext14(response, recentIndex+addToIndex), county.population);
+            newObject.infectionRate = ratePer.toFixed(2);
 
             //total fatality rate
             let totalDeaths = parseInt(response[recentIndex+addToIndex].totalcountdeaths);
@@ -273,36 +281,50 @@ function setTimeLapseMap(response){
             newObject.totalDeaths = totalDeaths;
 
             //set color corresponding to rate of infection
-            newObject.color = findRateGroup(ratePer7, county.name);
+            newObject.color = findRateGroup(ratePer, county.name);
 
             //move on to next chunk of data
             addToIndex += 7;
             newArray.push(newObject);
-            if (everyOther) {
-                everyOther = false;
-            } else {
-                everyOther = true;
-            }
         }
         timeLapseMap.push(newArray);
     }
 }
 
 function setMainMap(response){
+    let newArray = [
+        {period:7, date:"current", totalNewCases:0, totalCountDeaths:0, totalCasesConfirmed:0},
+        {period:14, date:"current", totalNewCases:0, totalCountDeaths:0, totalCasesConfirmed:0}
+    ];
     for (let county of californiaCounties) {
+        
         let recentIndex = findMostRecent(response, county.name)
 
         let totalNewCases = setLast14(response, recentIndex);
         county.recentCases = totalNewCases;
+        newArray[1].totalNewCases += totalNewCases;
+        let totalNewCases7Day = setLast7(response, recentIndex);
+        newArray[0].totalNewCases += totalNewCases7Day;
 
-        let ratePer = calculateRate(totalNewCases, county.population);
-        county.infectionRate = ratePer;
+        let ratePer14 = calculateRate(totalNewCases, county.population);
+        county.infectionRate = ratePer14;
 
-        let fatalityRate = parseInt(response[recentIndex].totalcountdeaths)/parseInt(response[recentIndex].totalcountconfirmed) * 100;
+
+        const totalCountDeaths = parseInt(response[recentIndex].totalcountdeaths);
+        const totalCasesConfirmed = parseInt(response[recentIndex].totalcountconfirmed);
+        let fatalityRate = totalCountDeaths/totalCasesConfirmed * 100;
         county.fatalityRate = fatalityRate;
+        newArray[0].totalCountDeaths += totalCountDeaths;
+        newArray[1].totalCountDeaths += totalCountDeaths;
+        newArray[0].totalCasesConfirmed += totalCasesConfirmed;
+        newArray[1].totalCasesConfirmed += totalCasesConfirmed;
 
-        findRateGroup(ratePer, county.name);
+        findRateGroup(ratePer14, county.name);
     }
+    newArray[0].fatalityRate = (newArray[0].totalCountDeaths/newArray[0].totalCasesConfirmed * 100).toFixed(2);
+    newArray[1].fatalityRate = (newArray[1].totalCountDeaths/newArray[1].totalCasesConfirmed * 100).toFixed(2);
+    statewideData.push(newArray);
+
 }
 
 function runTimeLapse(response){
@@ -323,6 +345,8 @@ function runTimeLapse(response){
         }
     }, 2000)
 }
+
+
 
 
 
