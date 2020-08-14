@@ -23,7 +23,7 @@ nav {
     margin: 0px;
 }
 
-.chart {
+.map {
     margin: auto 0;
 }
 
@@ -43,6 +43,16 @@ nav {
 
 .collapsible>li>.collapsible-body>p {
     margin: 0;
+}
+
+#chart>canvas {
+    background: white;
+    border-radius: 5px;
+}
+
+#sidePanel,
+#info {
+    padding: 10px;
 }
 
 

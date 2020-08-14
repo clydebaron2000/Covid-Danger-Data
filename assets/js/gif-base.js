@@ -88,7 +88,7 @@ function setNext7(dataset, indexNum) {
 function displayCounty(e) {
     const info = $("#info");
     info.empty();
-    info.css("display", "block");
+    info.css("display", "flow-root");
     const countyName = $(this).attr("id").replace(/_/g, " ");
     const thisCounty = findCounty(countyName);
     const countyHeader = $(`<h5>${thisCounty.name} County</h5>`);
@@ -104,63 +104,60 @@ function displayCounty(e) {
     info.append(countyFatalityRate);
     const fatalityInfo = $("<p class='fine-print'>Fatality rate calculated by total deaths over total cases, times 100</p>");
     info.append(fatalityInfo);
-    // chart.append($("<canvas id='chartjs-0' class='chartjs' style='display: block;float:right'>"));
-    // new Chart(document.getElementById("chartjs-0"), {
-    //     "type": "line",
-    //     "data": {
-    //         "labels": xAxisLables,
-    //         "datasets": [{
-    //             "label": "°" + tempUnits,
-    //             "pointStyle": houlyIcons,
-    //             pointHoverRadius: 20,
-    //             pointHitRadius: 20,
-    //             "data": data,
-    //             "fill": false,
-    //             "borderColor": "rgba(0, 0, 0,0)",
-    //             "lineTension": 0.0
-    //         }, {
-    //             "label": "Condition",
-    //             "hidden": true,
-    //             "data": tooltipLabels,
-    //         }]
-    //     },
-    //     "options": {
-    //         responsive: true,
-    //         title: {
-    //             display: true,
-    //             text: '24-Hour Forecast (GMT' + (parseInt(timezoneOffset) / 60 / 70) + ")",
-    //             fontSize: 14,
-    //             fontStyle: 'bold',
-    //         },
-    //         legend: {
-    //             display: false
-    //         },
-    //         scales: {
-    //             yAxes: [{
-    //                 scaleLabel: {
-    //                     display: true,
-    //                     labelString: "Temperature (°" + tempUnits + ")"
-    //                 },
-    //             }]
-    //         },
-    //         tooltips: {
-    //             callbacks: {
-    //                 title: function(tooltipItem, data) {
-    //                     return tooltipLabels[tooltipItem[0]['index']];
-    //                 },
-    //                 label: function(tooltipItem, data) {
-    //                     return data['datasets'][0]['data'][tooltipItem['index']] + "°" + tempUnits;
-    //                 },
-    //                 afterLabel: function(tooltipItem, data) {
-    //                     var out = "";
-    //                     out += houlyIconDescription[tooltipItem['index']] + "\n";
-    //                     out += "Wind Speed: " + hourlyWindSpeed[tooltipItem['index']] + distanceUnits;
-    //                     return out;
-    //                 }
-    //             }
-    //         }
-    //     }
-    // });
+    var chart = $("<div id='chart'>");
+    chart.append($("<canvas id='chartjs-0' class='chartjs' style='display: block;float:right'>"));
+    info.append(chart);
+    new Chart(document.getElementById("chartjs-0"), {
+        "type": "line",
+        "data": {
+            "labels": ["January", "February", "March", "April", "May", "June", "July"],
+            "datasets": [{
+                "label": "",
+                pointHoverRadius: 20,
+                pointHitRadius: 20,
+                "fill": false,
+                "data": [65, 59, 80, 81, 56, 55, 40],
+                "borderColor": "rgb(75, 192, 192)",
+                "lineTension": 0.25
+            }]
+        },
+        "options": {
+            responsive: true,
+            title: {
+                display: true,
+                text: `Rate of infections for ${countyName}`,
+                fontSize: 14,
+                fontStyle: 'bold',
+            },
+            legend: {
+                display: false
+            },
+            scales: {
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Rate of infection per 100k"
+                    },
+                }]
+            },
+            // tooltips: {
+            //     callbacks: {
+            //         title: function(tooltipItem, data) {
+            //             return tooltipLabels[tooltipItem[0]['index']];
+            //         },
+            //         label: function(tooltipItem, data) {
+            //             return data['datasets'][0]['data'][tooltipItem['index']] + "°" + tempUnits;
+            //         },
+            //         afterLabel: function(tooltipItem, data) {
+            //             var out = "";
+            //             out += houlyIconDescription[tooltipItem['index']] + "\n";
+            //             out += "Wind Speed: " + hourlyWindSpeed[tooltipItem['index']] + distanceUnits;
+            //             return out;
+            //         }
+            //     }
+            // }
+        }
+    });
 }
 
 function setTimeLapseMap(response) {
@@ -322,8 +319,9 @@ function getReady() {
         const text = county.name;
         countyAutofill[text] = 0;
     }
-    $("#weekIndex")[0].max = timeLapseMap.length;
-    $("#weekIndex").val(timeLapseMap.length);
+    const weeksMeasured = timeLapseMap[0].length + 1;
+    $("#weekIndex")[0].max = weeksMeasured;
+    $("#weekIndex").val(weeksMeasured);
     $('input.autocomplete').autocomplete({
         data: countyAutofill,
     });
