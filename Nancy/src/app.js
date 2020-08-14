@@ -116,19 +116,48 @@ function initMap() {
     styles: mapStyle,
   });
 
-  // Load the stores GeoJSON onto the map.
+  // Load the fire and county GeoJSON onto the map.
   map.data.loadGeoJson('fires.json', {idPropertyName: 'UniqueId'});
   map.data.loadGeoJson('california-counties.json', {idCountyName: 'name'});
 
-  // Define the custom marker icons, using the store's "category".
-  map.data.setStyle((feature) => {
-    return {
-      icon: {
-        url: `img/icon_${feature.getProperty('Type')}.png`,
-        scaledSize: new google.maps.Size(64, 64),
-      },
-    };
+  // color the counties and place wildfire icons
+let defaultColor = "black";
+let color1 = "red";
+let color2 = "orange";
+let color3 = "yellow";
+
+let regex1 = RegExp("^[A-F].*$");
+let regex2 = RegExp("^[G-L].*$");
+let regex3 = RegExp("^[L-Z].*$");
+
+  map.data.setStyle(feature => {
+    let color;
+    let countyName = feature.getProperty('name');
+    console.log(feature.getProperty('name'));
+    // color counties based on name as a test
+    if (regex1.test(countyName)){
+      color = color1;
+    } else if (regex2.test(countyName)){
+      color = color2;
+    } else if (regex3.test(countyName)){
+      color = color3;
+    } else {
+      color = defaultColor;
+    }
+    
+    return /** @type {!google.maps.Data.StyleOptions} */ {
+        icon:{
+          url: `img/icon_${feature.getProperty('Type')}.png`,
+          scaledSize: new google.maps.Size(24, 44),
+        },
+        
+          fillColor: color,
+          strokeColor: color,
+          strokeWeight: 2
+        
+      };
   });
+
 
   const apiKey = 'AIzaSyDghaJQj_qgYqvWND7-Huz2rcdtzEXWuc4';
   const infoWindow = new google.maps.InfoWindow();
@@ -223,6 +252,7 @@ function initMap() {
   });
 }
 
+
 /**
  * Use Distance Matrix API to calculate distance from origin to each store.
  * @param {google.maps.Data} data The geospatial data object layer for the map
@@ -232,6 +262,7 @@ function initMap() {
  * a distanceText, distanceVal, and storeid property, sorted ascending
  * by distanceVal.
  */
+
 async function calculateDistances(data, origin) {
   const stores = [];
   const destinations = [];
