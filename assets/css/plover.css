@@ -114,54 +114,34 @@ p {
 
 /*  HEATMAP COLORS*/
 
-.r1 {
-  fill: rgb(76, 133, 238);
-  background-color: rgb(76, 133, 238);
-}
-
-.r5 {
-  fill: rgb(131, 167, 233);
-  background-color: rgb(131, 167, 233);
-}
-
 .r15 {
-  fill: rgb(181, 200, 235);
-  background-color: rgb(182, 201, 236);
-}
-
-.r30 {
-  fill: rgb(252, 240, 134);
-  background-color: rgb(252, 240, 134);
+  fill: #FFEC81;
+  background-color: #FFEC81;
 }
 
 .r50 {
-  fill: rgb(248, 218, 86);
-  background-color: rgb(248, 218, 86);
+  fill: #FF8F41;
+  background-color: #FF8F41;
 }
 
 .r100 {
-  fill: rgb(253, 175, 73);
-  background-color: rgb(253, 175, 73);
-}
-
-.r150 {
-  fill: rgb(253, 137, 3);
-  background-color: rgb(253, 137, 3);
+  fill: #FF4E20;
+  background-color: #FF4E20;
 }
 
 .r200 {
-  fill: rgb(252, 85, 43);
-  background-color: rgb(252, 85, 43);
+  fill: #DC0000;
+  background-color: #DC0000;
 }
 
 .r500 {
-  fill: rgb(197, 32, 3);
-  background-color: rgb(122, 19, 1);
+  fill:#950000;
+  background-color: #950000;
 }
 
 .rMore {
-  fill: rgb(122, 19, 1);
-  background-color: rgb(73, 11, 0);
+  fill: #4F0000;
+  background-color: #4F0000;
 }
 
 
