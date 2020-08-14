@@ -374,20 +374,12 @@ function findCounty(needle) {
 //find class for heat map color
 function findRateGroup(number, countyName) {
     let rate;
-    if (number <= 1) {
-        rate = "r1";
-    } else if (number <= 5) {
-        rate = "r5";
-    } else if (number <= 15) {
+    if (number <= 15) {
         rate = "r15";
-    } else if (number <= 30) {
-        rate = "r30";
     } else if (number <= 50) {
         rate = "r50";
     } else if (number <= 100) {
         rate = "r100";
-    } else if (number <= 150) {
-        rate = "r150";
     } else if (number <= 200) {
         rate = "r200";
     } else if (number <=500) {
