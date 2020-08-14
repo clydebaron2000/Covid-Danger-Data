@@ -104,6 +104,63 @@ function displayCounty(e) {
     info.append(countyFatalityRate);
     const fatalityInfo = $("<p class='fine-print'>Fatality rate calculated by total deaths over total cases, times 100</p>");
     info.append(fatalityInfo);
+    // chart.append($("<canvas id='chartjs-0' class='chartjs' style='display: block;float:right'>"));
+    // new Chart(document.getElementById("chartjs-0"), {
+    //     "type": "line",
+    //     "data": {
+    //         "labels": xAxisLables,
+    //         "datasets": [{
+    //             "label": "°" + tempUnits,
+    //             "pointStyle": houlyIcons,
+    //             pointHoverRadius: 20,
+    //             pointHitRadius: 20,
+    //             "data": data,
+    //             "fill": false,
+    //             "borderColor": "rgba(0, 0, 0,0)",
+    //             "lineTension": 0.0
+    //         }, {
+    //             "label": "Condition",
+    //             "hidden": true,
+    //             "data": tooltipLabels,
+    //         }]
+    //     },
+    //     "options": {
+    //         responsive: true,
+    //         title: {
+    //             display: true,
+    //             text: '24-Hour Forecast (GMT' + (parseInt(timezoneOffset) / 60 / 70) + ")",
+    //             fontSize: 14,
+    //             fontStyle: 'bold',
+    //         },
+    //         legend: {
+    //             display: false
+    //         },
+    //         scales: {
+    //             yAxes: [{
+    //                 scaleLabel: {
+    //                     display: true,
+    //                     labelString: "Temperature (°" + tempUnits + ")"
+    //                 },
+    //             }]
+    //         },
+    //         tooltips: {
+    //             callbacks: {
+    //                 title: function(tooltipItem, data) {
+    //                     return tooltipLabels[tooltipItem[0]['index']];
+    //                 },
+    //                 label: function(tooltipItem, data) {
+    //                     return data['datasets'][0]['data'][tooltipItem['index']] + "°" + tempUnits;
+    //                 },
+    //                 afterLabel: function(tooltipItem, data) {
+    //                     var out = "";
+    //                     out += houlyIconDescription[tooltipItem['index']] + "\n";
+    //                     out += "Wind Speed: " + hourlyWindSpeed[tooltipItem['index']] + distanceUnits;
+    //                     return out;
+    //                 }
+    //             }
+    //         }
+    //     }
+    // });
 }
 
 function setTimeLapseMap(response) {
