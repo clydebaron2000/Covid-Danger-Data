@@ -34,11 +34,3 @@ nav {
 #legend>.label {
     font-size: .75rem;
 }
-
-.input-field input[type=text]:focus+label {
-    border: none;
-}
-
-.submit:focus {
-    border: 0px;
-}
