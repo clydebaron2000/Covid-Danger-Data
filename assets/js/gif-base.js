@@ -20,12 +20,12 @@ $.ajax({
         url: csvURL,
         method: "GET"
     }).then(function(response) {
-        getReady();
         wholeData = response;
         setTimeLapseMap(response);
         setMainMap(response);
+        getReady();
     })
-    //FUNCTIONS
+    //FUNCTIONS 
     //CALCULATION FUNCTIONS
     //calculate rate of incidence per 100,000 population
 function calculateRate(incidence, population) {
@@ -84,16 +84,6 @@ function setNext7(dataset, indexNum) {
     return total;
 }
 //DISPLAY FUNCTIONS
-//remove loading gif when ajax query is returned
-function getReady() {
-    $("#loading").css("display", "none");
-    $("path").on("click", displayCounty);
-    $("polyline").on("click", displayCounty);
-    $("polygon").on("click", displayCounty);
-    $("path").addClass("hover");
-    $("polyline").addClass("hover");
-    $("polygon").addClass("hover");
-}
 //display county info on click
 function displayCounty(e) {
     const info = $("#info");
@@ -267,27 +257,46 @@ function locateLastTotalInPeriod(dataset, indexNum) {
         }
     }
 }
-//-------------
-// clyde's new code
-var countyAutofill = {};
-for (var county of californiaCounties) {
-    const text = county.name;
-    countyAutofill[text] = null;
+//remove loading gif when ajax query is returned
+function getReady() {
+    $("#loading").css("display", "none");
+    $("path").on("click", displayCounty);
+    $("polyline").on("click", displayCounty);
+    $("polygon").on("click", displayCounty);
+    $("path").addClass("hover");
+    $("polyline").addClass("hover");
+    $("polygon").addClass("hover");
+    //-------------
+    // clyde's new code
+    var countyAutofill = {};
+    for (var county of californiaCounties) {
+        const text = county.name;
+        countyAutofill[text] = null;
+    }
+    console.log(timeLapseMap.length);
+    $("#weekIndex")[0].max = timeLapseMap.length;
+    $('input.autocomplete').autocomplete({
+        data: countyAutofill,
+    });
+    $("#userCity").on("input click paste change ", function(event) {
+        event.preventDefault();
+        const input = $(this).val();
+        $("#" + input).trigger("click");
+    });
+    var interval;
+    $("#play").on("click", function(event) {
+        event.preventDefault();
+        var range = $("#weekIndex");
+        console.log("playyy");
+        var i = 0;
+        const timeInterval = 50;
+        interval = setInterval(function() {
+            range.val(i++);
+            // displaying indivdual
+            if (i > range[0].max) {
+                clearInterval(interval);
+                //display all
+            }
+        }, timeInterval);
+    })
 }
-$('input.autocomplete').autocomplete({
-    data: countyAutofill,
-});
-$("#userCity").on("input click paste change ", function(event) {
-    event.preventDefault();
-    const input = $(this).val();
-    $("#" + input).trigger("click");
-})
-$("#play").on("click", function(event) {
-    event.preventDefault();
-    var range = $("#weekIndex");
-    range.val(0);
-    console.log(range.val());
-    console.log("play!");
-    range.val(5);
-    console.log(range.val());
-})
