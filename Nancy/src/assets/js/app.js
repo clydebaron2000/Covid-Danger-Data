@@ -162,7 +162,7 @@ let regex3 = RegExp("^[L-Z].*$");
   const apiKey = 'AIzaSyDghaJQj_qgYqvWND7-Huz2rcdtzEXWuc4';
   const infoWindow = new google.maps.InfoWindow();
 
-  // Show the information for a store when its marker is clicked.
+  // Show the information for a fire when its marker is clicked.
   map.data.addListener('click', (event) => {
     const type = event.feature.getProperty('Type');
     const name = event.feature.getProperty('Name');
