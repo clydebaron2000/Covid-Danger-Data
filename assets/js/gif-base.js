@@ -343,11 +343,9 @@ function getReady() {
     var interval;
     $("#play").on("click", function(event) {
         event.preventDefault();
-        console.log($(this));
         $("#pause").attr("style", "display:inline");
         $("#play").attr("style", "display:none");
         var range = $("#weekIndex");
-        console.log("playyy");
         var i = range.val();
         if (i >= range[0].max) {
             i = 0;
