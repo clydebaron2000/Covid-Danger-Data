@@ -1,0 +1,44 @@
+html,
+body {
+    height: 100%;
+    margin: 0;
+}
+
+.flexwrap {
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+nav {
+    flex: 0 1 auto;
+}
+
+.top {
+    flex: 0 1 auto;
+}
+
+.body {
+    flex: 1 1 auto;
+    margin: 0px;
+}
+
+.chart {
+    margin: auto 0;
+}
+
+.row>.col {
+    height: 100%;
+}
+
+#legend>.label {
+    font-size: .75rem;
+}
+
+.input-field input[type=text]:focus+label {
+    border: none;
+}
+
+.submit:focus {
+    border: 0px;
+}
