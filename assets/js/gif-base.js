@@ -282,3 +282,12 @@ $("#userCity").on("input click paste change ", function(event) {
     const input = $(this).val();
     $("#" + input).trigger("click");
 })
+$("#play").on("click", function(event) {
+    event.preventDefault();
+    var range = $("#weekIndex");
+    range.val(0);
+    console.log(range.val());
+    console.log("play!");
+    range.val(5);
+    console.log(range.val());
+})
