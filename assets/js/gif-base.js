@@ -462,9 +462,7 @@ function getReady() {
     });
     $("#weekIndex").on("input", function() {
         const value = $(this).val();
-        console.log("range value:" + value);
         historicalMap(value, $(this)[0].max);
     });
     $("#weekIndex").trigger("input");
-    console.log("set-up");
 }
