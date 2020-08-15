@@ -269,6 +269,7 @@ function setMainMap(response){
         newObject.totalCountDeaths += totalCountDeaths;
         newObject.totalCasesConfirmed += totalCasesConfirmed;
 
+        county.color = findRateGroup(ratePer14, county.name);
         findRateGroup(ratePer14, county.name);
     }
     newObject.fatalityRate = (newObject.totalCountDeaths/newObject.totalCasesConfirmed * 100).toFixed(2);
