@@ -127,6 +127,8 @@ function displayCounty(e) {
     var infection14RateArray = [];
     var pointColors = [];
     var caseCountPerPeriod = [];
+    var totalNewCasesArray = [];
+    console.log(rawChartData);
     for (var i = 0; i < rawChartData.length; i++) {
         datesArray.push(rawChartData[i].endDate);
         const infectionRate = rawChartData[i].infectionRate.toFixed(2);
@@ -140,10 +142,13 @@ function displayCounty(e) {
         else if (infectionRate < 501) color = "#950000";
         else color = "#4F0000";
         pointColors.push(color);
+        totalNewCasesArray.push(rawChartData[i].totalNewCases14);
         caseCountPerPeriod.push(rawChartData[i].recentCases);
     }
     var chart = $("<div id='chart'>");
-    chart.append($("<canvas id='chartjs-0' class='chartjs' style='display: block;float:right'>"));
+    chart.append($("<canvas id='chartjs-0' class='chartjs' style='display: block;'>"));
+    chart.append($("<br>"));
+    chart.append($("<canvas id='chartjs-1' class='chartjs' style='display: block;'>"));
     info.append(chart);
     new Chart(document.getElementById("chartjs-0"), {
         "type": "line",
@@ -184,6 +189,49 @@ function displayCounty(e) {
                     scaleLabel: {
                         display: true,
                         labelString: "Rate of infection per 100k"
+                    },
+                }]
+            }
+        }
+    });
+    new Chart(document.getElementById("chartjs-1"), {
+        "type": "bar",
+        "data": {
+            "labels": datesArray,
+            "datasets": [{
+                "label": "14 day new cases",
+                HoverRadius: 5,
+                pointHitRadius: 5,
+                "data": totalNewCasesArray,
+                backgroundColor: pointColors,
+                borderColor: "grey",
+                borderWidth: .01,
+                width: 10
+            }]
+        },
+        "options": {
+            responsive: true,
+            title: {
+                display: true,
+                text: `14 day new cases for ${countyName}`,
+                fontSize: 14,
+                fontStyle: 'bold',
+            },
+            legend: {
+                display: false
+            },
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    ticks: {
+                        autoSkip: true,
+                        maxTicksLimit: 11
+                    }
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "New cases"
                     },
                 }]
             }
