@@ -19,6 +19,7 @@ svg {
 }
 
 #map-holder {
+    /* border: 3px solid teal; */
     height: 100%;
     border-radius: 10px;
     padding: 20px;
@@ -52,7 +53,7 @@ p {
 }
 
 #info {
-    border: 1px solid white;
+    border: 1px solid teal;
     border-radius: 10px;
     margin: 5px;
     display: none;
