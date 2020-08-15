@@ -262,8 +262,8 @@ function setMainMap(response){
 
         let ratePer14 = calculateRate(totalNewCases, county.population);
         county.infectionRate = ratePer14;
-        const totalCountDeaths = parseInt(response[index].totalcountdeaths);
-        const totalCasesConfirmed = parseInt(response[index].totalcountconfirmed);
+        const totalCountDeaths = parseInt(response[recentIndex].totalcountdeaths);
+        const totalCasesConfirmed = parseInt(response[recentIndex].totalcountconfirmed);
         let fatalityRate = totalCountDeaths / totalCasesConfirmed * 100;
         county.fatalityRate = fatalityRate;
         newObject.totalCountDeaths += totalCountDeaths;
