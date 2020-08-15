@@ -1,3 +1,5 @@
+//county name and rate index
+
 "use strict"
 const californiaCounties = [{ "name": "Alameda", "censusCode": "001", "population": "" }, { "name": "Alpine", "censusCode": "003", "population": "" }, { "name": "Amador", "censusCode": "005", "population": "" }, { "name": "Butte", "censusCode": "007", "population": "" }, { "name": "Calaveras", "censusCode": "009", "population": "" }, { "name": "Colusa", "censusCode": "011", "population": "" }, { "name": "Contra Costa", "censusCode": "013", "population": "" }, { "name": "Del Norte", "censusCode": "015", "population": "" }, { "name": "El Dorado", "censusCode": "017", "population": "" }, { "name": "Fresno", "censusCode": "019", "population": "" }, { "name": "Glenn", "censusCode": "021", "population": "" }, { "name": "Humboldt", "censusCode": "023", "population": "" }, { "name": "Imperial", "censusCode": "025", "population": "" }, { "name": "Inyo", "censusCode": "027", "population": "" }, { "name": "Kern", "censusCode": "029", "population": "" }, { "name": "Kings", "censusCode": "031", "population": "" }, { "name": "Lake", "censusCode": "033", "population": "" }, { "name": "Lassen", "censusCode": "035", "population": "" }, { "name": "Los Angeles", "censusCode": "037", "population": "" }, { "name": "Madera", "censusCode": "039", "population": "" }, { "name": "Marin", "censusCode": "041", "population": "" }, { "name": "Mariposa", "censusCode": "043", "population": "" }, { "name": "Mendocino", "censusCode": "045", "population": "" }, { "name": "Merced", "censusCode": "047", "population": "" }, { "name": "Modoc", "censusCode": "049", "population": "" }, { "name": "Mono", "censusCode": "051", "population": "" }, { "name": "Monterey", "censusCode": "053", "population": "" }, { "name": "Napa", "censusCode": "055", "population": "" }, { "name": "Nevada", "censusCode": "057", "population": "" }, { "name": "Orange", "censusCode": "059", "population": "" }, { "name": "Placer", "censusCode": "061", "population": "" }, { "name": "Plumas", "censusCode": "063", "population": "" }, { "name": "Riverside", "censusCode": "065", "population": "" }, { "name": "Sacramento", "censusCode": "067", "population": "" }, { "name": "San Benito", "censusCode": "069", "population": "" }, { "name": "San Bernardino", "censusCode": "071", "population": "" }, { "name": "San Diego", "censusCode": "073", "population": "" }, { "name": "San Francisco", "censusCode": "075", "population": "" }, { "name": "San Joaquin", "censusCode": "077", "population": "" }, { "name": "San Luis Obispo", "censusCode": "079", "population": "" }, { "name": "San Mateo", "censusCode": "081", "population": "" }, { "name": "Santa Barbara", "censusCode": "083", "population": "" }, { "name": "Santa Clara", "censusCode": "085", "population": "" }, { "name": "Santa Cruz", "censusCode": "087", "population": "" }, { "name": "Shasta", "censusCode": "089", "population": "" }, { "name": "Sierra", "censusCode": "091", "population": "" }, { "name": "Siskiyou", "censusCode": "093", "population": "" }, { "name": "Solano", "censusCode": "095", "population": "" }, { "name": "Sonoma", "censusCode": "097", "population": "" }, { "name": "Stanislaus", "censusCode": "099", "population": "" }, { "name": "Sutter", "censusCode": "101", "population": "" }, { "name": "Tehama", "censusCode": "103", "population": "" }, { "name": "Trinity", "censusCode": "105", "population": "" }, { "name": "Tulare", "censusCode": "107", "population": "" }, { "name": "Tuolumne", "censusCode": "109", "population": "" }, { "name": "Ventura", "censusCode": "111", "population": "" }, { "name": "Yolo", "censusCode": "113", "population": "" }, { "name": "Yuba", "censusCode": "115", "population": "" }, ]
 let statewideData = [];
@@ -24,6 +26,7 @@ $.ajax({
         setTimeLapseMap(response);
         getReady();
         setMainMap(response, $("#weekIndex")[0].max);
+        setStatewideData(response);
     })
     //FUNCTIONS 
     //CALCULATION FUNCTIONS
@@ -32,24 +35,33 @@ function calculateRate(incidence, population) {
     return (parseInt(incidence) / parseInt(population)) * 100000;
 }
 //return total of all new cases in the last two weeks
-function setLast14(dataset, indexNum) {
+function setLast14(dataset, indexNum, countyName) {
     let total = 0;
     let index = indexNum;
     for (let i = 0; i < 14; i++) {
-        if (dataset[index].newcountconfirmed) {
-            total += parseInt(dataset[index].newcountconfirmed);
+        if (dataset[index] && dataset[index].county == countyName) {
+            if (dataset[index].newcountconfirmed){
+                let additional = parseInt(dataset[index].newcountconfirmed);
+                total += parseInt(additional);
+            }
+                    } else {
+            total += 0;
         }
         index--;
     }
     return total;
 }
 //return total of all new cases in the last two weeks
-function setLast7(dataset, indexNum) {
+function setLast7(dataset, indexNum, countyName) {
     let total = 0;
     let index = indexNum;
     for (let i = 0; i < 7; i++) {
-        if (dataset[index].newcountconfirmed) {
-            total += parseInt(dataset[index].newcountconfirmed);
+        if (dataset[index] && dataset[index].county == countyName) {
+            if (dataset[index].newcountconfirmed) {
+                total += parseInt(dataset[index].newcountconfirmed);
+            }
+        } else {
+            total +0;
         }
         index--;
     }
@@ -200,15 +212,16 @@ function setTimeLapseMap(response) {
             //county name
             newObject.name = county.name;
             //index of first county record
-            let recentIndex = findFirst(response, county.name)
+            let recentIndex = parseInt(findFirst(response, county.name));
+            let currentIndex = recentIndex + addToIndex;
             newObject.firstIndex = recentIndex;
             //beginning and end dates for data stretch
-            newObject.startDate = response[recentIndex + addToIndex].date;
-            if (response[recentIndex + addToIndex + 6]) {
-                newObject.endDate = response[recentIndex + addToIndex + 6].date;
+            newObject.startDate = response[currentIndex].date;
+            if (response[currentIndex + 6]){
+                newObject.endDate = response[currentIndex + 6].date;
             }
             //set newCountConfirmed for 7 day period
-            let newCountConfirmed = setNext7(response, recentIndex + addToIndex);
+            let newCountConfirmed = setNext7(response, currentIndex);
             newObject.recentCases = newCountConfirmed;
             //set totalCountConfirmed for 7 day period
             let totalCountConfirmed = locateLastTotalInPeriod(response, recentIndex + addToIndex);
@@ -235,30 +248,33 @@ function setTimeLapseMap(response) {
     }
 }
 
-function setMainMap(response) {
-    let newArray = [{ period: 7, date: "current", totalNewCases: 0, totalCountDeaths: 0, totalCasesConfirmed: 0 }, { period: 14, date: "current", totalNewCases: 0, totalCountDeaths: 0, totalCasesConfirmed: 0 }];
+function setMainMap(response){
+    let newObject = {period:7, date:"current", totalNewCases14:0, totalNewCases7:0, totalCountDeaths:0, totalCasesConfirmed:0}
     for (let county of californiaCounties) {
-        let index = findMostRecent(response, county.name);
-        let totalNewCases = setLast14(response, index);
+        
+        let recentIndex = findMostRecent(response, county.name)
+
+        let totalNewCases = setLast14(response, recentIndex, county.name);
         county.recentCases = totalNewCases;
-        newArray[1].totalNewCases += totalNewCases;
-        let totalNewCases7Day = setLast7(response, index);
-        newArray[0].totalNewCases += totalNewCases7Day;
+        newObject.totalNewCases14 += totalNewCases;
+        let totalNewCases7Day = setLast7(response, recentIndex, county.name);
+        newObject.totalNewCases7 += totalNewCases7Day;
+
         let ratePer14 = calculateRate(totalNewCases, county.population);
         county.infectionRate = ratePer14;
-        const totalCountDeaths = parseInt(response[index].totalcountdeaths);
-        const totalCasesConfirmed = parseInt(response[index].totalcountconfirmed);
+        const totalCountDeaths = parseInt(response[recentIndex].totalcountdeaths);
+        const totalCasesConfirmed = parseInt(response[recentIndex].totalcountconfirmed);
         let fatalityRate = totalCountDeaths / totalCasesConfirmed * 100;
         county.fatalityRate = fatalityRate;
-        newArray[0].totalCountDeaths += totalCountDeaths;
-        newArray[1].totalCountDeaths += totalCountDeaths;
-        newArray[0].totalCasesConfirmed += totalCasesConfirmed;
-        newArray[1].totalCasesConfirmed += totalCasesConfirmed;
+        newObject.totalCountDeaths += totalCountDeaths;
+        newObject.totalCasesConfirmed += totalCasesConfirmed;
+
+        county.color = findRateGroup(ratePer14, county.name);
         findRateGroup(ratePer14, county.name);
     }
-    newArray[0].fatalityRate = (newArray[0].totalCountDeaths / newArray[0].totalCasesConfirmed * 100).toFixed(2);
-    newArray[1].fatalityRate = (newArray[1].totalCountDeaths / newArray[1].totalCasesConfirmed * 100).toFixed(2);
-    statewideData.push(newArray);
+    newObject.fatalityRate = (newObject.totalCountDeaths/newObject.totalCasesConfirmed * 100).toFixed(2);
+    statewideData.push(newObject);
+
 }
 
 function historicalMap(index, max) {
@@ -271,6 +287,72 @@ function historicalMap(index, max) {
         findRateGroup(timeLapseMap[k][index].infectionRate, timeLapseMap[k][index].name);
     }
 }
+
+function setStatewideData(response){
+    //set potential length of data per county
+    const dataLength = findMostRecent(response, "San Diego") - findFirst(response, "San Diego");
+    let addToIndex = 6;
+    let currentIndex = 0;
+
+    for (let i = 0; i < dataLength/7; i++) {
+        
+        //set new object for 7 day period
+        const newObject = {"totalNewCases7":0, "totalNewCases14":0, "totalCasesConfirmed":0, "totalCountDeaths":0};
+        let totalCountDeaths;
+        let totalCountConfirmed;
+
+        for (let county of californiaCounties) {
+            //index of first county record
+            let recentIndex = parseInt(findFirst(response, county.name));
+            currentIndex = recentIndex + addToIndex;
+
+            if (currentIndex > response.length){
+                break;
+            }
+
+
+            //beginning and end dates for data stretch
+            newObject.endDate = response[currentIndex].date;
+            if (response[currentIndex - 6] && response[currentIndex-6].county == county.name){
+                newObject.startDate = response[currentIndex - 6].date;
+            }
+
+            //set newCountConfirmed for 7 day period
+            let newCountConfirmed7 = parseInt(setLast7(response, currentIndex, county.name));
+            let newCountConfirmed14 = parseInt(setLast14(response, currentIndex, county.name));
+            newObject.totalNewCases7 += newCountConfirmed7;
+            newObject.totalNewCases14 += newCountConfirmed14;
+
+            //set totalCountConfirmed for 7 day period
+            totalCountConfirmed = parseInt(response[recentIndex+addToIndex].totalcountconfirmed);
+            newObject.totalCasesConfirmed += totalCountConfirmed;
+
+            //set totalCountDeaths for 7 day period
+            totalCountDeaths = parseInt(response[recentIndex+addToIndex].totalcountdeaths);
+            newObject.totalCountDeaths += totalCountDeaths;
+
+        }
+        let fatalityRate =  totalCountDeaths/totalCountConfirmed * 100;
+        if (isNaN(fatalityRate)) {
+            fatalityRate = 0;
+        }
+
+        //set color corresponding to rate of infection
+        // newObject.color = findRateGroup(ratePer, county.name);
+        //move on to next chunk of data
+
+        //infectionRate
+        newObject.infectionRate = calculateRate(newObject.totalNewCases14, 39150000).toFixed(2); 
+
+
+        addToIndex += 7;
+        statewideData.push(newObject);
+    }
+}
+
+
+
+
 //LOCATION FUNCTIONS
 //find index of most recent data from covid county data query
 function findMostRecent(dataset, countyName) {
@@ -320,11 +402,11 @@ function locateCountyPopulation(dataset) {
     }
 }
 
-function locateLastTotalInPeriod(dataset, indexNum) {
+function locateLastTotalInPeriod(dataset, indexNum, desiredDatapoint){
     let total = 0;
-    for (let i = 0; i < 7; i++) {
-        if (dataset[indexNum + i]) {
-            return dataset[indexNum + i].totalcountconfirmed;
+    for (let i = 0; i<7; i++){
+        if (dataset[indexNum + i]){
+            return dataset[indexNum + i][desiredDatapoint];
         }
     }
 }
