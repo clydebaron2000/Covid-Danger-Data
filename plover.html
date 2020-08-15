@@ -43,13 +43,11 @@
                             class="material-icons right">arrow_drop_down</i></a>
                 </li>
                 <li>
-                    <form class="col s12">
-                        <div id="topbarsearch">
-                            <div class="input-field col s6 s12 grey-text">
-                                <i class="white-text material-icons prefix" style='top:+.25rem'>search</i>
-                                <input id="userCity" type="text" style='caret-color:white;margin:0;margin-left: 2rem;padding-left:0;background: none;' placeholder="search your city" id="autocomplete-input" class="autocomplete white-text" autocomplete="off">
-                                <!-- onkeyup -->
-                            </div>
+                    <form class="col s12" id="topbarsearch" action="#!">
+                        <div class="input-field col s6 s12 grey-text">
+                            <i class="white-text material-icons prefix" style='top:+.25rem'>search</i>
+                            <input id="userCity" type="text" action="" style='caret-color:white;margin:0;margin-left: 2rem;padding-left:0;background: none;' placeholder="search your city" id="autocomplete-input" class="autocomplete white-text" autocomplete="off">
+                            <!-- onkeyup -->
                         </div>
                     </form>
 
@@ -68,7 +66,26 @@
                             <i class="material-icons">coronavirus</i>COVID-19 Guidelines
                         </div>
                         <div class="collapsible-body">
-                            <p>This is first section.</p>
+                            <p>
+                                Lorem ipsum dolor sit amet consectetur adipisicing elit. Veritatis, officiis inventore et ipsa eius hic impedit illo voluptatum quidem dolorum labore distinctio facere adipisci, quae ratione vel minus reiciendis consectetur aut consequuntur soluta! Nisi
+                                consequuntur, labore quis iste aliquid excepturi eius ad ipsa quas a in veritatis asperiores neque corporis error eum temporibus tempore deserunt? Vel, dolorem iusto. Corrupti tenetur sit est, quidem consequuntur earum
+                                perferendis nisi deleniti rerum tempora consectetur fugiat esse temporibus aspernatur maiores ipsa hic voluptas vero quo minima voluptatem iusto. Tempora voluptatem reiciendis aspernatur aliquid adipisci non, sint modi
+                                recusandae repellendus aliquam. Assumenda ducimus odio ex iste incidunt blanditiis officiis non doloremque laborum vitae at similique error quia, necessitatibus totam illum modi excepturi ipsam neque voluptates ipsum! Saepe
+                                deserunt odio beatae. Repellat eum fugiat neque. Veniam excepturi esse dolore, sint culpa pariatur repellendus doloremque rerum saepe! Et maxime error cum doloremque rerum, dolorem mollitia quaerat, a minus aliquam, corrupti
+                                facere aliquid debitis animi perspiciatis? Blanditiis atque rerum sapiente, vero natus dignissimos nesciunt repellendus praesentium eos unde tempora! Commodi, dolorum? Pariatur atque ea blanditiis asperiores distinctio
+                                veniam laboriosam dolore eveniet inventore dicta. Explicabo ipsum perferendis amet quaerat sunt quos accusamus iure neque officia, nesciunt blanditiis minus, dolorem magni commodi laboriosam nostrum ducimus dicta. Quam,
+                                illum architecto quaerat explicabo natus repudiandae ea cupiditate. Praesentium placeat laboriosam ratione ea, impedit, iste provident iusto hic, eaque reiciendis aperiam! Dolorum nemo corporis ipsa totam omnis error neque
+                                libero quos ullam! Provident repellat optio consequatur ducimus. Veniam incidunt ipsum dolorum laudantium possimus consequatur ullam, commodi ad eum sapiente, nobis ut inventore earum vero assumenda minus harum architecto
+                                neque. Tempore incidunt eos nulla tempora qui minus deserunt cum provident iure facere officia molestiae quasi nihil, exercitationem magnam facilis nisi voluptatem eum. Asperiores tempora consequatur ab provident, ipsam
+                                cum. Saepe velit nesciunt beatae molestias? Obcaecati voluptates minus nobis corporis voluptatibus vel, ipsam et blanditiis repudiandae quam. Fugit magnam corrupti repellat praesentium quo mollitia tenetur enim, suscipit,
+                                est reiciendis soluta, nihil laboriosam excepturi iure. Similique, nemo, aspernatur voluptas corporis, eos enim ipsam sunt delectus pariatur iste atque? Necessitatibus assumenda, laudantium quaerat, possimus similique,
+                                eveniet accusamus repellendus quia iste pariatur soluta saepe quidem illum eligendi quo autem voluptatum perferendis earum voluptates natus debitis. Sequi distinctio commodi earum eum nobis nesciunt iste libero et consequatur,
+                                repudiandae autem quasi ut ipsam accusamus laboriosam cupiditate aspernatur dolorem tenetur eligendi modi dolores rerum. Quibusdam necessitatibus alias ipsam! Iste, dolores quae? Eveniet molestiae quos ipsa quia incidunt.
+                                Dignissimos vero aliquam vitae hic obcaecati esse laudantium. Cum deleniti iste quas quisquam, excepturi incidunt deserunt vero eligendi saepe explicabo, esse, corrupti illo beatae corporis eos aspernatur. Optio, sapiente
+                                quas totam eius tenetur modi? Fuga a animi eaque! Nam alias tempora necessitatibus minima repellendus magnam facilis quasi nihil? Voluptas odit reiciendis magnam ex eos cumque soluta. Sint, neque? Officia, veniam quidem,
+                                adipisci laboriosam ad nisi dignissimos iure dolorem consequatur suscipit ipsa vero tempore nesciunt eaque, minus nulla provident? Perferendis vitae rerum delectus, voluptates nihil hic adipisci ratione eaque, sint amet
+                                laboriosam. Aliquid, facere quis!
+                            </p>
                         </div>
                     </li>
 
@@ -86,7 +103,7 @@
             </div>
         </div>
         <div class="col s12 m5 l5 grey lighten-3 flexwrap">
-            <label for='weekIndex class=' black-text '>Days since the beginning of data (00/00/0000)</label>
+            <label for='weekIndex' class='black-text'>Weeks since the beginning of data</label>
             <div class=' block top ' style="display:flex">
                 <button id="play">
                     <i class="material-icons">play_arrow</i>
@@ -98,11 +115,9 @@
                     <input type="range" id="weekIndex" min="0" max="2" value="2" />
                 </p>
             </div>
-            <div id="main" class=' chart '>
+            <div id="main" class=' map '>
                 <div id="map-holder">
-
                     <img id="loading" src="./assets/images/loading.gif" />
-
                     <aside>
                         <div id="title" style=' display:inline-flex;flex-direction: row;justify-content: center; '>
                             <i class="material-icons">coronavirus</i>
@@ -129,10 +144,8 @@
                             <div class="label">501+:
                                 <div class="rMore legend"></div>
                             </div>
-
                         </div>
                     </aside>
-
                     <!--SVG Map of California thanks to Thadius856 on commons.wikimedia.org-->
                     <svg version="1.1" id="Map_of_the_counties_of_California_x2C__without_legend" xmlns:x="&ns_extend;" xmlns:i="&ns_ai;" xmlns:graph="&ns_graphs;" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xapGImg="http://ns.adobe.com/xap/1.0/g/img/" xmlns:cc="http://web.resource.org/cc/"
                         xmlns:ns="http://ns.adobe.com/Variables/1.0/" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:xap="http://ns.adobe.com/xap/1.0/" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
@@ -208,15 +221,10 @@
                 </div>
                 <!--/map-holder-->
 
-<<<<<<< HEAD
-=======
-
->>>>>>> 5fc40415cd06ae600d003ecaefbba7533e687ce0
             </div>
             <!--main-->
         </div>
-        <div class="col s12 m4 l4 grey lighten-1">
-
+        <div id='sidePanel' class="col s12 m4 l4 grey lighten-1">
             <div id="info"></div>
         </div>
     </div>
@@ -236,7 +244,7 @@
     </script>
 
     <script>
-        $(document).ready(function () {
+        $(document).ready(function() {
             $(".dropdown-trigger").dropdown({
                 belowOrigin: true
             });

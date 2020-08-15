@@ -22,8 +22,8 @@ $.ajax({
     }).then(function(response) {
         wholeData = response;
         setTimeLapseMap(response);
-        setMainMap(response);
         getReady();
+        setMainMap(response, $("#weekIndex")[0].max);
     })
     //FUNCTIONS 
     //CALCULATION FUNCTIONS
@@ -84,16 +84,21 @@ function setNext7(dataset, indexNum) {
     return total;
 }
 //DISPLAY FUNCTIONS
+function findFullCountyDataByName(name) {
+    for (var county of timeLapseMap) {
+        if (county[0].name === name) return county;
+    }
+}
 //display county info on click
 function displayCounty(e) {
     const info = $("#info");
     info.empty();
-    info.css("display", "block");
+    info.css("display", "flow-root");
     const countyName = $(this).attr("id").replace(/_/g, " ");
     const thisCounty = findCounty(countyName);
     const countyHeader = $(`<h5>${thisCounty.name} County</h5>`);
     info.append(countyHeader);
-    info.append($("<hr>"))
+    info.append($("<hr>"));
     const countyRecent = $(`<p><strong>Cases in last 14 days: </strong>${thisCounty.recentCases}</p>`);
     info.append(countyRecent);
     const countyInfectionRate = $(`<p><strong>Infections/100,000: </strong>${thisCounty.infectionRate.toFixed(1)}</p>`);
@@ -104,63 +109,84 @@ function displayCounty(e) {
     info.append(countyFatalityRate);
     const fatalityInfo = $("<p class='fine-print'>Fatality rate calculated by total deaths over total cases, times 100</p>");
     info.append(fatalityInfo);
-    // chart.append($("<canvas id='chartjs-0' class='chartjs' style='display: block;float:right'>"));
-    // new Chart(document.getElementById("chartjs-0"), {
-    //     "type": "line",
-    //     "data": {
-    //         "labels": xAxisLables,
-    //         "datasets": [{
-    //             "label": "°" + tempUnits,
-    //             "pointStyle": houlyIcons,
-    //             pointHoverRadius: 20,
-    //             pointHitRadius: 20,
-    //             "data": data,
-    //             "fill": false,
-    //             "borderColor": "rgba(0, 0, 0,0)",
-    //             "lineTension": 0.0
-    //         }, {
-    //             "label": "Condition",
-    //             "hidden": true,
-    //             "data": tooltipLabels,
-    //         }]
-    //     },
-    //     "options": {
-    //         responsive: true,
-    //         title: {
-    //             display: true,
-    //             text: '24-Hour Forecast (GMT' + (parseInt(timezoneOffset) / 60 / 70) + ")",
-    //             fontSize: 14,
-    //             fontStyle: 'bold',
-    //         },
-    //         legend: {
-    //             display: false
-    //         },
-    //         scales: {
-    //             yAxes: [{
-    //                 scaleLabel: {
-    //                     display: true,
-    //                     labelString: "Temperature (°" + tempUnits + ")"
-    //                 },
-    //             }]
-    //         },
-    //         tooltips: {
-    //             callbacks: {
-    //                 title: function(tooltipItem, data) {
-    //                     return tooltipLabels[tooltipItem[0]['index']];
-    //                 },
-    //                 label: function(tooltipItem, data) {
-    //                     return data['datasets'][0]['data'][tooltipItem['index']] + "°" + tempUnits;
-    //                 },
-    //                 afterLabel: function(tooltipItem, data) {
-    //                     var out = "";
-    //                     out += houlyIconDescription[tooltipItem['index']] + "\n";
-    //                     out += "Wind Speed: " + hourlyWindSpeed[tooltipItem['index']] + distanceUnits;
-    //                     return out;
-    //                 }
-    //             }
-    //         }
-    //     }
-    // });
+    //adding chart
+    const rawChartData = findFullCountyDataByName(countyName);
+    var datesArray = [];
+    var infection7RateArray = [];
+    //change infection 14 day array to the right values
+    //for every 7th day, you should look 14 days into the past, and calculate the infection rate per 14 days
+    var infection14RateArray = [];
+    var caseCountPerPeriod = [];
+    console.log(rawChartData.length);
+    for (var i = 0; i < rawChartData.length; i++) {
+        console.log(i);
+        if (i == rawChartData.length - 1) datesArray.push(moment().format("YYYY-MM-DD"));
+        else datesArray.push(rawChartData[i].endDate);
+        infection7RateArray.push(rawChartData[i].infectionRate);
+        if (i == 0) {
+            infection14RateArray.push(rawChartData[i].infectionRate);
+        } else {
+            var average14 = (parseFloat(rawChartData[i].infectionRate) + parseFloat(rawChartData[i - 1].infectionRate)) / 2;
+            infection14RateArray.push(average14.toFixed(2));
+        }
+        caseCountPerPeriod.push(rawChartData[i].recentCases);
+    }
+    console.log(infection14RateArray);
+    var chart = $("<div id='chart'>");
+    chart.append($("<canvas id='chartjs-0' class='chartjs' style='display: block;float:right'>"));
+    info.append(chart);
+    new Chart(document.getElementById("chartjs-0"), {
+        "type": "line",
+        "data": {
+            "labels": datesArray,
+            "datasets": [{
+                "label": "7 day infection rate",
+                pointHoverRadius: 5,
+                pointHitRadius: 5,
+                "fill": false,
+                "data": infection7RateArray,
+                "borderColor": "rgb(75, 192, 192)",
+                "lineTension": 0.25
+            }, {
+                "label": "14 day infection rate",
+                "hidden": false,
+                "data": average14,
+                pointHoverRadius: 5,
+                pointHitRadius: 5,
+                "fill": false,
+                "data": infection14RateArray,
+                "borderColor": "blue",
+                "lineTension": 0.25
+            }]
+        },
+        "options": {
+            responsive: true,
+            title: {
+                display: true,
+                text: `Rate of infections for ${countyName}`,
+                fontSize: 14,
+                fontStyle: 'bold',
+            },
+            legend: {
+                display: true
+            },
+            scales: {
+                xAxes: [{
+                    type: 'time',
+                    ticks: {
+                        autoSkip: true,
+                        maxTicksLimit: 10
+                    }
+                }],
+                yAxes: [{
+                    scaleLabel: {
+                        display: true,
+                        labelString: "Rate of infection per 100k"
+                    },
+                }]
+            }
+        }
+    });
 }
 
 function setTimeLapseMap(response) {
@@ -212,16 +238,16 @@ function setTimeLapseMap(response) {
 function setMainMap(response) {
     let newArray = [{ period: 7, date: "current", totalNewCases: 0, totalCountDeaths: 0, totalCasesConfirmed: 0 }, { period: 14, date: "current", totalNewCases: 0, totalCountDeaths: 0, totalCasesConfirmed: 0 }];
     for (let county of californiaCounties) {
-        let recentIndex = findMostRecent(response, county.name)
-        let totalNewCases = setLast14(response, recentIndex);
+        let index = findMostRecent(response, county.name);
+        let totalNewCases = setLast14(response, index);
         county.recentCases = totalNewCases;
         newArray[1].totalNewCases += totalNewCases;
-        let totalNewCases7Day = setLast7(response, recentIndex);
+        let totalNewCases7Day = setLast7(response, index);
         newArray[0].totalNewCases += totalNewCases7Day;
         let ratePer14 = calculateRate(totalNewCases, county.population);
         county.infectionRate = ratePer14;
-        const totalCountDeaths = parseInt(response[recentIndex].totalcountdeaths);
-        const totalCasesConfirmed = parseInt(response[recentIndex].totalcountconfirmed);
+        const totalCountDeaths = parseInt(response[index].totalcountdeaths);
+        const totalCasesConfirmed = parseInt(response[index].totalcountconfirmed);
         let fatalityRate = totalCountDeaths / totalCasesConfirmed * 100;
         county.fatalityRate = fatalityRate;
         newArray[0].totalCountDeaths += totalCountDeaths;
@@ -235,19 +261,15 @@ function setMainMap(response) {
     statewideData.push(newArray);
 }
 
-function runTimeLapse(response) {
-    let data = response;
-    let i = 0;
-    const timeLapse = setInterval(function(data) {
-        for (let k = 0; k < timeLapseMap.length; k++) {
-            findRateGroup(timeLapseMap[k][i].infectionRate, timeLapseMap[k][i].name);
-        }
-        i++;
-        if (i >= timeLapseMap[0].length - 2) { //-2 because the last section of timeLapseMap may not contain a full 14 days, so it's prefereable to use MainMap, which relies on the most recent 14 days data
-            clearInterval(timeLapse)
-            setMainMap(wholeData);
-        }
-    }, 2000)
+function historicalMap(index, max) {
+    max -= 1;
+    if (index > max) { //-2 because the last section of timeLapseMap may not contain a full 14 days, so it's prefereable to use MainMap, which relies on the most recent 14 days data
+        setMainMap(wholeData);
+        return;
+    }
+    for (let k = 0; k < timeLapseMap.length; k++) {
+        findRateGroup(timeLapseMap[k][index].infectionRate, timeLapseMap[k][index].name);
+    }
 }
 //LOCATION FUNCTIONS
 //find index of most recent data from covid county data query
@@ -322,21 +344,25 @@ function getReady() {
         const text = county.name;
         countyAutofill[text] = 0;
     }
-    $("#weekIndex")[0].max = timeLapseMap.length;
-    $("#weekIndex").val(timeLapseMap.length);
+    //getting min width
+    var weeksMeasured = timeLapseMap[0].length;
+    for (var state of timeLapseMap) {
+        weeksMeasured = Math.min(weeksMeasured, state.length);
+    }
+    $("#weekIndex")[0].max = weeksMeasured;
+    $("#weekIndex").val(weeksMeasured);
     $('input.autocomplete').autocomplete({
         data: countyAutofill,
     });
-    $("#userCity").on("input click paste change ", function(event) {
+    $("#topbarsearch").on("input click paste change ", function(event) {
         event.preventDefault();
-        const input = $(this).val();
+        const input = $("#userCity").val();
         if (countyAutofill[input] === 0) $("#" + input).trigger("click");
+        return false;
     });
     var interval;
-    console.log("set-up");
     $("#play").on("click", function(event) {
         event.preventDefault();
-        console.log("hi");
         $("#pause").attr("style", "display:inline");
         $("#play").attr("style", "display:none");
         var range = $("#weekIndex");
@@ -344,17 +370,19 @@ function getReady() {
         if (i >= range[0].max) {
             i = 0;
         }
-        const timeInterval = 50;
+        const timeInterval = 500;
         interval = setInterval(function() {
-            range.val(i++);
-            // displaying indivdual
-            if (i > range[0].max) {
+            if (i >= range[0].max) {
                 clearInterval(interval);
                 clearTimeout(interval);
                 $("#pause").attr("style", "display:none");
                 $("#play").attr("style", "display:inline");
                 //display all
             }
+            // displaying indivdual
+            range.val(i);
+            range.trigger("input");
+            i++
         }, timeInterval);
     });
     $("#pause").on("click", function(event) {
@@ -364,4 +392,10 @@ function getReady() {
         $("#pause").attr("style", "display:none");
         $("#play").attr("style", "display:inline");
     });
+    $("#weekIndex").on("input", function() {
+        const value = $(this).val();
+        historicalMap(value, $(this)[0].max);
+    });
+    $("#weekIndex").trigger("input");
+    console.log("set-up");
 }
