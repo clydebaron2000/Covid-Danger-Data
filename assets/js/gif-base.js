@@ -1,49 +1,40 @@
 "use strict"
-const californiaCounties = [{ "name": "Alameda", "censusCode": "001", "population": "" }, { "name": "Alpine", "censusCode": "003", "population": "" }, { "name": "Amador", "censusCode": "005", "population": "" }, { "name": "Butte", "censusCode": "007", "population": "" }, { "name": "Calaveras", "censusCode": "009", "population": "" }, { "name": "Colusa", "censusCode": "011", "population": "" }, { "name": "Contra Costa", "censusCode": "013", "population": "" }, { "name": "Del Norte", "censusCode": "015", "population": "" }, { "name": "El Dorado", "censusCode": "017", "population": "" }, { "name": "Fresno", "censusCode": "019", "population": "" }, { "name": "Glenn", "censusCode": "021", "population": "" }, { "name": "Humboldt", "censusCode": "023", "population": "" }, { "name": "Imperial", "censusCode": "025", "population": "" }, { "name": "Inyo", "censusCode": "027", "population": "" }, { "name": "Kern", "censusCode": "029", "population": "" }, { "name": "Kings", "censusCode": "031", "population": "" }, { "name": "Lake", "censusCode": "033", "population": "" }, { "name": "Lassen", "censusCode": "035", "population": "" }, { "name": "Los Angeles", "censusCode": "037", "population": "" }, { "name": "Madera", "censusCode": "039", "population": "" }, { "name": "Marin", "censusCode": "041", "population": "" }, { "name": "Mariposa", "censusCode": "043", "population": "" }, { "name": "Mendocino", "censusCode": "045", "population": "" }, { "name": "Merced", "censusCode": "047", "population": "" }, { "name": "Modoc", "censusCode": "049", "population": "" }, { "name": "Mono", "censusCode": "051", "population": "" }, { "name": "Monterey", "censusCode": "053", "population": "" }, { "name": "Napa", "censusCode": "055", "population": "" }, { "name": "Nevada", "censusCode": "057", "population": "" }, { "name": "Orange", "censusCode": "059", "population": "" }, { "name": "Placer", "censusCode": "061", "population": "" }, { "name": "Plumas", "censusCode": "063", "population": "" }, { "name": "Riverside", "censusCode": "065", "population": "" }, { "name": "Sacramento", "censusCode": "067", "population": "" }, { "name": "San Benito", "censusCode": "069", "population": "" }, { "name": "San Bernardino", "censusCode": "071", "population": "" }, { "name": "San Diego", "censusCode": "073", "population": "" }, { "name": "San Francisco", "censusCode": "075", "population": "" }, { "name": "San Joaquin", "censusCode": "077", "population": "" }, { "name": "San Luis Obispo", "censusCode": "079", "population": "" }, { "name": "San Mateo", "censusCode": "081", "population": "" }, { "name": "Santa Barbara", "censusCode": "083", "population": "" }, { "name": "Santa Clara", "censusCode": "085", "population": "" }, { "name": "Santa Cruz", "censusCode": "087", "population": "" }, { "name": "Shasta", "censusCode": "089", "population": "" }, { "name": "Sierra", "censusCode": "091", "population": "" }, { "name": "Siskiyou", "censusCode": "093", "population": "" }, { "name": "Solano", "censusCode": "095", "population": "" }, { "name": "Sonoma", "censusCode": "097", "population": "" }, { "name": "Stanislaus", "censusCode": "099", "population": "" }, { "name": "Sutter", "censusCode": "101", "population": "" }, { "name": "Tehama", "censusCode": "103", "population": "" }, { "name": "Trinity", "censusCode": "105", "population": "" }, { "name": "Tulare", "censusCode": "107", "population": "" }, { "name": "Tuolumne", "censusCode": "109", "population": "" }, { "name": "Ventura", "censusCode": "111", "population": "" }, { "name": "Yolo", "censusCode": "113", "population": "" }, { "name": "Yuba", "censusCode": "115", "population": "" },]
+const californiaCounties = [{ "name": "Alameda", "censusCode": "001", "population": "" }, { "name": "Alpine", "censusCode": "003", "population": "" }, { "name": "Amador", "censusCode": "005", "population": "" }, { "name": "Butte", "censusCode": "007", "population": "" }, { "name": "Calaveras", "censusCode": "009", "population": "" }, { "name": "Colusa", "censusCode": "011", "population": "" }, { "name": "Contra Costa", "censusCode": "013", "population": "" }, { "name": "Del Norte", "censusCode": "015", "population": "" }, { "name": "El Dorado", "censusCode": "017", "population": "" }, { "name": "Fresno", "censusCode": "019", "population": "" }, { "name": "Glenn", "censusCode": "021", "population": "" }, { "name": "Humboldt", "censusCode": "023", "population": "" }, { "name": "Imperial", "censusCode": "025", "population": "" }, { "name": "Inyo", "censusCode": "027", "population": "" }, { "name": "Kern", "censusCode": "029", "population": "" }, { "name": "Kings", "censusCode": "031", "population": "" }, { "name": "Lake", "censusCode": "033", "population": "" }, { "name": "Lassen", "censusCode": "035", "population": "" }, { "name": "Los Angeles", "censusCode": "037", "population": "" }, { "name": "Madera", "censusCode": "039", "population": "" }, { "name": "Marin", "censusCode": "041", "population": "" }, { "name": "Mariposa", "censusCode": "043", "population": "" }, { "name": "Mendocino", "censusCode": "045", "population": "" }, { "name": "Merced", "censusCode": "047", "population": "" }, { "name": "Modoc", "censusCode": "049", "population": "" }, { "name": "Mono", "censusCode": "051", "population": "" }, { "name": "Monterey", "censusCode": "053", "population": "" }, { "name": "Napa", "censusCode": "055", "population": "" }, { "name": "Nevada", "censusCode": "057", "population": "" }, { "name": "Orange", "censusCode": "059", "population": "" }, { "name": "Placer", "censusCode": "061", "population": "" }, { "name": "Plumas", "censusCode": "063", "population": "" }, { "name": "Riverside", "censusCode": "065", "population": "" }, { "name": "Sacramento", "censusCode": "067", "population": "" }, { "name": "San Benito", "censusCode": "069", "population": "" }, { "name": "San Bernardino", "censusCode": "071", "population": "" }, { "name": "San Diego", "censusCode": "073", "population": "" }, { "name": "San Francisco", "censusCode": "075", "population": "" }, { "name": "San Joaquin", "censusCode": "077", "population": "" }, { "name": "San Luis Obispo", "censusCode": "079", "population": "" }, { "name": "San Mateo", "censusCode": "081", "population": "" }, { "name": "Santa Barbara", "censusCode": "083", "population": "" }, { "name": "Santa Clara", "censusCode": "085", "population": "" }, { "name": "Santa Cruz", "censusCode": "087", "population": "" }, { "name": "Shasta", "censusCode": "089", "population": "" }, { "name": "Sierra", "censusCode": "091", "population": "" }, { "name": "Siskiyou", "censusCode": "093", "population": "" }, { "name": "Solano", "censusCode": "095", "population": "" }, { "name": "Sonoma", "censusCode": "097", "population": "" }, { "name": "Stanislaus", "censusCode": "099", "population": "" }, { "name": "Sutter", "censusCode": "101", "population": "" }, { "name": "Tehama", "censusCode": "103", "population": "" }, { "name": "Trinity", "censusCode": "105", "population": "" }, { "name": "Tulare", "censusCode": "107", "population": "" }, { "name": "Tuolumne", "censusCode": "109", "population": "" }, { "name": "Ventura", "censusCode": "111", "population": "" }, { "name": "Yolo", "censusCode": "113", "population": "" }, { "name": "Yuba", "censusCode": "115", "population": "" }, ]
 let statewideData = [];
 let timeLapseMap = [];
 let wholeData;
 let statewidePopulation;
-
 //AJAX QUERIES - county population from US Census, historical Covid data by CA county
 //query current and past county data
-
 let censusSateURL = "https://api.census.gov/data/2019/pep/population?key=45876004e2fbfafe56615f040f2172ee79c77643&get=POP&for=state:06"
 $.ajax({
     url: censusSateURL,
     method: "GET"
-}).then(function (response) {
+}).then(function(response) {
     statewidePopulation = parseInt(response[1][0]);
 })
-
 let censusCountyURL = "https://api.census.gov/data/2019/pep/population?key=45876004e2fbfafe56615f040f2172ee79c77643&get=POP&in=state:06&for=county:*";
 $.ajax({
     url: censusCountyURL,
     method: "GET"
-}).then(function (response) {
+}).then(function(response) {
     locateCountyPopulation(response);
 })
-
 let csvSource = "https://data.ca.gov/dataset/590188d5-8545-4c93-a9a0-e230f0db7290/resource/926fd08f-cc91-4828-af38-bd45de97f8c3/download/statewide_cases.csv";
 let csvURL = "https://c19d.zzzkitty.com/?source=" + csvSource;
 $.ajax({
-
-    url: csvURL,
-    method: "GET"
-}).then(function (response) {
-    wholeData = response;
-    setMainMap(response, $("#weekIndex")[0].max);
-    setTimeLapseMap(response);
-    getReady();
-    setStatewideData(response);
-})
-
-
-
-//FUNCTIONS 
-//CALCULATION FUNCTIONS
-//calculate rate of incidence per 100,000 population
-
+        url: csvURL,
+        method: "GET"
+    }).then(function(response) {
+        wholeData = response;
+        setMainMap(response, $("#weekIndex")[0].max);
+        setTimeLapseMap(response);
+        getReady();
+        setStatewideData(response);
+    })
+    //FUNCTIONS 
+    //CALCULATION FUNCTIONS
+    //calculate rate of incidence per 100,000 population
 function calculateRate(incidence, population) {
     return (parseInt(incidence) / parseInt(population)) * 100000;
 }
@@ -80,9 +71,6 @@ function setLast7(dataset, indexNum, countyName) {
     }
     return total;
 }
-
-
-
 //DISPLAY FUNCTIONS
 //pull a given county's info out of timeLapseMap
 function findFullCountyDataByName(name) {
@@ -136,9 +124,9 @@ function displayCounty(e) {
         caseCountPerPeriod.push(rawChartData[i].recentCases);
     }
     var chart = $("<div id='chart'>");
-    chart.append($("<canvas id='chartjs-0' class='chartjs' style='display: block;'>"));
+    chart.append($("<canvas id='chartjs-0' class='chartjs' style='display: block;aria-label='" + `14 day infection rates for ${countyName}` + "' role='img'>"));
     chart.append($("<br>"));
-    chart.append($("<canvas id='chartjs-1' class='chartjs' style='display: block;'>"));
+    chart.append($("<canvas id='chartjs-1' class='chartjs' style='display: block;aria-label='" + `14 day new cases for ${countyName}` + "' role='img'>"));
     info.append(chart);
     new Chart(document.getElementById("chartjs-0"), {
         "type": "line",
@@ -228,7 +216,6 @@ function displayCounty(e) {
         }
     });
 }
-
 //set the data for variable timeLapseMap from response
 function setTimeLapseMap(response) {
     for (let county of californiaCounties) {
@@ -252,12 +239,10 @@ function setTimeLapseMap(response) {
             newObject.recentCases = newCountConfirmed;
             //set newCountConfirmed for 14 day period
             let newCountConfirmed14 = setLast14(response, currentIndex + 6, county.name);
-
             //set rate of infection for 14 day period
             let ratePer = calculateRate(newCountConfirmed14, county.population);
             newObject.totalNewCases14 = newCountConfirmed14;
             newObject.infectionRate = ratePer;
-
             //total fatality rate
             let totalDeaths = parseInt(response[currentIndex + 6].totalcountdeaths);
             let totalCases = parseInt(response[currentIndex + 6].totalcountconfirmed);
@@ -281,7 +266,6 @@ function setTimeLapseMap(response) {
 function setMainMap(response) {
     let newObject = { period: 7, date: "current", totalNewCases14: 0, totalNewCases7: 0, totalCountDeaths: 0, totalCasesConfirmed: 0 }
     for (let county of californiaCounties) {
-
         let recentIndex = findMostRecent(response, county.name)
         let totalNewCases = setLast14(response, recentIndex, county.name);
         county.recentCases = totalNewCases;
@@ -300,11 +284,9 @@ function setMainMap(response) {
         findRateGroup(ratePer14, county.name);
     }
     newObject.fatalityRate = (newObject.totalCountDeaths / newObject.totalCasesConfirmed * 100).toFixed(2);
-
     if (!statewideData[0]) {
         statewideData.push(newObject);
     }
-
 }
 
 function historicalMap(index, max) {
@@ -324,11 +306,7 @@ function setStatewideData(response) {
     const dataLength = findMostRecent(response, "San Diego") - findFirst(response, "San Diego");
     let addToIndex = 6;
     let currentIndex = 0;
-
-
     for (let i = 0; i < dataLength / 7; i++) {
-
-
         //set new object for 7 day period
         const newObject = { "totalNewCases7": 0, "totalNewCases14": 0, "totalCasesConfirmed": 0, "totalCountDeaths": 0 };
         let totalCountDeaths;
@@ -337,7 +315,6 @@ function setStatewideData(response) {
             //index of first county record
             let recentIndex = parseInt(findFirst(response, county.name));
             currentIndex = recentIndex + addToIndex;
-
             if (currentIndex > response.length) {
                 break;
             }
@@ -366,11 +343,7 @@ function setStatewideData(response) {
         // newObject.color = findRateGroup(ratePer, county.name);
         //move on to next chunk of data
         //infectionRate
-
         newObject.infectionRate = calculateRate(newObject.totalNewCases14, statewidePopulation).toFixed(2);
-
-
-
         addToIndex += 7;
         statewideData.push(newObject);
     }
@@ -423,8 +396,6 @@ function locateCountyPopulation(dataset) {
         }
     }
 }
-
-
 //remove loading gif when ajax query is returned
 function getReady() {
     $("#loading").css("display", "none");
@@ -451,14 +422,14 @@ function getReady() {
     $('input.autocomplete').autocomplete({
         data: countyAutofill,
     });
-    $("#topbarsearch").on("input click paste change ", function (event) {
+    $("#topbarsearch").on("input click paste change ", function(event) {
         event.preventDefault();
         const input = $("#userCity").val();
-        if (countyAutofill[input] === 0) $("#" + input).trigger("click");
+        if (countyAutofill[input] === 0) $("#" + input.replace(/\s/g, "_")).trigger("click");
         return false;
     });
     var interval;
-    $("#play").on("click", function (event) {
+    $("#play").on("click", function(event) {
         event.preventDefault();
         $("#pause").attr("style", "display:inline");
         $("#play").attr("style", "display:none");
@@ -468,7 +439,7 @@ function getReady() {
             i = 0;
         }
         const timeInterval = 500;
-        interval = setInterval(function () {
+        interval = setInterval(function() {
             if (i >= range[0].max) {
                 clearInterval(interval);
                 clearTimeout(interval);
@@ -482,14 +453,14 @@ function getReady() {
             i++
         }, timeInterval);
     });
-    $("#pause").on("click", function (event) {
+    $("#pause").on("click", function(event) {
         event.preventDefault();
         clearInterval(interval);
         clearTimeout(interval);
         $("#pause").attr("style", "display:none");
         $("#play").attr("style", "display:inline");
     });
-    $("#weekIndex").on("input", function () {
+    $("#weekIndex").on("input", function() {
         const value = $(this).val();
         console.log("range value:" + value);
         historicalMap(value, $(this)[0].max);
