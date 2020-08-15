@@ -1,5 +1,3 @@
-//county name and rate index
-
 "use strict"
 const californiaCounties = [{ "name": "Alameda", "censusCode": "001", "population": "" }, { "name": "Alpine", "censusCode": "003", "population": "" }, { "name": "Amador", "censusCode": "005", "population": "" }, { "name": "Butte", "censusCode": "007", "population": "" }, { "name": "Calaveras", "censusCode": "009", "population": "" }, { "name": "Colusa", "censusCode": "011", "population": "" }, { "name": "Contra Costa", "censusCode": "013", "population": "" }, { "name": "Del Norte", "censusCode": "015", "population": "" }, { "name": "El Dorado", "censusCode": "017", "population": "" }, { "name": "Fresno", "censusCode": "019", "population": "" }, { "name": "Glenn", "censusCode": "021", "population": "" }, { "name": "Humboldt", "censusCode": "023", "population": "" }, { "name": "Imperial", "censusCode": "025", "population": "" }, { "name": "Inyo", "censusCode": "027", "population": "" }, { "name": "Kern", "censusCode": "029", "population": "" }, { "name": "Kings", "censusCode": "031", "population": "" }, { "name": "Lake", "censusCode": "033", "population": "" }, { "name": "Lassen", "censusCode": "035", "population": "" }, { "name": "Los Angeles", "censusCode": "037", "population": "" }, { "name": "Madera", "censusCode": "039", "population": "" }, { "name": "Marin", "censusCode": "041", "population": "" }, { "name": "Mariposa", "censusCode": "043", "population": "" }, { "name": "Mendocino", "censusCode": "045", "population": "" }, { "name": "Merced", "censusCode": "047", "population": "" }, { "name": "Modoc", "censusCode": "049", "population": "" }, { "name": "Mono", "censusCode": "051", "population": "" }, { "name": "Monterey", "censusCode": "053", "population": "" }, { "name": "Napa", "censusCode": "055", "population": "" }, { "name": "Nevada", "censusCode": "057", "population": "" }, { "name": "Orange", "censusCode": "059", "population": "" }, { "name": "Placer", "censusCode": "061", "population": "" }, { "name": "Plumas", "censusCode": "063", "population": "" }, { "name": "Riverside", "censusCode": "065", "population": "" }, { "name": "Sacramento", "censusCode": "067", "population": "" }, { "name": "San Benito", "censusCode": "069", "population": "" }, { "name": "San Bernardino", "censusCode": "071", "population": "" }, { "name": "San Diego", "censusCode": "073", "population": "" }, { "name": "San Francisco", "censusCode": "075", "population": "" }, { "name": "San Joaquin", "censusCode": "077", "population": "" }, { "name": "San Luis Obispo", "censusCode": "079", "population": "" }, { "name": "San Mateo", "censusCode": "081", "population": "" }, { "name": "Santa Barbara", "censusCode": "083", "population": "" }, { "name": "Santa Clara", "censusCode": "085", "population": "" }, { "name": "Santa Cruz", "censusCode": "087", "population": "" }, { "name": "Shasta", "censusCode": "089", "population": "" }, { "name": "Sierra", "censusCode": "091", "population": "" }, { "name": "Siskiyou", "censusCode": "093", "population": "" }, { "name": "Solano", "censusCode": "095", "population": "" }, { "name": "Sonoma", "censusCode": "097", "population": "" }, { "name": "Stanislaus", "censusCode": "099", "population": "" }, { "name": "Sutter", "censusCode": "101", "population": "" }, { "name": "Tehama", "censusCode": "103", "population": "" }, { "name": "Trinity", "censusCode": "105", "population": "" }, { "name": "Tulare", "censusCode": "107", "population": "" }, { "name": "Tuolumne", "censusCode": "109", "population": "" }, { "name": "Ventura", "censusCode": "111", "population": "" }, { "name": "Yolo", "censusCode": "113", "population": "" }, { "name": "Yuba", "censusCode": "115", "population": "" }, ]
 let statewideData = [];
@@ -28,6 +26,9 @@ $.ajax({
         setMainMap(response, $("#weekIndex")[0].max);
         setStatewideData(response);
     })
+
+
+
     //FUNCTIONS 
     //CALCULATION FUNCTIONS
     //calculate rate of incidence per 100,000 population
@@ -95,7 +96,12 @@ function setNext7(dataset, indexNum) {
     }
     return total;
 }
+
+
+
 //DISPLAY FUNCTIONS
+
+//pull a given county's info out of timeLapseMap
 function findFullCountyDataByName(name) {
     for (var county of timeLapseMap) {
         if (county[0].name === name) return county;
@@ -201,36 +207,56 @@ function displayCounty(e) {
     });
 }
 
+
+
+//DOING SOMETHING NEW
+
+
+
+
+
+//set the data for variable timeLapseMap from response
 function setTimeLapseMap(response) {
-    let howManyCounties = 0;
     for (let county of californiaCounties) {
         const newArray = [];
         const length = findMostRecent(response, county.name) - findFirst(response, county.name);
-        let addToIndex = 0;
+        let addToIndex = - 6;
         for (let i = 0; i < length / 7; i++) {
             const newObject = {};
+
             //county name
             newObject.name = county.name;
+
             //index of first county record
-            let recentIndex = parseInt(findFirst(response, county.name));
+            let recentIndex = parseInt(findMostRecent(response, county.name));
             let currentIndex = recentIndex + addToIndex;
-            newObject.firstIndex = recentIndex;
+
             //beginning and end dates for data stretch
-            newObject.startDate = response[currentIndex].date;
-            if (response[currentIndex + 6]){
-                newObject.endDate = response[currentIndex + 6].date;
+            newObject.endDate = response[currentIndex+6].date;
+            if (response[currentIndex] && response[currentIndex].county == county.name){
+                newObject.startDate = response[currentIndex].date;
             }
+
             //set newCountConfirmed for 7 day period
-            let newCountConfirmed = setNext7(response, currentIndex);
+            let newCountConfirmed = setLast7(response, currentIndex, county.name);
             newObject.recentCases = newCountConfirmed;
+
+            //set newCountConfirmed for 14 day period
+            let newCountConfirmed14 = setLast14(response, currentIndex+6, county.name);
+
             //set totalCountConfirmed for 7 day period
-            let totalCountConfirmed = locateLastTotalInPeriod(response, recentIndex + addToIndex);
+            let totalCountConfirmed = response[currentIndex+6].totalcountconfirmed;
+            
             //set rate of infection for 14 day period
-            let ratePer = calculateRate(setNext14(response, recentIndex + addToIndex), county.population);
-            newObject.infectionRate = ratePer.toFixed(2);
+            let ratePer = calculateRate(newCountConfirmed14, county.population);
+            newObject.totalNewCases14 = newCountConfirmed14;
+            newObject.infectionRate = ratePer;
+            console.log(newCountConfirmed14);
+            console.log(ratePer);
+
             //total fatality rate
-            let totalDeaths = parseInt(response[recentIndex + addToIndex].totalcountdeaths);
-            let totalCases = parseInt(response[recentIndex + addToIndex].totalcountconfirmed);
+            let totalDeaths = parseInt(response[currentIndex+6].totalcountdeaths);
+            let totalCases = parseInt(response[currentIndex+6].totalcountconfirmed);
             let fatalityRate = totalDeaths / totalCases * 100;
             if (isNaN(fatalityRate)) {
                 fatalityRate = 0;
@@ -241,7 +267,7 @@ function setTimeLapseMap(response) {
             //set color corresponding to rate of infection
             newObject.color = findRateGroup(ratePer, county.name);
             //move on to next chunk of data
-            addToIndex += 7;
+            addToIndex -= 7;
             newArray.push(newObject);
         }
         timeLapseMap.push(newArray);
@@ -402,6 +428,7 @@ function locateCountyPopulation(dataset) {
     }
 }
 
+//find the most recent data from a 7 day period starting on the earliest day
 function locateLastTotalInPeriod(dataset, indexNum, desiredDatapoint){
     let total = 0;
     for (let i = 0; i<7; i++){
@@ -410,6 +437,7 @@ function locateLastTotalInPeriod(dataset, indexNum, desiredDatapoint){
         }
     }
 }
+
 //remove loading gif when ajax query is returned
 function getReady() {
     $("#loading").css("display", "none");
