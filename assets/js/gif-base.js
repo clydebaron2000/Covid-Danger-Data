@@ -27,6 +27,7 @@ $.ajax({
 let csvSource = "https://data.ca.gov/dataset/590188d5-8545-4c93-a9a0-e230f0db7290/resource/926fd08f-cc91-4828-af38-bd45de97f8c3/download/statewide_cases.csv";
 let csvURL = "https://c19d.zzzkitty.com/?source=" + csvSource;
 $.ajax({
+
     url: csvURL,
     method: "GET"
 }).then(function (response) {
@@ -42,6 +43,7 @@ $.ajax({
 //FUNCTIONS 
 //CALCULATION FUNCTIONS
 //calculate rate of incidence per 100,000 population
+
 function calculateRate(incidence, population) {
     return (parseInt(incidence) / parseInt(population)) * 100000;
 }
@@ -82,7 +84,6 @@ function setLast7(dataset, indexNum, countyName) {
 
 
 //DISPLAY FUNCTIONS
-
 //pull a given county's info out of timeLapseMap
 function findFullCountyDataByName(name) {
     for (var county of timeLapseMap) {
@@ -112,26 +113,25 @@ function displayCounty(e) {
     //adding chart
     const rawChartData = findFullCountyDataByName(countyName);
     var datesArray = [];
-    var infection7RateArray = [];
     //change infection 14 day array to the right values
-    //for every 7th day, you should look 14 days into the past, and calculate the infection rate per 14 days
     var infection14RateArray = [];
+    var pointColors = [];
     var caseCountPerPeriod = [];
-    console.log(rawChartData.length);
     for (var i = 0; i < rawChartData.length; i++) {
-        console.log(i);
-        if (i == rawChartData.length - 1) datesArray.push(moment().format("YYYY-MM-DD"));
-        else datesArray.push(rawChartData[i].endDate);
-        infection7RateArray.push(rawChartData[i].infectionRate);
-        if (i == 0) {
-            infection14RateArray.push(rawChartData[i].infectionRate);
-        } else {
-            var average14 = (parseFloat(rawChartData[i].infectionRate) + parseFloat(rawChartData[i - 1].infectionRate)) / 2;
-            infection14RateArray.push(average14.toFixed(2));
-        }
+        datesArray.push(rawChartData[i].endDate);
+        const infectionRate = rawChartData[i].infectionRate.toFixed(2);
+        infection14RateArray.push(infectionRate);
+        var color;
+        if (infectionRate < 0) color = "white"
+        else if (infectionRate < 16) color = "#FFEC81";
+        else if (infectionRate < 51) color = "#FF8F41";
+        else if (infectionRate < 101) color = "#FF4E20";
+        else if (infectionRate < 201) color = "#DC0000";
+        else if (infectionRate < 501) color = "#950000";
+        else color = "#4F0000";
+        pointColors.push(color);
         caseCountPerPeriod.push(rawChartData[i].recentCases);
     }
-    console.log(infection14RateArray);
     var chart = $("<div id='chart'>");
     chart.append($("<canvas id='chartjs-0' class='chartjs' style='display: block;float:right'>"));
     info.append(chart);
@@ -140,22 +140,14 @@ function displayCounty(e) {
         "data": {
             "labels": datesArray,
             "datasets": [{
-                "label": "7 day infection rate",
-                pointHoverRadius: 5,
-                pointHitRadius: 5,
-                "fill": false,
-                "data": infection7RateArray,
-                "borderColor": "rgb(75, 192, 192)",
-                "lineTension": 0.25
-            }, {
                 "label": "14 day infection rate",
-                "hidden": false,
-                "data": average14,
                 pointHoverRadius: 5,
                 pointHitRadius: 5,
                 "fill": false,
                 "data": infection14RateArray,
-                "borderColor": "blue",
+                pointBackgroundColor: pointColors,
+                pointBorderColor: pointColors,
+                "borderColor": "grey",
                 "lineTension": 0.25
             }]
         },
@@ -163,19 +155,19 @@ function displayCounty(e) {
             responsive: true,
             title: {
                 display: true,
-                text: `Rate of infections for ${countyName}`,
+                text: `14 day infection rates for ${countyName}`,
                 fontSize: 14,
                 fontStyle: 'bold',
             },
             legend: {
-                display: true
+                display: false
             },
             scales: {
                 xAxes: [{
                     type: 'time',
                     ticks: {
                         autoSkip: true,
-                        maxTicksLimit: 10
+                        maxTicksLimit: 11
                     }
                 }],
                 yAxes: [{
@@ -194,27 +186,22 @@ function setTimeLapseMap(response) {
     for (let county of californiaCounties) {
         const newArray = [];
         const length = findMostRecent(response, county.name) - findFirst(response, county.name);
-        let addToIndex = - 6;
+        let addToIndex = -6;
         for (let i = 0; i < length / 7; i++) {
             const newObject = {};
-
             //county name
             newObject.name = county.name;
-
             //index of first county record
             let recentIndex = parseInt(findMostRecent(response, county.name));
             let currentIndex = recentIndex + addToIndex;
-
             //beginning and end dates for data stretch
             newObject.endDate = response[currentIndex + 6].date;
             if (response[currentIndex] && response[currentIndex].county == county.name) {
                 newObject.startDate = response[currentIndex].date;
             }
-
             //set newCountConfirmed for 7 day period
             let newCountConfirmed = setLast7(response, currentIndex, county.name);
             newObject.recentCases = newCountConfirmed;
-
             //set newCountConfirmed for 14 day period
             let newCountConfirmed14 = setLast14(response, currentIndex + 6, county.name);
 
@@ -248,13 +235,11 @@ function setMainMap(response) {
     for (let county of californiaCounties) {
 
         let recentIndex = findMostRecent(response, county.name)
-
         let totalNewCases = setLast14(response, recentIndex, county.name);
         county.recentCases = totalNewCases;
         newObject.totalNewCases14 += totalNewCases;
         let totalNewCases7Day = setLast7(response, recentIndex, county.name);
         newObject.totalNewCases7 += totalNewCases7Day;
-
         let ratePer14 = calculateRate(totalNewCases, county.population);
         county.infectionRate = ratePer14;
         const totalCountDeaths = parseInt(response[recentIndex].totalcountdeaths);
@@ -263,14 +248,15 @@ function setMainMap(response) {
         county.fatalityRate = fatalityRate;
         newObject.totalCountDeaths += totalCountDeaths;
         newObject.totalCasesConfirmed += totalCasesConfirmed;
-
         county.color = findRateGroup(ratePer14, county.name);
         findRateGroup(ratePer14, county.name);
     }
     newObject.fatalityRate = (newObject.totalCountDeaths / newObject.totalCasesConfirmed * 100).toFixed(2);
+
     if (!statewideData[0]) {
         statewideData.push(newObject);
     }
+
 }
 
 function historicalMap(index, max) {
@@ -280,7 +266,8 @@ function historicalMap(index, max) {
         return;
     }
     for (let k = 0; k < timeLapseMap.length; k++) {
-        findRateGroup(timeLapseMap[k][index].infectionRate, timeLapseMap[k][index].name);
+        const inverseIndex = max - parseInt(index);
+        findRateGroup(timeLapseMap[k][inverseIndex].infectionRate, timeLapseMap[k][inverseIndex].name);
     }
 }
 
@@ -290,13 +277,14 @@ function setStatewideData(response) {
     let addToIndex = 6;
     let currentIndex = 0;
 
+
     for (let i = 0; i < dataLength / 7; i++) {
+
 
         //set new object for 7 day period
         const newObject = { "totalNewCases7": 0, "totalNewCases14": 0, "totalCasesConfirmed": 0, "totalCountDeaths": 0 };
         let totalCountDeaths;
         let totalCountConfirmed;
-
         for (let county of californiaCounties) {
             //index of first county record
             let recentIndex = parseInt(findFirst(response, county.name));
@@ -305,50 +293,40 @@ function setStatewideData(response) {
             if (currentIndex > response.length) {
                 break;
             }
-
-
             //beginning and end dates for data stretch
             newObject.endDate = response[currentIndex].date;
             if (response[currentIndex - 6] && response[currentIndex - 6].county == county.name) {
                 newObject.startDate = response[currentIndex - 6].date;
             }
-
             //set newCountConfirmed for 7 day period
             let newCountConfirmed7 = parseInt(setLast7(response, currentIndex, county.name));
             let newCountConfirmed14 = parseInt(setLast14(response, currentIndex, county.name));
             newObject.totalNewCases7 += newCountConfirmed7;
             newObject.totalNewCases14 += newCountConfirmed14;
-
             //set totalCountConfirmed for 7 day period
             totalCountConfirmed = parseInt(response[recentIndex + addToIndex].totalcountconfirmed);
             newObject.totalCasesConfirmed += totalCountConfirmed;
-
             //set totalCountDeaths for 7 day period
             totalCountDeaths = parseInt(response[recentIndex + addToIndex].totalcountdeaths);
             newObject.totalCountDeaths += totalCountDeaths;
-
         }
         let fatalityRate = totalCountDeaths / totalCountConfirmed * 100;
         if (isNaN(fatalityRate)) {
             fatalityRate = 0;
         }
-
         //set color corresponding to rate of infection
         // newObject.color = findRateGroup(ratePer, county.name);
         //move on to next chunk of data
-
         //infectionRate
+
         newObject.infectionRate = calculateRate(newObject.totalNewCases14, statewidePopulation).toFixed(2);
+
 
 
         addToIndex += 7;
         statewideData.push(newObject);
     }
 }
-
-
-
-
 //LOCATION FUNCTIONS
 //find index of most recent data from covid county data query
 function findMostRecent(dataset, countyName) {
@@ -397,6 +375,7 @@ function locateCountyPopulation(dataset) {
         }
     }
 }
+
 
 //remove loading gif when ajax query is returned
 function getReady() {
@@ -464,6 +443,7 @@ function getReady() {
     });
     $("#weekIndex").on("input", function () {
         const value = $(this).val();
+        console.log("range value:" + value);
         historicalMap(value, $(this)[0].max);
     });
     $("#weekIndex").trigger("input");
