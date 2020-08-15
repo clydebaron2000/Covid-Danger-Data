@@ -123,27 +123,25 @@ function displayCounty(e) {
     //adding chart
     const rawChartData = findFullCountyDataByName(countyName);
     var datesArray = [];
-    var infection7RateArray = [];
     //change infection 14 day array to the right values
-    //for every 7th day, you should look 14 days into the past, and calculate the infection rate per 14 days
     var infection14RateArray = [];
+    var pointColors = [];
     var caseCountPerPeriod = [];
-    console.log(rawChartData);
-    console.log(rawChartData.length);
     for (var i = 0; i < rawChartData.length; i++) {
-        console.log(i);
-        if (i == rawChartData.length - 1) datesArray.push(moment().format("YYYY-MM-DD"));
-        else datesArray.push(rawChartData[i].endDate);
-        infection7RateArray.push(rawChartData[i].infectionRate);
-        if (i == 0) {
-            infection14RateArray.push(rawChartData[i].infectionRate);
-        } else {
-            var average14 = (parseFloat(rawChartData[i].infectionRate) + parseFloat(rawChartData[i - 1].infectionRate)) / 2;
-            infection14RateArray.push(average14.toFixed(2));
-        }
+        datesArray.push(rawChartData[i].endDate);
+        const infectionRate = rawChartData[i].infectionRate.toFixed(2);
+        infection14RateArray.push(infectionRate);
+        var color;
+        if (infectionRate < 0) color = "white"
+        else if (infectionRate < 16) color = "#FFEC81";
+        else if (infectionRate < 51) color = "#FF8F41";
+        else if (infectionRate < 101) color = "#FF4E20";
+        else if (infectionRate < 201) color = "#DC0000";
+        else if (infectionRate < 501) color = "#950000";
+        else color = "#4F0000";
+        pointColors.push(color);
         caseCountPerPeriod.push(rawChartData[i].recentCases);
     }
-    console.log(infection14RateArray);
     var chart = $("<div id='chart'>");
     chart.append($("<canvas id='chartjs-0' class='chartjs' style='display: block;float:right'>"));
     info.append(chart);
@@ -152,22 +150,14 @@ function displayCounty(e) {
         "data": {
             "labels": datesArray,
             "datasets": [{
-                "label": "7 day infection rate",
-                pointHoverRadius: 5,
-                pointHitRadius: 5,
-                "fill": false,
-                "data": infection7RateArray,
-                "borderColor": "rgb(75, 192, 192)",
-                "lineTension": 0.25
-            }, {
                 "label": "14 day infection rate",
-                "hidden": false,
-                "data": average14,
                 pointHoverRadius: 5,
                 pointHitRadius: 5,
                 "fill": false,
                 "data": infection14RateArray,
-                "borderColor": "blue",
+                pointBackgroundColor: pointColors,
+                pointBorderColor: pointColors,
+                "borderColor": "grey",
                 "lineTension": 0.25
             }]
         },
@@ -175,19 +165,19 @@ function displayCounty(e) {
             responsive: true,
             title: {
                 display: true,
-                text: `Rate of infections for ${countyName}`,
+                text: `14 day infection rates for ${countyName}`,
                 fontSize: 14,
                 fontStyle: 'bold',
             },
             legend: {
-                display: true
+                display: false
             },
             scales: {
                 xAxes: [{
                     type: 'time',
                     ticks: {
                         autoSkip: true,
-                        maxTicksLimit: 10
+                        maxTicksLimit: 11
                     }
                 }],
                 yAxes: [{
@@ -230,8 +220,8 @@ function setTimeLapseMap(response) {
             let ratePer = calculateRate(newCountConfirmed14, county.population);
             newObject.totalNewCases14 = newCountConfirmed14;
             newObject.infectionRate = ratePer;
-            console.log(newCountConfirmed14);
-            console.log(ratePer);
+            // console.log(newCountConfirmed14);
+            // console.log(ratePer);
             //total fatality rate
             let totalDeaths = parseInt(response[currentIndex + 6].totalcountdeaths);
             let totalCases = parseInt(response[currentIndex + 6].totalcountconfirmed);
@@ -283,7 +273,8 @@ function historicalMap(index, max) {
         return;
     }
     for (let k = 0; k < timeLapseMap.length; k++) {
-        findRateGroup(timeLapseMap[k][index].infectionRate, timeLapseMap[k][index].name);
+        const inverseIndex = max - parseInt(index);
+        findRateGroup(timeLapseMap[k][inverseIndex].infectionRate, timeLapseMap[k][inverseIndex].name);
     }
 }
 
@@ -457,6 +448,7 @@ function getReady() {
     });
     $("#weekIndex").on("input", function() {
         const value = $(this).val();
+        console.log("range value:" + value);
         historicalMap(value, $(this)[0].max);
     });
     $("#weekIndex").trigger("input");
