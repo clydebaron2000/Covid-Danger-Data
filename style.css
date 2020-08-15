@@ -69,7 +69,7 @@ nav {
 }
 
 #chart>canvas {
-    background: white;
+    background: #fafafa;
     border-radius: 5px;
 }
 

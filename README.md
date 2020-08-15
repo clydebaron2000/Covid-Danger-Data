@@ -5,11 +5,11 @@
 
 Table of Contents:
 
-- [Section 1: Introduction](#introduction)
-- [Section 2: User Story](#userstory)
-- [Section 2: Usage](#usage)
-- [Section 3: Acknowledgments](#acknowledgments)
-- [Section 4: License](#license)
+- [Section 1: Introduction](#Introduction)
+- [Section 2: User Story](#User Story)
+- [Section 3: APIs](#APIs)
+- [Section 4: Acknowledgments](#Resources)
+- [Section 5: License](#License)
 
 ## Introduction
 
@@ -23,37 +23,34 @@ As a family with members at risk for Covid-19, we want to know which areas in th
 
 ## APIs
 
-[The Covid Tracking Project](www.covidtracking.com/data/api):
-- Used to retrieve Covid-19 data by county and state
-- please note that due to unacceptably long wait times to return queries from Covid Tracking Project, this project relies on a CSV to API hosting solution that delivers the same up to date information from a different query address.
+### [The Covid Tracking Project](www.covidtracking.com/data/api):
+* Used to retrieve Covid-19 data by county and state
+* please note that due to unacceptably long wait times to return queries from Covid Tracking Project, this project relies on a CSV to API hosting solution that delivers the same up to date information from a different query address.
 
-[The United States Census Bureau](https://www.census.gov/data/developers.html)
-- Used for population data at state and county levels
+### [The United States Census Bureau](https://www.census.gov/data/developers.html)
+* Used for population data at state and county levels
 
-[Cal Fire](fire.ca.gov):
-- Used for location and containment status of wildfires
+### [Cal Fire](fire.ca.gov):
+* Used for location and containment status of wildfires
 
 
 ## Usage ##
 
 The source files for this quiz can be accessed through cloning the GitHub repo. The link above will take you to the deployed project. All APIs used can be accessed by developers applying for free API keys. The Google maps API is only free up to a certain amount of usage, based on a credit they apply monthly to accounts.
 
-This project relies on Covid-19 data from 
+## Resources
+### Resources from [CalFire](https://www.readyforwildfire.org/):
+* Prepare for Wildfire Action Plan
+* Emergency Supply Kit
+* Alerts 
 
+### Resources from [California Department of Public Health](https://covid19.ca.gov/):
+* Emergency Supply Kit
+* Alerts 
 
-## Acknowledgments
+### Resources from [CDC](https://www.cdc.gov):
+* Covid 19 Symptoms
+* Covid health information
 
-* SVG map of California by Wikimedia Commons user [Thadius856](https://commons.wikimedia.org/wiki/User:Thadius856).
- 
-Resources from [CalFire](https://www.readyforwildfire.org/):
-- Prepare for Wildfire Action Plan
-- Emergency Supply Kit
-- Alerts 
-
-Resources from [California Department of Public Health](https://covid19.ca.gov/):
-- Emergency Supply Kit
-- Alerts 
-
-Resources from [CDC](https://www.cdc.gov):
-- Covid 19 Symptoms
-- Covid health information
+## Lincense
+* [GNU](LICENSE)
