@@ -84,7 +84,11 @@ function setNext7(dataset, indexNum) {
     return total;
 }
 //DISPLAY FUNCTIONS
-function findCountyDataByName() {}
+function findFullCountyDataByName(name) {
+    for (var county of timeLapseMap) {
+        if (county[0].name === name) return county;
+    }
+}
 //display county info on click
 function displayCounty(e) {
     const info = $("#info");
@@ -106,20 +110,52 @@ function displayCounty(e) {
     const fatalityInfo = $("<p class='fine-print'>Fatality rate calculated by total deaths over total cases, times 100</p>");
     info.append(fatalityInfo);
     //adding chart
+    const rawChartData = findFullCountyDataByName(countyName);
+    var datesArray = [];
+    var infection7RateArray = [];
+    //change infection 14 day array to the right values
+    //for every 7th day, you should look 14 days into the past, and calculate the infection rate per 14 days
+    var infection14RateArray = [];
+    var caseCountPerPeriod = [];
+    console.log(rawChartData.length);
+    for (var i = 0; i < rawChartData.length; i++) {
+        console.log(i);
+        if (i == rawChartData.length - 1) datesArray.push(moment().format("YYYY-MM-DD"));
+        else datesArray.push(rawChartData[i].endDate);
+        infection7RateArray.push(rawChartData[i].infectionRate);
+        if (i == 0) {
+            infection14RateArray.push(rawChartData[i].infectionRate);
+        } else {
+            var average14 = (parseFloat(rawChartData[i].infectionRate) + parseFloat(rawChartData[i - 1].infectionRate)) / 2;
+            infection14RateArray.push(average14.toFixed(2));
+        }
+        caseCountPerPeriod.push(rawChartData[i].recentCases);
+    }
+    console.log(infection14RateArray);
     var chart = $("<div id='chart'>");
     chart.append($("<canvas id='chartjs-0' class='chartjs' style='display: block;float:right'>"));
     info.append(chart);
     new Chart(document.getElementById("chartjs-0"), {
         "type": "line",
         "data": {
-            "labels": ["January", "February", "March", "April", "May", "June", "July"],
+            "labels": datesArray,
             "datasets": [{
-                "label": "",
-                pointHoverRadius: 20,
-                pointHitRadius: 20,
+                "label": "7 day infection rate",
+                pointHoverRadius: 5,
+                pointHitRadius: 5,
                 "fill": false,
-                "data": [65, 59, 80, 81, 56, 55, 40],
+                "data": infection7RateArray,
                 "borderColor": "rgb(75, 192, 192)",
+                "lineTension": 0.25
+            }, {
+                "label": "14 day infection rate",
+                "hidden": false,
+                "data": average14,
+                pointHoverRadius: 5,
+                pointHitRadius: 5,
+                "fill": false,
+                "data": infection14RateArray,
+                "borderColor": "blue",
                 "lineTension": 0.25
             }]
         },
@@ -132,32 +168,23 @@ function displayCounty(e) {
                 fontStyle: 'bold',
             },
             legend: {
-                display: false
+                display: true
             },
             scales: {
+                xAxes: [{
+                    type: 'time',
+                    ticks: {
+                        autoSkip: true,
+                        maxTicksLimit: 10
+                    }
+                }],
                 yAxes: [{
                     scaleLabel: {
                         display: true,
                         labelString: "Rate of infection per 100k"
                     },
                 }]
-            },
-            // tooltips: {
-            //     callbacks: {
-            //         title: function(tooltipItem, data) {
-            //             return tooltipLabels[tooltipItem[0]['index']];
-            //         },
-            //         label: function(tooltipItem, data) {
-            //             return data['datasets'][0]['data'][tooltipItem['index']] + "°" + tempUnits;
-            //         },
-            //         afterLabel: function(tooltipItem, data) {
-            //             var out = "";
-            //             out += houlyIconDescription[tooltipItem['index']] + "\n";
-            //             out += "Wind Speed: " + hourlyWindSpeed[tooltipItem['index']] + distanceUnits;
-            //             return out;
-            //         }
-            //     }
-            // }
+            }
         }
     });
 }
@@ -236,15 +263,11 @@ function setMainMap(response) {
 
 function historicalMap(index, max) {
     max -= 1;
-    console.log("max: " + max);
-    console.log("index: " + index);
     if (index > max) { //-2 because the last section of timeLapseMap may not contain a full 14 days, so it's prefereable to use MainMap, which relies on the most recent 14 days data
-        console.log("full");
         setMainMap(wholeData);
         return;
     }
     for (let k = 0; k < timeLapseMap.length; k++) {
-        console.log(k);
         findRateGroup(timeLapseMap[k][index].infectionRate, timeLapseMap[k][index].name);
     }
 }
@@ -373,7 +396,6 @@ function getReady() {
         const value = $(this).val();
         historicalMap(value, $(this)[0].max);
     });
-    $("#play").trigger("click");
     $("#weekIndex").trigger("input");
     console.log("set-up");
 }
