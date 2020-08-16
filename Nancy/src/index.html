@@ -16,7 +16,21 @@
 <html>
 
 <head>
-  <title>Store Locator</title>
+      <!--meta-->
+      <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+      <!--css-->
+      <link href='../../assets/css/plover.css' rel='stylesheet' type='text/css'>
+      <!-- <link href="../../style.css" rel="stylesheet" type='text/css'> -->
+      <!--moment-->
+      <script src='//cdnjs.cloudflare.com/ajax/libs/moment.js/2.7.0/moment.min.js'></script>
+      <!-- font awesome -->
+      <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+      <!--Import Google Icon Font-->
+      <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+      <!--Import materialize.css-->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+      
+  <title>California Go-No-Go</title>
   <style>
     #map {
       height: 100%;
@@ -111,13 +125,129 @@
   </style>
 </head>
 
-<body>
-  <!-- The div to hold the map -->
-  <div id="map"></div>
+<body class="flexwrap">
+  <ul id="dropdown1" class="dropdown-content">
+    <li><a href="#!">California</a></li>
+    <li class="divider"></li>
+    <li><a href="#!">another state</a></li>
+</ul>
 
+<nav class="top grey darken-2">
+    <div class="nav-wrapper">
+        <ul class="left">
+            <li>
+                <a href="#" class="lightgrey-text" style='font-size: 2rem;'>Logo</a>
+            </li>
+        </ul>
+        <ul class="hide-on-sm-and-down right">
+            <li>
+                <a id='drop' class="dropdown-trigger" href="#!" data-target="dropdown1">California<i
+                        class="material-icons right">arrow_drop_down</i></a>
+            </li>
+            <li>
+                <form class="col s12" id="topbarsearch" action="#!">
+                    <div class="input-field col s6 s12 grey-text">
+                        <i class="white-text material-icons prefix" style='top:+.25rem'>search</i>
+                        <input id="userCity" type="text" action="" style='caret-color:white;margin:0;margin-left: 2rem;padding-left:0;background: none;' placeholder="search your city" id="autocomplete-input" class="autocomplete white-text" autocomplete="off">
+                        <!-- onkeyup -->
+                    </div>
+                </form>
+
+            </li>
+        </ul>
+    </div>
+    <div class="section no-pad-bot" id="index-banner">
+    </div>
+</nav>
+<div class="body row">
+  <div class="col s12 m3 l3 grey">
+      <div class="container" style='margin:0; width:100%'>
+          <ul class="collapsible" data-collapsible="accordion">
+              <li class='active'>
+                  <div class="collapsible-header">
+                      <i class="material-icons">coronavirus</i>COVID-19 Guidelines
+                  </div>
+                  <div class="collapsible-body">
+                      <p>
+                          Lorem ipsum dolor sit amet consectetur adipisicing elit. Sit vero modi odit aspernatur ipsa corrupti quae quia rerum, culpa a quaerat veritatis ipsum perferendis officiis unde consectetur provident aperiam recusandae?
+                      </p>
+                  </div>
+              </li>
+
+              <li>
+                  <div class="collapsible-header">
+                      <i class="material-icons">local_fire_department</i>Fire Safety
+                  </div>
+                  <div class="collapsible-body">
+                      <p>This is second section.</p>
+                  </div>
+              </li>
+          </ul>
+      </div>
+  </div>
+  <div class="col s12 m5 l5 grey lighten-3 flexwrap">
+     <div id= "map-holder" class="row map">
+      <label for='weekIndex' class='black-text'>Weeks since the beginning of data</label>
+      <div class=' block top ' style="display:flex">
+          <button id="play">
+              <i class="material-icons">play_arrow</i>
+          </button>
+          <button id="pause" style=' display: none; '>
+              <i class="material-icons">pause</i>
+          </button>
+          <p class="range-field" style=' margin:0;width:-webkit-fill-available '>
+              <input type="range" id="weekIndex" min="0" max="2" value="2" />
+          </p>
+      
+      <!-- <img id="loading" src="./assets/images/loading.gif" /> -->
+        <aside>
+            <div id="title" style=' display:inline-flex;flex-direction: row;justify-content: center; '>
+                <i class="material-icons">coronavirus</i>
+                <div>
+                    14 day rate per 100k:
+                </div>
+            </div>
+            <div id="legend">
+                <div class="label">0-15:
+                    <div class="r15 legend"></div>
+                </div>
+                <div class="label">16-50:
+                    <div class="r50 legend"></div>
+                </div>
+                <div class="label">51-100:
+                    <div class="r100 legend"></div>
+                </div>
+                <div class="label">101-200:
+                    <div class="r200 legend"></div>
+                </div>
+                <div class="label">201-500:
+                    <div class="r500 legend"></div>
+                </div>
+                <div class="label">501+:
+                    <div class="rMore legend"></div>
+                </div>
+            </div>
+        </aside>
+    </div>
+    <div class="row">
+      <!-- The div to hold the map -->
+      <div id="map"></div>
+    </div>
+    <div id='sidePanel' class="col s12 m4 l4 grey lighten-1">
+      <div id="info"></div>
+  </div>
+   
+  </div>
+</div>
+<!-- JQuery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<!-- the script that does the api things -->
+<script src='./assets/js/gif-base.js'></script>
   <script src="./assets/js/app.js"></script>
-  <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDghaJQj_qgYqvWND7-Huz2rcdtzEXWuc4&libraries=places&callback=initMap">
+  <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDghaJQj_qgYqvWND7-Huz2rcdtzEXWuc4&libraries=places&callback=initMap">
   </script>
+  
+  
 </body>
 
 </html>

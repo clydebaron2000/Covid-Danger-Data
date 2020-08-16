@@ -1,17 +1,3 @@
-/*
- * Copyright 2017 Google Inc. All rights reserved.
- *
- *
- * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this
- * file except in compliance with the License. You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software distributed under
- * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF
- * ANY KIND, either express or implied. See the License for the specific language governing
- * permissions and limitations under the License.
- */
 
 // Style credit: https://snazzymaps.com/style/1/pale-dawn
 const mapStyle = [{
@@ -91,6 +77,7 @@ const mapStyle = [{
 },
 ];
 
+
 // Escapes HTML characters in a template literal string, to prevent XSS.
 // See https://www.owasp.org/index.php/XSS_%28Cross_Site_Scripting%29_Prevention_Cheat_Sheet#RULE_.231_-_HTML_Escape_Before_Inserting_Untrusted_Data_into_HTML_Element_Content
 function sanitizeHTML(strings) {
@@ -105,60 +92,58 @@ function sanitizeHTML(strings) {
   return result;
 }
 
+function include(file) { 
+  
+  var script  = document.createElement('script'); 
+  script.src  = file; 
+  script.type = 'text/javascript'; 
+  script.defer = true; 
+  
+  document.getElementsByTagName('body').item(0).appendChild(script); 
+  
+} 
+
 /**
  * Initialize the Google Map.
  */
 function initMap() {
+  
   // Create the map.
   const map = new google.maps.Map(document.getElementById('map'), {
-    zoom: 7,
-    center: {lat: 32.6203047, lng: -117.0014208},
-    styles: mapStyle,
+    zoom: 6,
+    center: {lat: 35.669696 , lng:  -119.0997248},
+    styles: mapStyle
   });
+
 
   // Load the fire and county GeoJSON onto the map.
+  
+  // this results in header fields too large error
+  /*
+  let fireURL = "https://www.fire.ca.gov/umbraco/api/IncidentApi/GeoJsonList?year=2020";
+  $.getJSON('http://www.whateverorigin.org/get?url=' + encodeURIComponent(fireURL) + '&callback=?', function(data){
+    console.log(data.contents);
+    map.data.loadGeoJson(data.contents, {idPropertyName: 'UniqueId'});
+  });
+*/  
+
+// Load the fire and county GeoJSON onto the map.
   map.data.loadGeoJson('./assets/json/fires.json', {idPropertyName: 'UniqueId'});
+  // Load county map polygons
   map.data.loadGeoJson('./assets/json/california-counties.json', {idCountyName: 'name'});
 
+
+
+  
   // color the counties and place wildfire icons
 let defaultColor = "black";
-let color1 = "red";
-let color2 = "orange";
-let color3 = "yellow";
+let mapCounty, iconURL, countyColor, rateIndex ;
 
-let regex1 = RegExp("^[A-F].*$");
-let regex2 = RegExp("^[G-L].*$");
-let regex3 = RegExp("^[L-Z].*$");
-
-  map.data.setStyle(feature => {
-    let color;
-    let countyName = feature.getProperty('name');
-    console.log(feature.getProperty('name'));
-    // color counties based on name as a test
-    if (regex1.test(countyName)){
-      color = color1;
-    } else if (regex2.test(countyName)){
-      color = color2;
-    } else if (regex3.test(countyName)){
-      color = color3;
-    } else {
-      color = defaultColor;
-    }
-    
-    return /** @type {!google.maps.Data.StyleOptions} */ {
-        icon:{
-          url: `./assets/img/icon_${feature.getProperty('Type')}.png`,
-          scaledSize: new google.maps.Size(24, 44),
-        },
-        
-          fillColor: color,
-          strokeColor: color,
-          strokeWeight: 2
-        
-      };
-  });
-
-
+// ************************************************************
+// 
+// This part of the code will eventually display Clyde's charts
+// 
+// ************************************************************
   const apiKey = 'AIzaSyDghaJQj_qgYqvWND7-Huz2rcdtzEXWuc4';
   const infoWindow = new google.maps.InfoWindow();
 
@@ -169,7 +154,7 @@ let regex3 = RegExp("^[L-Z].*$");
     const description = event.feature.getProperty('Location');
     const moreInfo = event.feature.getProperty('Url');
     const containment = event.feature.getProperty('PercentContained');
-    const position = event.feature.getGeometry().get();
+    // const position = event.feature.getGeometry().get();
     const content = sanitizeHTML`
       <img style="float:left; width:215px; margin-top:30px" src="./assets/img/icon_${type}.png">
       <div style="margin-left:235px; margin-bottom:20px;">
@@ -185,187 +170,72 @@ let regex3 = RegExp("^[L-Z].*$");
     infoWindow.open(map);
   });
 
-//   // Build and add the search bar
-//   const card = document.createElement('div');
-//   const titleBar = document.createElement('div');
-//   const title = document.createElement('div');
-//   const container = document.createElement('div');
-//   const input = document.createElement('input');
-//   const options = {
-//     types: ['address'],
-//     componentRestrictions: {country: 'gb'},
-//   };
 
-//   card.setAttribute('id', 'pac-card');
-//   title.setAttribute('id', 'title');
-//   title.textContent = 'Find the nearest store';
-//   titleBar.appendChild(title);
-//   container.setAttribute('id', 'pac-container');
-//   input.setAttribute('id', 'pac-input');
-//   input.setAttribute('type', 'text');
-//   input.setAttribute('placeholder', 'Enter an address');
-//   container.appendChild(input);
-//   card.appendChild(titleBar);
-//   card.appendChild(container);
-//   map.controls[google.maps.ControlPosition.TOP_RIGHT].push(card);
+// get output 
+var theseCounties = JSON.parse(localStorage.getItem("countyRate"));
 
-//   // Make the search bar into a Places Autocomplete search bar and select
-//   // which detail fields should be returned about the place that
-//   // the user selects from the suggestions.
-//   const autocomplete = new google.maps.places.Autocomplete(input, options);
+function colorTheRainbow(obj, k){
+  
+      console.log("Color the Rainbow Output");
+      console.log(obj[k].name);
+      localCountyName = obj[k].name;
+      console.log(obj[k].infectionRate);
 
-//   autocomplete.setFields(
-//       ['address_components', 'geometry', 'name']);
+      let number = obj[k].infectionRate;
+      if (number <= 15) {
+          rateIndex = "r15";
+          countyColor = "#FFEC81";
+      } else if (number <= 50) {
+          rateIndex = "r50";
+          countyColor = "#FF8F41";
+      } else if (number <= 100) {
+          rateIndex = "r100";
+          countyColor = "#FF4E20";
+      } else if (number <= 200) {
+          rateIndex = "r200";
+          countyColor = "#DC0000";
+      } else if (number <= 500) {
+          rateIndex = "r500";
+          countyColor = "#950000";
+      } else {
+          rateIndex = "rMore";
+          countyColor = "#4F0000";
+      }
+  return console.log(countyColor)
+}
 
-//   // Set the origin point when the user selects an address
-//   const originMarker = new google.maps.Marker({map: map});
-//   originMarker.setVisible(false);
-//   let originLocation = map.getCenter();
+/*
+// 
+// STYLE THE MAP DATA LAYER
+// 
+*/
+map.data.setStyle(function(feature){
+  mapCounty = feature.getProperty('name');
+  // iconURL = `./assets/img/icon_Wildfire.png`;
+  for (i=0; i<theseCounties.length; i++){
+    if (theseCounties[i].name === mapCounty){
+      console.log ("we have a match");
+      colorTheRainbow(theseCounties, i)
+    }
+  }
+  if (feature.getProperty('IsActive')=== "Y"){
+    // figure out how to only show active fire icons using show/hide map.setOptions
+  };
 
-//   autocomplete.addListener('place_changed', async () => {
-//     originMarker.setVisible(false);
-//     originLocation = map.getCenter();
-//     const place = autocomplete.getPlace();
+      outlineWeight = zIndex = 2;
+      color = countyColor;
+    // }
+  
+  return /** @type {!google.maps.Data.StyleOptions} */ {
+    icon:{
+      url: `./assets/img/icon_Wildfire.png`,
+      scaledSize: new google.maps.Size(24, 44),
 
-//     if (!place.geometry) {
-//       // User entered the name of a Place that was not suggested and
-//       // pressed the Enter key, or the Place Details request failed.
-//       window.alert('No address available for input: \'' + place.name + '\'');
-//       return;
-//     }
-
-//     // Recenter the map to the selected address
-//     originLocation = place.geometry.location;
-//     map.setCenter(originLocation);
-//     map.setZoom(9);
-//     console.log(place);
-
-//     originMarker.setPosition(originLocation);
-//     originMarker.setVisible(true);
-
-//     // Use the selected address as the origin to calculate distances
-//     // to each of the store locations
-//     // const rankedStores = await calculateDistances(map.data, originLocation);
-//     // showStoresList(map.data, rankedStores);
-
-//     return;
-//   });
-// }
-
-
-// /**
-//  * Use Distance Matrix API to calculate distance from origin to each store.
-//  * @param {google.maps.Data} data The geospatial data object layer for the map
-//  * @param {google.maps.LatLng} origin Geographical coordinates in latitude
-//  * and longitude
-//  * @return {Promise<object[]>} n Promise fulfilled by an array of objects with
-//  * a distanceText, distanceVal, and storeid property, sorted ascending
-//  * by distanceVal.
-//  */
-
-// async function calculateDistances(data, origin) {
-//   const stores = [];
-//   const destinations = [];
-
-//   // Build parallel arrays for the store IDs and destinations
-//   data.forEach((store) => {
-//     const storeNum = store.getProperty('storeid');
-//     const storeLoc = store.getGeometry().get();
-
-//     stores.push(storeNum);
-//     destinations.push(storeLoc);
-//   });
-
-//   // Retrieve the distances of each store from the origin
-//   // The returned list will be in the same order as the destinations list
-//   const service = new google.maps.DistanceMatrixService();
-//   const getDistanceMatrix =
-//     (service, parameters) => new Promise((resolve, reject) => {
-//       service.getDistanceMatrix(parameters, (response, status) => {
-//         if (status != google.maps.DistanceMatrixStatus.OK) {
-//           reject(response);
-//         } else {
-//           const distances = [];
-//           const results = response.rows[0].elements;
-//           for (let j = 0; j < results.length; j++) {
-//             const element = results[j];
-//             const distanceText = element.distance.text;
-//             const distanceVal = element.distance.value;
-//             const distanceObject = {
-//               storeid: stores[j],
-//               distanceText: distanceText,
-//               distanceVal: distanceVal,
-//             };
-//             distances.push(distanceObject);
-//           }
-
-//           resolve(distances);
-//         }
-//       });
-//     });
-
-//   const distancesList = await getDistanceMatrix(service, {
-//     origins: [origin],
-//     destinations: destinations,
-//     travelMode: 'DRIVING',
-//     unitSystem: google.maps.UnitSystem.METRIC,
-//   });
-
-//   distancesList.sort((first, second) => {
-//     return first.distanceVal - second.distanceVal;
-//   });
-
-//   return distancesList;
-// }
-
-// /**
-//  * Build the content of the side panel from the sorted list of stores
-//  * and display it.
-//  * @param {google.maps.Data} data The geospatial data object layer for the map
-//  * @param {object[]} stores An array of objects with a distanceText,
-//  * distanceVal, and storeid property.
-//  */
-// function showStoresList(data, stores) {
-//   if (stores.length == 0) {
-//     console.log('empty stores');
-//     return;
-//   }
-
-//   let panel = document.createElement('div');
-//   // If the panel already exists, use it. Else, create it and add to the page.
-//   if (document.getElementById('panel')) {
-//     panel = document.getElementById('panel');
-//     // If panel is already open, close it
-//     if (panel.classList.contains('open')) {
-//       panel.classList.remove('open');
-//     }
-//   } else {
-//     panel.setAttribute('id', 'panel');
-//     const body = document.body;
-//     body.insertBefore(panel, body.childNodes[0]);
-//   }
-
-
-//   // Clear the previous details
-//   while (panel.lastChild) {
-//     panel.removeChild(panel.lastChild);
-//   }
-
-//   stores.forEach((store) => {
-//     // Add store details with text formatting
-//     const name = document.createElement('p');
-//     name.classList.add('place');
-//     const currentStore = data.getFeatureById(store.storeid);
-//     name.textContent = currentStore.getProperty('name');
-//     panel.appendChild(name);
-//     const distanceText = document.createElement('p');
-//     distanceText.classList.add('distanceText');
-//     distanceText.textContent = store.distanceText;
-//     panel.appendChild(distanceText);
-//   });
-
-//   // Open the panel
-//   panel.classList.add('open');
-
-//   return;
+    },
+    fillColor: color,
+    strokeColor: color,
+    strokeWeight: outlineWeight,
+    
+  };
+});
 }
