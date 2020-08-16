@@ -81,6 +81,8 @@ p {
     width: 100px;
     top: 40px;
     right: 20px;
+    z-index: 100;
+    background-color: lightgray;
 }
 
 .label {
@@ -95,6 +97,7 @@ p {
     border-radius: 2px;
     position: absolute;
     right: 0px;
+    z-index: 100;
 }
 
 
