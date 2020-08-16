@@ -78,7 +78,7 @@ const mapStyle = [{
 ];
 
 // set up some global variables
-let mapCounty,countyColor, timeFrame;
+let mapCounty,countyColor, timeFrame, map;
 
 // get output 
 var theseCounties = JSON.parse(localStorage.getItem("historicRate"));
@@ -145,7 +145,7 @@ function drawMap(weekIndex) {
 // console.log("Time frame:");
 // console.log(timeFrame);
   // Create the map.
-  const map = new google.maps.Map(document.getElementById('googMap'), {
+  map = new google.maps.Map(document.getElementById('googMap'), {
     zoom: 6,
     center: {lat: 37.669696 , lng:  -120.0997248},
     disableDefaultUI: true
