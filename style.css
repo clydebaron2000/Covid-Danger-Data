@@ -10,6 +10,10 @@ body {
     height: 100%;
 }
 
+.flexwrap>.block {
+    padding: 5px;
+}
+
 nav {
     flex: 0 1 auto;
 }
@@ -31,6 +35,15 @@ nav {
     height: 100%;
 }
 
+.container>section>h5 {
+    color: white;
+}
+
+.container>section>h5>i {
+    color: white;
+    border-radius: 15px;
+}
+
 #legend>.label {
     font-size: .75rem;
 }
@@ -40,6 +53,11 @@ nav {
     overflow-y: auto;
     padding: .5rem;
     background: white;
+}
+
+.collapsible {
+    border-radius: 1rem;
+    background-color: white;
 }
 
 .collapsible>li>.collapsible-body>p {
@@ -57,6 +75,13 @@ nav {
 
 .collapsible-header {
     font-size: .75rem;
+    border-radius: 1rem;
+}
+
+.collapsible-heder::after {
+    -webkit-box-shadow: 0 4px 6px -6px #222;
+    -moz-box-shadow: 0 4px 6px -6px #222;
+    box-shadow: 0 4px 6px -6px #222;
 }
 
 .collapsible-body>div>div .row {
@@ -130,6 +155,19 @@ nav {
     display: flex;
 }
 
+
+/* slider and play */
+
+#play,
+#pause {
+    border: none;
+    border-radius: 1rem;
+    -webkit-box-shadow: 0 4px 6px -6px #222;
+    -moz-box-shadow: 0 4px 6px -6px #222;
+    box-shadow: 0 4px 6px -6px #222;
+    margin: .5rem;
+}
+
 input[type=range]::-webkit-slider-thumb {
     background-color: red;
 }
@@ -164,4 +202,11 @@ input[type=range]+.thumb.active .value {
 
 .dropdown-content li>span {
     color: slategray;
+}
+
+
+/* ---------- */
+
+#info {
+    background-color: white;
 }
