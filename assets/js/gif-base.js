@@ -87,6 +87,10 @@ function displayCounty(e) {
     // const countyName = $(this).attr("id").replace(/_/g, " ");
     const countyName = e;
     const thisCounty = findCounty(countyName);
+    if (thisCounty === undefined) {
+        info.append($("<p>").text("Please click a county."));
+        return;
+    }
     const countyHeader = $(`<h5>${thisCounty.name} County</h5>`);
     info.append(countyHeader);
     info.append($("<hr>"));
@@ -143,7 +147,8 @@ function displayCounty(e) {
                 pointBackgroundColor: pointColors,
                 pointBorderColor: pointColors,
                 "borderColor": "grey",
-                "lineTension": 0.25
+                "lineTension": 0.5,
+                borderWidth: .5
             }]
         },
         "options": {
@@ -295,7 +300,7 @@ function setMainMap(response) {
 function historicalMap(index, max) {
     max -= 1;
     if (index > max) { //-2 because the last section of timeLapseMap may not contain a full 14 days, so it's prefereable to use MainMap, which relies on the most recent 14 days data
-        setMainMap(wholeData);
+        // setMainMap(wholeData);
         return;
     }
     for (let k = 0; k < timeLapseMap.length; k++) {
@@ -467,11 +472,9 @@ function getReady() {
         const value = $(this).val();
         console.log("range value:" + value);
         let dataIndex = timeLapseMap[0].length - value - 2; // -2 because the some counties didn't report until two weeks after data collection started
-
         // historicalMap(value, $(this)[0].max);
         setMainMap(wholeData);
-        console.log ("data index: " + dataIndex);
-
+        console.log("data index: " + dataIndex);
         drawMap(dataIndex)
     });
     $("#weekIndex").trigger("input");
