@@ -81,15 +81,15 @@ const mapStyle = [{
 // Escapes HTML characters in a template literal string, to prevent XSS.
 // See https://www.owasp.org/index.php/XSS_%28Cross_Site_Scripting%29_Prevention_Cheat_Sheet#RULE_.231_-_HTML_Escape_Before_Inserting_Untrusted_Data_into_HTML_Element_Content
 function sanitizeHTML(strings) {
-  const entities = {'&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\'': '&#39;'};
-  let result = strings[0];
-  for (let i = 1; i < arguments.length; i++) {
-    result += String(arguments[i]).replace(/[&<>'"]/g, (char) => {
-      return entities[char];
-    });
-    result += strings[i];
-  }
-  return result;
+    const entities = { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', '\'': '&#39;' };
+    let result = strings[0];
+    for (let i = 1; i < arguments.length; i++) {
+        result += String(arguments[i]).replace(/[&<>'"]/g, (char) => {
+            return entities[char];
+        });
+        result += strings[i];
+    }
+    return result;
 }
 
 function include(file) { 

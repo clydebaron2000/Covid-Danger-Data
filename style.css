@@ -36,17 +36,40 @@ nav {
 }
 
 .collapsible>li>.collapsible-body {
-    max-height: 70vh;
+    max-height: 20vh;
     overflow-y: auto;
     padding: .5rem;
+    background: white;
 }
 
 .collapsible>li>.collapsible-body>p {
     margin: 0;
 }
 
+.collapsible-body {
+    padding: 5px;
+}
+
+.collapsible-body>div>div .row {
+    margin: 0;
+    padding: 5px;
+}
+
+.collapsible-header {
+    font-size: .75rem;
+}
+
+.collapsible-body>div>div .row {
+    margin: 0;
+    padding: 5px;
+}
+
+.collapsible-body>div>.row {
+    margin: 0;
+}
+
 #chart>canvas {
-    background: white;
+    background: #fafafa;
     border-radius: 5px;
 }
 
@@ -105,4 +128,40 @@ nav {
     width: 100%;
     bottom: 0;
     display: flex;
+}
+
+input[type=range]::-webkit-slider-thumb {
+    background-color: red;
+}
+
+input[type=range]::-moz-range-thumb {
+    background-color: red;
+}
+
+input[type=range]::-ms-thumb {
+    background-color: red;
+}
+
+
+/***** These are to edit the thumb and the text inside the thumb *****/
+
+input[type=range]+.thumb {
+    background-color: #dedede;
+}
+
+input[type=range]+.thumb.active .value {
+    color: black;
+}
+
+.input-field input:focus {
+    border-bottom: 1px solid white !important;
+    box-shadow: 0 1px 0 0 white !important
+}
+
+.input-field input:focus+label {
+    color: white !important;
+}
+
+.dropdown-content li>span {
+    color: slategray;
 }

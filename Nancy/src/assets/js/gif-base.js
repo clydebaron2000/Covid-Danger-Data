@@ -40,33 +40,24 @@ function calculateRate(incidence, population) {
     return (parseInt(incidence) / parseInt(population)) * 100000;
 }
 //return total of all new cases in the last two weeks
-function setLast14(dataset, indexNum, countyName) {
+function setLast14(dataset, indexNum) {
     let total = 0;
     let index = indexNum;
     for (let i = 0; i < 14; i++) {
-        if (dataset[index] && dataset[index].county == countyName) {
-            if (dataset[index].newcountconfirmed){
-                let additional = parseInt(dataset[index].newcountconfirmed);
-                total += parseInt(additional);
-            }
-                    } else {
-            total += 0;
+        if (dataset[index].newcountconfirmed) {
+            total += parseInt(dataset[index].newcountconfirmed);
         }
         index--;
     }
     return total;
 }
 //return total of all new cases in the last two weeks
-function setLast7(dataset, indexNum, countyName) {
+function setLast7(dataset, indexNum) {
     let total = 0;
     let index = indexNum;
     for (let i = 0; i < 7; i++) {
-        if (dataset[index] && dataset[index].county == countyName) {
-            if (dataset[index].newcountconfirmed) {
-                total += parseInt(dataset[index].newcountconfirmed);
-            }
-        } else {
-            total +0;
+        if (dataset[index].newcountconfirmed) {
+            total += parseInt(dataset[index].newcountconfirmed);
         }
         index--;
     }
