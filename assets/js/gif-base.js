@@ -467,7 +467,8 @@ function getReady() {
         const value = $(this).val();
         console.log("range value:" + value);
         let dataIndex = timeLapseMap[0].length - value - 2; // -2 because the some counties didn't report until two weeks after data collection started
-        historicalMap(value, $(this)[0].max);
+        // historicalMap(value, $(this)[0].max);
+        setMainMap(wholeData);
         console.log("data index: " + dataIndex);
         drawMap(dataIndex)
     });
