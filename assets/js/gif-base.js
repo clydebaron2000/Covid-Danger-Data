@@ -7,30 +7,31 @@ let statewidePopulation;
 //AJAX QUERIES - county population from US Census, historical Covid data by CA county
 //query current and past county data
 let censusSateURL = "https://api.census.gov/data/2019/pep/population?key=45876004e2fbfafe56615f040f2172ee79c77643&get=POP&for=state:06"
-$.ajax({
+$.when($.ajax({
     url: censusSateURL,
     method: "GET"
-}).then(function(response) {
+})).then(function(response) {
     statewidePopulation = parseInt(response[1][0]);
 })
 let censusCountyURL = "https://api.census.gov/data/2019/pep/population?key=45876004e2fbfafe56615f040f2172ee79c77643&get=POP&in=state:06&for=county:*";
-$.ajax({
+$.when($.ajax({
     url: censusCountyURL,
     method: "GET"
-}).then(function(response) {
+})).then(function(response) {
     locateCountyPopulation(response);
 })
 let csvSource = "https://data.ca.gov/dataset/590188d5-8545-4c93-a9a0-e230f0db7290/resource/926fd08f-cc91-4828-af38-bd45de97f8c3/download/statewide_cases.csv";
 let csvURL = "https://c19d.zzzkitty.com/?source=" + csvSource;
-$.ajax({
+$.when($.ajax({
         url: csvURL,
         method: "GET"
-    }).then(function(response) {
+    })).then(function(response) {
         wholeData = response;
-        setMainMap(response, $("#weekIndex")[0].max);
+        // setMainMap(response, $("#weekIndex")[0].max);
         setTimeLapseMap(response);
         getReady();
         setStatewideData(response);
+        localStorage.setItem("countyRate", JSON.stringify(californiaCounties));
     })
     //FUNCTIONS 
     //CALCULATION FUNCTIONS
@@ -83,7 +84,8 @@ function displayCounty(e) {
     const info = $("#info");
     info.empty();
     info.css("display", "flow-root");
-    const countyName = $(this).attr("id").replace(/_/g, " ");
+    // const countyName = $(this).attr("id").replace(/_/g, " ");
+    const countyName = e;
     const thisCounty = findCounty(countyName);
     const countyHeader = $(`<h5>${thisCounty.name} County</h5>`);
     info.append(countyHeader);
@@ -106,7 +108,7 @@ function displayCounty(e) {
     var pointColors = [];
     var caseCountPerPeriod = [];
     var totalNewCasesArray = [];
-    console.log(rawChartData);
+    // console.log(rawChartData);
     for (var i = 0; i < rawChartData.length; i++) {
         datesArray.push(rawChartData[i].endDate);
         const infectionRate = rawChartData[i].infectionRate.toFixed(2);
@@ -260,6 +262,7 @@ function setTimeLapseMap(response) {
             newArray.push(newObject);
         }
         timeLapseMap.push(newArray);
+        localStorage.setItem("historicRate", JSON.stringify(timeLapseMap));
     }
 }
 
@@ -297,7 +300,7 @@ function historicalMap(index, max) {
     }
     for (let k = 0; k < timeLapseMap.length; k++) {
         const inverseIndex = max - parseInt(index);
-        findRateGroup(timeLapseMap[k][inverseIndex].infectionRate, timeLapseMap[k][inverseIndex].name);
+        // findRateGroup(timeLapseMap[k][inverseIndex].infectionRate, timeLapseMap[k][inverseIndex].name);
     }
 }
 
@@ -398,13 +401,13 @@ function locateCountyPopulation(dataset) {
 }
 //remove loading gif when ajax query is returned
 function getReady() {
-    $("#loading").css("display", "none");
-    $("path").on("click", displayCounty);
-    $("polyline").on("click", displayCounty);
-    $("polygon").on("click", displayCounty);
-    $("path").addClass("hover");
-    $("polyline").addClass("hover");
-    $("polygon").addClass("hover");
+    // $("#loading").css("display", "none");
+    // $("path").on("click", displayCounty);
+    // $("polyline").on("click", displayCounty);
+    // $("polygon").on("click", displayCounty);
+    // $("path").addClass("hover");
+    // $("polyline").addClass("hover");
+    // $("polygon").addClass("hover");
     //-------------
     // clyde's new code
     var countyAutofill = {};
@@ -438,7 +441,7 @@ function getReady() {
         if (i >= range[0].max) {
             i = 0;
         }
-        const timeInterval = 500;
+        const timeInterval = 1500;
         interval = setInterval(function() {
             if (i >= range[0].max) {
                 clearInterval(interval);
@@ -462,7 +465,11 @@ function getReady() {
     });
     $("#weekIndex").on("input", function() {
         const value = $(this).val();
+        console.log("range value:" + value);
+        let dataIndex = timeLapseMap[0].length - value - 2; // -2 because the some counties didn't report until two weeks after data collection started
         historicalMap(value, $(this)[0].max);
+        console.log("data index: " + dataIndex);
+        drawMap(dataIndex)
     });
     $("#weekIndex").trigger("input");
 }
