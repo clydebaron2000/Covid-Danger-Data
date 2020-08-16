@@ -40,8 +40,7 @@ nav {
     font-weight: bold;
 }
 
-.container>section>h5>i {
-    color: white;
+i {
     border-radius: 15px;
 }
 
@@ -205,7 +204,7 @@ input[type=range]+.thumb.active .value {
 }
 
 .dropdown-content li>span {
-    color: white;
+    color: slategrey;
 }
 
 
