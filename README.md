@@ -6,7 +6,7 @@
 Table of Contents:
 
 - [Section 1: Introduction](#Introduction)
-- [Section 2: User Story](#userstory)
+- [Section 2: User Story](#user-story)
 - [Section 3: APIs](#APIs)
 - [Section 4: Acknowledgments](#Resources)
 - [Section 5: License](#License)
@@ -52,5 +52,5 @@ The source files for this quiz can be accessed through cloning the GitHub repo. 
 * Covid 19 Symptoms
 * Covid health information
 
-## Lincense
+## License
 * [GNU](LICENSE)
