@@ -263,7 +263,6 @@ function setTimeLapseMap(response) {
         }
         timeLapseMap.push(newArray);
         localStorage.setItem("historicRate", JSON.stringify(timeLapseMap));
-        
     }
 }
 
@@ -388,7 +387,6 @@ function findRateGroup(number, countyName) {
     $(`#${countyName.replace(/\s/g, "_")}`).removeClass();
     $(`#${countyName.replace(/\s/g, "_")}`).addClass("hover");
     $(`#${countyName.replace(/\s/g, "_")}`).addClass(rate);
-    
     return rate;
 }
 //get county code from californiaCountyIDs, and find the matching population data from Census API response
@@ -469,10 +467,12 @@ function getReady() {
         const value = $(this).val();
         console.log("range value:" + value);
         let dataIndex = timeLapseMap[0].length - value - 2; // -2 because the some counties didn't report until two weeks after data collection started
-        historicalMap(value, $(this)[0].max);
+
+        // historicalMap(value, $(this)[0].max);
+        setMainMap(wholeData);
         console.log ("data index: " + dataIndex);
+
         drawMap(dataIndex)
     });
     $("#weekIndex").trigger("input");
-    console.log("set-up");
 }
