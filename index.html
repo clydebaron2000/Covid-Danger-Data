@@ -30,7 +30,7 @@
         <li><a href="#!">Comming soon!</a></li>
     </ul>
 
-    <nav class="top grey darken-2">
+    <nav class="top red darken-2">
         <div class="nav-wrapper">
             <ul class="left">
                 <li>
@@ -60,7 +60,7 @@
             <div class="container" style='margin:0; width:100%'>
                 <section>
                     <h5>
-                        <i class="material-icons">local_fire_department</i> Wildfire Preparedness
+                        <i class="material-icons orange-text lighten-1 white">local_fire_department</i> Wildfire Preparedness
                     </h5>
                     <ul class="collapsible">
                         <li class='active'>
@@ -141,7 +141,7 @@
                 </section>
                 <section>
                     <h5>
-                        <i class="material-icons">coronavirus</i> Covid-19 Toolkit
+                        <i class="material-icons red-text lighten-1 white">coronavirus</i> Covid-19 Toolkit
                     </h5>
                     <ul class="collapsible">
                         <li>
@@ -247,12 +247,14 @@
             </div>
         </div>
         <div class="col s12 m5 l5 grey lighten-3 flexwrap">
-            <label for='weekIndex' class='black-text'>Weeks since the beginning of data (3/20/2020)</label>
+            <div>
+                <label for='weekIndex' class='black-text'>Weeks since the beginning of data (3/20/2020)</label>
+            </div>
             <div class=' block top ' style="display:flex">
-                <button id="play">
+                <button id="play" class="red-text darken-4 white">
                     <i class="material-icons">play_arrow</i>
                 </button>
-                <button id="pause" style=' display: none; '>
+                <button id="pause" class='white-text red' style=' display: none; '>
                     <i class="material-icons">pause</i>
                 </button>
                 <p class="range-field" style=' margin:0;width:-webkit-fill-available '>
@@ -290,15 +292,15 @@
                             </div>
                         </div>
                     </aside>
-                    
-                    
+
+
                 </div>
                 <!--/map-holder-->
-                
+
             </div>
-            
+
             <div id="googMap" style="height: 100%;"></div>
-            
+
             <!--main-->
         </div>
         <div id='sidePanel' class="col s12 m4 l4 grey lighten-1">
