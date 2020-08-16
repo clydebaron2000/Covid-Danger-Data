@@ -87,6 +87,10 @@ function displayCounty(e) {
     // const countyName = $(this).attr("id").replace(/_/g, " ");
     const countyName = e;
     const thisCounty = findCounty(countyName);
+    if (thisCounty === undefined) {
+        info.append($("<p>").text("Please click a county."));
+        return;
+    }
     const countyHeader = $(`<h5>${thisCounty.name} County</h5>`);
     info.append(countyHeader);
     info.append($("<hr>"));

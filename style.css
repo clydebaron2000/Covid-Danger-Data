@@ -37,6 +37,7 @@ nav {
 
 .container>section>h5 {
     color: white;
+    font-weight: bold;
 }
 
 .container>section>h5>i {
@@ -76,14 +77,8 @@ nav {
 }
 
 .collapsible-header {
-    font-size: 1.5rem;
+    font-size: 15;
     border-radius: 7.5px;
-}
-
-.collapsible-heder::after {
-    -webkit-box-shadow: 0 4px 6px -6px #222;
-    -moz-box-shadow: 0 4px 6px -6px #222;
-    box-shadow: 0 4px 6px -6px #222;
 }
 
 .collapsible-body>div>div .row {
@@ -170,6 +165,14 @@ nav {
     margin: .5rem;
 }
 
+
+/***** These are to edit the thumb and the text inside the thumb *****/
+
+input[type=range] {
+    border: none;
+    border-radius: 5px;
+}
+
 input[type=range]::-webkit-slider-thumb {
     background-color: red;
 }
@@ -182,20 +185,19 @@ input[type=range]::-ms-thumb {
     background-color: red;
 }
 
-
-/***** These are to edit the thumb and the text inside the thumb *****/
-
 input[type=range]+.thumb {
-    background-color: #dedede;
+    background-color: white;
+    box-shadow: 0 1px 0 0 gray !important
 }
 
 input[type=range]+.thumb.active .value {
-    color: black;
+    color: red;
+    font-weight: bold;
 }
 
 .input-field input:focus {
     border-bottom: 1px solid white !important;
-    box-shadow: 0 1px 0 0 white !important
+    box-shadow: 0 1px 0 0 black !important
 }
 
 .input-field input:focus+label {
@@ -203,7 +205,7 @@ input[type=range]+.thumb.active .value {
 }
 
 .dropdown-content li>span {
-    color: slategray;
+    color: white;
 }
 
 
@@ -211,4 +213,7 @@ input[type=range]+.thumb.active .value {
 
 #info {
     background-color: white;
+    -webkit-box-shadow: 0 4px 6px -6px #222;
+    -moz-box-shadow: 0 4px 6px -6px #222;
+    box-shadow: 0 4px 6px -6px #222;
 }
