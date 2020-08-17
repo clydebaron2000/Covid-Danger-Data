@@ -3,6 +3,27 @@
 }
 
 
+/* Three columns */
+
+#three-columns {
+    display: flex;
+}
+
+#left-column {
+
+}
+
+#main {
+
+}
+
+#sidePanel {
+
+}
+
+
+
+
 /* SVG INTERACTIVE MAP */
 
 .hover:hover {
@@ -136,3 +157,24 @@ p {
 }
 
 
+@media screen and (max-width:600px) {
+    #three-columns {
+        flex-direction: column;
+    }
+
+    #left-column {
+        order: 3;
+    }
+
+    #legend-aside {
+        margin-top: 0;
+    }
+    #main {
+        order: 1;
+    }
+
+    #sidePanel {
+        order: 2;
+        height: 2000px;
+    }
+}
