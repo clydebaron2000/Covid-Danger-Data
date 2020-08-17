@@ -7,7 +7,7 @@ const mapStyle = [{
         'visibility': 'on',
     }, {
         'lightness': 33,
-    }, ],
+    },],
 }, {
     'featureType': 'landscape',
     'elementType': 'all',
@@ -27,7 +27,7 @@ const mapStyle = [{
         'visibility': 'on',
     }, {
         'lightness': 20,
-    }, ],
+    },],
 }, {
     'featureType': 'road',
     'elementType': 'all',
@@ -59,8 +59,8 @@ const mapStyle = [{
         'visibility': 'on',
     }, {
         'color': '#acbcc9',
-    }, ],
-}, ];
+    },],
+},];
 // set up some global variables
 let mapCounty, countyColor, timeFrame, map;
 // get output 
@@ -105,13 +105,6 @@ function colorTheCounty(number) {
     return countyColor
 }
 
-function include(file) {
-    var script = document.createElement('script');
-    script.src = file;
-    script.type = 'text/javascript';
-    script.defer = true;
-    document.getElementsByTagName('body').item(0).appendChild(script);
-}
 /**
  * Initialize the Google Map.
  */
@@ -128,8 +121,11 @@ function drawMap(weekIndex) {
         zoom: 6,
         center: { lat: 37.669696, lng: -120.0997248 },
         disableDefaultUI: true
-            // styles: mapStyle
+        // styles: mapStyle
     });
+    loadUpJSON()
+}
+function loadUpJSON() {
     // Load the fire and county GeoJSON onto the map.
     // this results in header fields too large error
     /*
@@ -139,9 +135,18 @@ function drawMap(weekIndex) {
       map.data.loadGeoJson(data.contents, {idPropertyName: 'UniqueId'});
     });
     */
-    map.data.loadGeoJson('./assets/json/fires.json', { idPropertyName: 'UniqueId' });
+    map.data.loadGeoJson('./assets/json/fires.json', {idPropertyName: 'UniqueId'});
+
+    // var kmlLayer = new google.maps.KmlLayer(src, {
+    //     suppressInfoWindows: true,
+    //     preserveViewport: false,
+    //     map: map
+    //   });
+
+
+
     // Load county map polygons
-    map.data.loadGeoJson('./assets/json/california-counties.json', { idCountyName: 'name' });
+    map.data.loadGeoJson('./assets/json/california-counties.json', {idCountyName: 'name'});
     // color the counties and place wildfire icons
     let defaultColor = "black";
     // ************************************************************
@@ -149,12 +154,15 @@ function drawMap(weekIndex) {
     // This part of the code displays Clyde's charts
     // 
     // ************************************************************
-    // const apiKey = 'AIzaSyDghaJQj_qgYqvWND7-Huz2rcdtzEXWuc4';
-    const infoWindow = new google.maps.InfoWindow();
-    // Show the information for a fire when its marker is clicked.
+   
+    
     map.data.addListener('click', (event) => {
-        // const type = event.feature.getProperty('Type');
+        //send county var to displayCounty function
         const thisCounty = event.feature.getProperty('name');
+        displayCounty(thisCounty);
+        
+        // enhancment code to load fire hazard in side panel
+        // const type = event.feature.getProperty('Type');
         // const thisFire = event.feature.getProperty('Name');
         // const description = event.feature.getProperty('Location');
         // const containment = event.feature.getProperty('PercentContained');
@@ -166,14 +174,6 @@ function drawMap(weekIndex) {
         //     <p><b>Containment:</b> ${containment}</p>
         //   </div>
         //   `;
-        // if(featureType = "Point"){
-        //   const position = event.feature.getGeometry().get();
-        //   infoWindow.setPostion(position);
-        // } else {
-        displayCounty(thisCounty);
-        //   return
-        // }
-        // console.log(event.feature.getGeometry().get());
         // infoWindow.setContent(content);
         // infoWindow.setPosition(position);
         // infoWindow.setOptions({pixelOffset: new google.maps.Size(0, -30)});
@@ -184,38 +184,35 @@ function drawMap(weekIndex) {
     // STYLE THE MAP DATA LAYER
     // 
     */
-    map.data.setStyle(function(feature) {
+    map.data.setStyle(function (feature) {
         mapCounty = feature.getProperty('name');
-        // iconURL = `./assets/img/icon_Wildfire.png`;
         for (i = 0; i < 57; i++) {
             // console.log(theseCounties[i][timeFrame].name);
-            if ((theseCounties[24].length) <= timeFrame) { // Modoc County didn't start reporting until later so change the timeFrame to fit
+            if ((theseCounties[24].length) <= timeFrame) { // Modoc County (number 24 in the array) didn't start reporting until later so change the timeFrame to fit
                 let range = timeFrame - 1;
                 if (theseCounties[24][range].name === mapCounty) {
                     // console.log ("we have a match");
                     colorTheCounty(theseCounties[i][range].infectionRate)
-                        // console.log(countyColor);
-                        // console.log(i + "and" + range);
+                    // console.log(countyColor);
+                    // console.log(i + "and" + range);
                 }
             } else {
                 if (theseCounties[i][timeFrame].name === mapCounty) {
                     // console.log ("we have a match");
                     colorTheCounty(theseCounties[i][timeFrame].infectionRate)
-                        // console.log(countyColor);
-                        // console.log(i + "and" + timeFrame);
+                    // console.log(countyColor);
+                    // console.log(i + "and" + timeFrame);
                 }
             }
         }
-        if (feature.getProperty('IsActive') === "Y") {
-            // figure out how to only show active fire icons using show/hide map.setOptions
-        };
+        // pull these vars out for future feature show/hide
         outlineWeight = zIndex = 2;
         color = countyColor;
-        // }
         return /** @type {!google.maps.Data.StyleOptions} */ {
             icon: {
                 url: `./assets/images/icon_Wildfire.png`,
                 scaledSize: new google.maps.Size(24, 44),
+
             },
             fillColor: color,
             strokeColor: color,
