@@ -23,7 +23,7 @@ As a family with members at risk for Covid-19, we want to know which areas in th
 
 ## APIs
 
-### [The Covid Tracking Project](www.covidtracking.com/data/api):
+### [California Open Data Portal](https://data.ca.gov/dataset/covid-19-cases)
 * Used to retrieve Covid-19 data by county and state
 * please note that due to unacceptably long wait times to return queries from Covid Tracking Project, this project relies on a CSV to API hosting solution that delivers the same up to date information from a different query address.
 
@@ -32,6 +32,9 @@ As a family with members at risk for Covid-19, we want to know which areas in th
 
 ### [Cal Fire](fire.ca.gov):
 * Used for location and containment status of wildfires
+
+### [CSV to API](https://github.com/project-open-data/csv-to-api)
+* Used to serve up JSON from CSV sources (covid)
 
 
 ## Usage ##
@@ -51,6 +54,12 @@ The source files for this quiz can be accessed through cloning the GitHub repo. 
 ### Resources from [CDC](https://www.cdc.gov):
 * Covid 19 Symptoms
 * Covid health information
+
+## Creation Team:
+- [Clyde Baron Rapinan](https://github.com/clydebaron2000)
+- [Jeneth Diestra](https://github.com/jen6one9)
+- [Nancy Lambert-Brown](https://github.com/n-lambert)
+- [Plover Brown](https://https://github.com/rebgrasshopper)
 
 ## License
 * [GNU](LICENSE)
