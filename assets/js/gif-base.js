@@ -433,7 +433,7 @@ function getReady() {
     $("#topbarsearch").on("input click paste change ", function(event) {
         event.preventDefault();
         const input = $("#userCity").val();
-        if (countyAutofill[input] === 0) $("#" + input.replace(/\s/g, "_")).trigger("click");
+        if (countyAutofill[input] === 0) displayCounty(input);
         return false;
     });
     var interval;
