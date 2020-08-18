@@ -127,6 +127,38 @@ p {
 /*  HEATMAP COLORS*/
 
 .r15 {
+    fill: #00FFF3;
+    background-color: #00FFF3;
+}
+
+.r50 {
+    fill: #27FF00;
+    background-color: #27FF00;
+}
+
+.r100 {
+    fill: #FBFF00;
+    background-color: #FBFF00;
+}
+
+.r200 {
+    fill: #FF9700;
+    background-color: #FF9700;
+}
+
+.r500 {
+    fill: #FF0000;
+    background-color: #FF0000;
+}
+
+.rMore {
+    fill: #83161C;
+    background-color: #83161C;
+}
+
+
+/* 
+.r15 {
     fill: #FFEC81;
     background-color: #FFEC81;
 }
@@ -154,7 +186,8 @@ p {
 .rMore {
     fill: #4F0000;
     background-color: #4F0000;
-}
+} */
+
 
 
 @media screen and (max-width:600px) {
