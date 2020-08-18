@@ -1,7 +1,7 @@
 # The Rona Go/No-Go 
 
 
-![screenshot of Covid Danger Data](./assets/images/screenshot.png)
+![screenshot of Covid Danger Data](./assets/images/Screenshot.png)
 Find the deployed project [here](https://clydebaron2000.github.io/Project1/).
 
 
