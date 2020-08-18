@@ -2,7 +2,7 @@
 
 
 ![screenshot of Covid Danger Data](./assets/images/Screenshot.png)
-Find the deployed project [here](https://clydebaron2000.github.io/Covid Danger Data/).
+Find the deployed project [here](https://clydebaron2000.github.io/Covid-Danger-Data/).
 
 
 Table of Contents:
