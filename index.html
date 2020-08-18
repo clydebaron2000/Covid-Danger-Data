@@ -16,7 +16,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
     <link href='style.css' rel='stylesheet' type='text/css'>
 
-    <title>Danger Data for California</title>
+    <title>COIVD Danger Data for California</title>
 </head>
 
 <body class='flexwrap'>
@@ -31,7 +31,7 @@
         <div class="nav-wrapper">
             <ul class="left">
                 <li>
-                    <a href="#" class="lightgrey-text" style='font-size: 2rem;'>Danger Data</a>
+                    <a href="#" class="lightgrey-text" style='font-size: 2rem;'>COVID Danger Data</a>
                 </li>
             </ul>
             <ul class="hide-on-sm-and-down right">
@@ -43,7 +43,7 @@
                     <form class="col s12" id="topbarsearch" action="#!">
                         <div class="input-field col s6 s12 grey-text">
                             <i class="white-text material-icons prefix" style='top:+.25rem'>search</i>
-                            <input id="userCity" type="text" action="" style='caret-color:white;margin:0;margin-left: 2rem;padding-left:0;background: none;' placeholder="search your city" id="autocomplete-input" class="autocomplete white-text" autocomplete="off">
+                            <input id="userCity" type="text" action="" style='caret-color:white;margin:0;margin-left: 2rem;padding-left:0;background: none;' placeholder="search your county" id="autocomplete-input" class="autocomplete white-text" autocomplete="off">
                         </div>
                     </form>
 
@@ -117,7 +117,6 @@
                                         <li class="defaultlist">• Flashlight</li>
                                         <li class="defaultlist">• Battery powered radio and extra batteries</li>
                                         <li class="defaultlist">• Sanitation supplies</li>
-                                        <li class="defaultlist">• Toilietries</li>
                                         <li class="defaultlist">• Copies of important documents</li>
                                         <li class="defaultlist">• Pet food and water</li>
                                         <li class="defaultlist">• Easily carried valuables</li>
@@ -301,16 +300,6 @@
     <!--main-->
     <!-- jquery -->
     <script src=' https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js '></script>
-    <script>
-        $(document).ready(function() {
-            $(".dropdown-trigger").dropdown({
-                belowOrigin: true
-            });
-            $(' .collapsible ').collapsible();
-            var elems = document.querySelectorAll("input[type=range]");
-            M.Range.init(elems);
-        });
-    </script>
     <!-- materialize js -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
     <!-- chart.js -->
@@ -319,12 +308,7 @@
     <script src=' ./assets/js/gif-base.js '></script>
     <!-- Google map  -->
     <script src="./assets/js/app.js"></script>
-    <!-- ####################################################### -->
-    <!-- ####################################################### -->
-    <!-- ########## DANGER!                        ############# -->
-    <!-- ########## Do not save API Key and push to Git ######## -->
-    <!-- ####################################################### -->
-    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDOpl339VCgyBvahm-mHPeQ-GGE3rqcz0&libraries=places&callback=drawMap">
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCDOpl339VCgyBvahm-mHPeQ-GGE3rqcz0&libraries=places&callback=getData">
     </script>
 </body>
 

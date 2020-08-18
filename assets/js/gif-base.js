@@ -6,36 +6,40 @@ let wholeData;
 let statewidePopulation;
 //AJAX QUERIES - county population from US Census, historical Covid data by CA county
 //query current and past county data
-let censusSateURL = "https://api.census.gov/data/2019/pep/population?key=45876004e2fbfafe56615f040f2172ee79c77643&get=POP&for=state:06"
-$.when($.ajax({
-    url: censusSateURL,
-    method: "GET"
-})).then(function(response) {
-    statewidePopulation = parseInt(response[1][0]);
-})
-let censusCountyURL = "https://api.census.gov/data/2019/pep/population?key=45876004e2fbfafe56615f040f2172ee79c77643&get=POP&in=state:06&for=county:*";
-$.when($.ajax({
-    url: censusCountyURL,
-    method: "GET"
-})).then(function(response) {
-    locateCountyPopulation(response);
-})
-let csvSource = "https://data.ca.gov/dataset/590188d5-8545-4c93-a9a0-e230f0db7290/resource/926fd08f-cc91-4828-af38-bd45de97f8c3/download/statewide_cases.csv";
-let csvURL = "https://c19d.zzzkitty.com/?source=" + csvSource;
-$.when($.ajax({
+function getData() {
+    let censusSateURL = "https://api.census.gov/data/2019/pep/population?key=45876004e2fbfafe56615f040f2172ee79c77643&get=POP&for=state:06"
+    $.when($.ajax({
+        url: censusSateURL,
+        method: "GET"
+    })).then(function(response) {
+        statewidePopulation = parseInt(response[1][0]);
+    })
+    let censusCountyURL = "https://api.census.gov/data/2019/pep/population?key=45876004e2fbfafe56615f040f2172ee79c77643&get=POP&in=state:06&for=county:*";
+    $.when($.ajax({
+        url: censusCountyURL,
+        method: "GET"
+    })).then(function(response) {
+        locateCountyPopulation(response);
+    })
+    let csvSource = "https://data.ca.gov/dataset/590188d5-8545-4c93-a9a0-e230f0db7290/resource/926fd08f-cc91-4828-af38-bd45de97f8c3/download/statewide_cases.csv";
+    let csvURL = "https://c19d.zzzkitty.com/?source=" + csvSource;
+    $.when($.ajax({
         url: csvURL,
         method: "GET"
     })).then(function(response) {
         wholeData = response;
         // setMainMap(response, $("#weekIndex")[0].max);
+        console.log(wholeData);
         setTimeLapseMap(response);
-        getReady();
         setStatewideData(response);
-        localStorage.setItem("countyRate", JSON.stringify(californiaCounties));
+        getTheseCounties();
+        getReady();
+        // localStorage.setItem("countyRate", JSON.stringify(californiaCounties));
     })
-    //FUNCTIONS 
-    //CALCULATION FUNCTIONS
-    //calculate rate of incidence per 100,000 population
+}
+//FUNCTIONS 
+//CALCULATION FUNCTIONS
+//calculate rate of incidence per 100,000 population
 function calculateRate(incidence, population) {
     return (parseInt(incidence) / parseInt(population)) * 100000;
 }
@@ -112,18 +116,17 @@ function displayCounty(e) {
     var pointColors = [];
     var caseCountPerPeriod = [];
     var totalNewCasesArray = [];
-    // console.log(rawChartData);
     for (var i = 0; i < rawChartData.length; i++) {
         datesArray.push(rawChartData[i].endDate);
         const infectionRate = rawChartData[i].infectionRate.toFixed(2);
         infection14RateArray.push(infectionRate);
         var color;
         if (infectionRate < 0) color = "white"
-        else if (infectionRate < 16) color = "#FFEC81";
-        else if (infectionRate < 51) color = "#FF8F41";
-        else if (infectionRate < 101) color = "#FF4E20";
-        else if (infectionRate < 201) color = "#DC0000";
-        else if (infectionRate < 501) color = "#950000";
+        else if (infectionRate < 16) color = "#5AFFB9";
+        else if (infectionRate < 51) color = "#F6FF37";
+        else if (infectionRate < 101) color = "#FFC537";
+        else if (infectionRate < 201) color = "#FF342B";
+        else if (infectionRate < 501) color = "#83161C";
         else color = "#4F0000";
         pointColors.push(color);
         totalNewCasesArray.push(rawChartData[i].totalNewCases14);
@@ -315,7 +318,6 @@ function setStatewideData(response) {
     let addToIndex = 6;
     let currentIndex = 0;
     for (let i = 0; i < Math.floor(dataLength / 7); i++) {
-
         //set new object for 7 day period
         const newObject = { "totalNewCases7": 0, "totalNewCases14": 0, "totalCasesConfirmed": 0, "totalCountDeaths": 0 };
         let totalCountDeaths;
@@ -407,15 +409,14 @@ function locateCountyPopulation(dataset) {
 }
 //remove loading gif when ajax query is returned
 function getReady() {
-    // $("#loading").css("display", "none");
-    // $("path").on("click", displayCounty);
-    // $("polyline").on("click", displayCounty);
-    // $("polygon").on("click", displayCounty);
-    // $("path").addClass("hover");
-    // $("polyline").addClass("hover");
-    // $("polygon").addClass("hover");
-    //-------------
-    // clyde's new code
+    $(document).ready(function() {
+        $(".dropdown-trigger").dropdown({
+            belowOrigin: true
+        });
+        $('.collapsible').collapsible();
+        var elems = document.querySelectorAll("input[type=range]");
+        M.Range.init(elems);
+    });
     var countyAutofill = {};
     for (var county of californiaCounties) {
         const text = county.name;
@@ -447,7 +448,7 @@ function getReady() {
         if (i >= range[0].max) {
             i = 0;
         }
-        const timeInterval = 2500;
+        const timeInterval = 1500;
         interval = setInterval(function() {
             if (i >= range[0].max) {
                 clearInterval(interval);
@@ -471,11 +472,9 @@ function getReady() {
     });
     $("#weekIndex").on("input", function() {
         const value = $(this).val();
-        console.log("range value:" + value);
         let dataIndex = timeLapseMap[0].length - value - 2; // -2 because the some counties didn't report until two weeks after data collection started
         // historicalMap(value, $(this)[0].max);
         setMainMap(wholeData);
-        console.log("data index: " + dataIndex);
         drawMap(dataIndex)
     });
     $("#weekIndex").trigger("input");
