@@ -80,27 +80,24 @@ function sanitizeHTML(strings) {
 }
 // sets the county polygon fill color based on infection rate
 function colorTheCounty(number) {
-    if (number < 0) {
-        rateIndex = "r0";
-        countyColor = "white"
-    } else if (number <= 15) {
+    if (number <= 15) {
         rateIndex = "r15";
-        countyColor = "#FFEC81";
+        countyColor = "#36FFAA";
     } else if (number <= 50) {
         rateIndex = "r50";
-        countyColor = "#FF8F41";
+        countyColor = "#F6FF37";
     } else if (number <= 100) {
         rateIndex = "r100";
-        countyColor = "#FF4E20";
+        countyColor = "#FFC537";
     } else if (number <= 200) {
         rateIndex = "r200";
-        countyColor = "#DC0000";
+        countyColor = "#FF822B";
     } else if (number <= 500) {
         rateIndex = "r500";
-        countyColor = "#950000";
+        countyColor = "#FF342B";
     } else {
         rateIndex = "rMore";
-        countyColor = "#4F0000";
+        countyColor = "#83161C";
     }
     return countyColor
 }
