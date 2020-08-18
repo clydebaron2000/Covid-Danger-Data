@@ -128,7 +128,7 @@ function displayCounty(e) {
         else if (infectionRate < 51) color = "#F6FF37";
         else if (infectionRate < 101) color = "#FFC537";
         else if (infectionRate < 201) color = "#FF342B";
-        else if (infectionRate < 501) color = "#83161C;";
+        else if (infectionRate < 501) color = "#83161C";
         else color = "#4F0000";
         pointColors.push(color);
         totalNewCasesArray.push(rawChartData[i].totalNewCases14);
