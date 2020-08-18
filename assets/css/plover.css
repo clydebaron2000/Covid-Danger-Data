@@ -127,32 +127,26 @@ p {
 /*  HEATMAP COLORS*/
 
 .r15 {
-    fill: #00FFF3;
-    background-color: #00FFF3;
+    background-color: #5AFFB9;
 }
 
 .r50 {
-    fill: #27FF00;
-    background-color: #27FF00;
+    background-color: #F6FF37;
 }
 
 .r100 {
-    fill: #FBFF00;
-    background-color: #FBFF00;
+    background-color: #FFC537;
 }
 
 .r200 {
-    fill: #FF9700;
-    background-color: #FF9700;
+    background-color: #FF822B;
 }
 
 .r500 {
-    fill: #FF0000;
-    background-color: #FF0000;
+    background-color: #FF342B;
 }
 
 .rMore {
-    fill: #83161C;
     background-color: #83161C;
 }
 

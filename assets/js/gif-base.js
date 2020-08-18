@@ -314,7 +314,8 @@ function setStatewideData(response) {
     const dataLength = findMostRecent(response, "San Diego") - findFirst(response, "San Diego");
     let addToIndex = 6;
     let currentIndex = 0;
-    for (let i = 0; i < dataLength / 7; i++) {
+    for (let i = 0; i < Math.floor(dataLength / 7); i++) {
+
         //set new object for 7 day period
         const newObject = { "totalNewCases7": 0, "totalNewCases14": 0, "totalCasesConfirmed": 0, "totalCountDeaths": 0 };
         let totalCountDeaths;
