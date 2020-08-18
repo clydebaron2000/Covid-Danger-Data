@@ -7,7 +7,7 @@ const mapStyle = [{
         'visibility': 'on',
     }, {
         'lightness': 33,
-    },],
+    }, ],
 }, {
     'featureType': 'landscape',
     'elementType': 'all',
@@ -27,7 +27,7 @@ const mapStyle = [{
         'visibility': 'on',
     }, {
         'lightness': 20,
-    },],
+    }, ],
 }, {
     'featureType': 'road',
     'elementType': 'all',
@@ -59,8 +59,8 @@ const mapStyle = [{
         'visibility': 'on',
     }, {
         'color': '#acbcc9',
-    },],
-},];
+    }, ],
+}, ];
 // set up some global variables
 let mapCounty, countyColor, timeFrame, map;
 // get output 
@@ -104,7 +104,6 @@ function colorTheCounty(number) {
     }
     return countyColor
 }
-
 /**
  * Initialize the Google Map.
  */
@@ -121,10 +120,11 @@ function drawMap(weekIndex) {
         zoom: 6,
         center: { lat: 37.669696, lng: -120.0997248 },
         disableDefaultUI: true
-        // styles: mapStyle
+            // styles: mapStyle
     });
     loadUpJSON()
 }
+
 function loadUpJSON() {
     // Load the fire and county GeoJSON onto the map.
     // this results in header fields too large error
@@ -135,18 +135,14 @@ function loadUpJSON() {
       map.data.loadGeoJson(data.contents, {idPropertyName: 'UniqueId'});
     });
     */
-    map.data.loadGeoJson('./assets/json/fires.json', {idPropertyName: 'UniqueId'});
-
+    map.data.loadGeoJson('./assets/json/fires.json', { idPropertyName: 'UniqueId' });
     // var kmlLayer = new google.maps.KmlLayer(src, {
     //     suppressInfoWindows: true,
     //     preserveViewport: false,
     //     map: map
     //   });
-
-
-
     // Load county map polygons
-    map.data.loadGeoJson('./assets/json/california-counties.json', {idCountyName: 'name'});
+    map.data.loadGeoJson('./assets/json/california-counties.json', { idCountyName: 'name' });
     // color the counties and place wildfire icons
     let defaultColor = "black";
     // ************************************************************
@@ -154,13 +150,11 @@ function loadUpJSON() {
     // This part of the code displays Clyde's charts
     // 
     // ************************************************************
-   
-    
     map.data.addListener('click', (event) => {
         //send county var to displayCounty function
         const thisCounty = event.feature.getProperty('name');
+        console.log(thisCounty);
         displayCounty(thisCounty);
-        
         // enhancment code to load fire hazard in side panel
         // const type = event.feature.getProperty('Type');
         // const thisFire = event.feature.getProperty('Name');
@@ -184,7 +178,7 @@ function loadUpJSON() {
     // STYLE THE MAP DATA LAYER
     // 
     */
-    map.data.setStyle(function (feature) {
+    map.data.setStyle(function(feature) {
         mapCounty = feature.getProperty('name');
         for (i = 0; i < 57; i++) {
             // console.log(theseCounties[i][timeFrame].name);
@@ -192,16 +186,16 @@ function loadUpJSON() {
                 let range = timeFrame - 1;
                 if (theseCounties[24][range].name === mapCounty) {
                     // console.log ("we have a match");
-                    colorTheCounty(theseCounties[i][range].infectionRate)
-                    // console.log(countyColor);
-                    // console.log(i + "and" + range);
+                    colorTheCounty(0)
+                        // console.log(countyColor);
+                        // console.log(i + "and" + range);
                 }
             } else {
                 if (theseCounties[i][timeFrame].name === mapCounty) {
                     // console.log ("we have a match");
                     colorTheCounty(theseCounties[i][timeFrame].infectionRate)
-                    // console.log(countyColor);
-                    // console.log(i + "and" + timeFrame);
+                        // console.log(countyColor);
+                        // console.log(i + "and" + timeFrame);
                 }
             }
         }
@@ -212,7 +206,6 @@ function loadUpJSON() {
             icon: {
                 url: `./assets/images/icon_Wildfire.png`,
                 scaledSize: new google.maps.Size(24, 44),
-
             },
             fillColor: color,
             strokeColor: color,
