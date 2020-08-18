@@ -64,7 +64,11 @@ const mapStyle = [{
 // set up some global variables
 let mapCounty, countyColor, timeFrame, map;
 // get output 
-var theseCounties = JSON.parse(localStorage.getItem("historicRate"));
+var theseCounties;
+
+function getTheseCounties() {
+    theseCounties = JSON.parse(localStorage.getItem("historicRate"));
+}
 // Escapes HTML characters in a template literal string, to prevent XSS.
 // See https://www.owasp.org/index.php/XSS_%28Cross_Site_Scripting%29_Prevention_Cheat_Sheet#RULE_.231_-_HTML_Escape_Before_Inserting_Untrusted_Data_into_HTML_Element_Content
 function sanitizeHTML(strings) {
@@ -150,7 +154,6 @@ function loadUpJSON() {
     map.data.addListener('click', (event) => {
         //send county var to displayCounty function
         const thisCounty = event.feature.getProperty('name');
-        console.log(thisCounty);
         displayCounty(thisCounty);
         // enhancment code to load fire hazard in side panel
         // const type = event.feature.getProperty('Type');
