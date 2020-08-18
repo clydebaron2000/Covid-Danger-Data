@@ -154,8 +154,7 @@ function loadUpJSON() {
     map.data.addListener('click', (event) => {
         //send county var to displayCounty function
         const thisCounty = event.feature.getProperty('name');
-        // console.log(thisCounty);
-        // displayCounty(thisCounty);
+        displayCounty(thisCounty);
         // enhancment code to load fire hazard in side panel
         // const type = event.feature.getProperty('Type');
         // const thisFire = event.feature.getProperty('Name');
