@@ -448,7 +448,7 @@ function getReady() {
         if (i >= range[0].max) {
             i = 0;
         }
-        const timeInterval = 2500;
+        const timeInterval = 1500;
         interval = setInterval(function() {
             if (i >= range[0].max) {
                 clearInterval(interval);
