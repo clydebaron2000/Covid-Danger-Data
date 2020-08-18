@@ -67,9 +67,7 @@ let mapCounty, countyColor, timeFrame, map;
 var theseCounties;
 
 function getTheseCounties() {
-    console.log("set");
     theseCounties = JSON.parse(localStorage.getItem("historicRate"));
-    console.log(theseCounties);
 }
 // Escapes HTML characters in a template literal string, to prevent XSS.
 // See https://www.owasp.org/index.php/XSS_%28Cross_Site_Scripting%29_Prevention_Cheat_Sheet#RULE_.231_-_HTML_Escape_Before_Inserting_Untrusted_Data_into_HTML_Element_Content
@@ -111,7 +109,6 @@ function colorTheCounty(number) {
  * Initialize the Google Map.
  */
 function drawMap(weekIndex) {
-    console.log("called in");
     if (weekIndex) {
         timeFrame = weekIndex;
     } else {
@@ -157,8 +154,8 @@ function loadUpJSON() {
     map.data.addListener('click', (event) => {
         //send county var to displayCounty function
         const thisCounty = event.feature.getProperty('name');
-        console.log(thisCounty);
-        displayCounty(thisCounty);
+        // console.log(thisCounty);
+        // displayCounty(thisCounty);
         // enhancment code to load fire hazard in side panel
         // const type = event.feature.getProperty('Type');
         // const thisFire = event.feature.getProperty('Name');

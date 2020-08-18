@@ -29,10 +29,9 @@ function getData() {
     })).then(function(response) {
         wholeData = response;
         // setMainMap(response, $("#weekIndex")[0].max);
-        console.log("setting timelapseMap");
+        console.log(wholeData);
         setTimeLapseMap(response);
         setStatewideData(response);
-        console.log("getting thesecounties");
         getTheseCounties();
         getReady();
         // localStorage.setItem("countyRate", JSON.stringify(californiaCounties));
@@ -117,7 +116,6 @@ function displayCounty(e) {
     var pointColors = [];
     var caseCountPerPeriod = [];
     var totalNewCasesArray = [];
-    // console.log(rawChartData);
     for (var i = 0; i < rawChartData.length; i++) {
         datesArray.push(rawChartData[i].endDate);
         const infectionRate = rawChartData[i].infectionRate.toFixed(2);
@@ -411,7 +409,6 @@ function locateCountyPopulation(dataset) {
 }
 //remove loading gif when ajax query is returned
 function getReady() {
-    console.log("getting ready");
     $(document).ready(function() {
         $(".dropdown-trigger").dropdown({
             belowOrigin: true
@@ -475,11 +472,9 @@ function getReady() {
     });
     $("#weekIndex").on("input", function() {
         const value = $(this).val();
-        console.log("range value:" + value);
         let dataIndex = timeLapseMap[0].length - value - 2; // -2 because the some counties didn't report until two weeks after data collection started
         // historicalMap(value, $(this)[0].max);
         setMainMap(wholeData);
-        // console.log("data index: " + dataIndex);
         drawMap(dataIndex)
     });
     $("#weekIndex").trigger("input");
