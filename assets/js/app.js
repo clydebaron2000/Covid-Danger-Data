@@ -205,8 +205,8 @@ function loadUpJSON() {
                 scaledSize: new google.maps.Size(24, 44),
             },
             fillColor: color,
-            strokeColor: color,
-            strokeWeight: outlineWeight,
+            strokeColor: "#E8E8E8",
+            strokeWeight: 1,
         };
     });
 }
