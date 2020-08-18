@@ -1,4 +1,4 @@
-# The Rona Go/No-Go 
+# Covid Danger Data
 
 
 ![screenshot of Covid Danger Data](./assets/images/Screenshot.png)
