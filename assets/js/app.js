@@ -64,7 +64,13 @@ const mapStyle = [{
 // set up some global variables
 let mapCounty, countyColor, timeFrame, map;
 // get output 
-var theseCounties = JSON.parse(localStorage.getItem("historicRate"));
+var theseCounties;
+
+function getTheseCounties() {
+    console.log("set");
+    theseCounties = JSON.parse(localStorage.getItem("historicRate"));
+    console.log(theseCounties);
+}
 // Escapes HTML characters in a template literal string, to prevent XSS.
 // See https://www.owasp.org/index.php/XSS_%28Cross_Site_Scripting%29_Prevention_Cheat_Sheet#RULE_.231_-_HTML_Escape_Before_Inserting_Untrusted_Data_into_HTML_Element_Content
 function sanitizeHTML(strings) {
@@ -105,6 +111,7 @@ function colorTheCounty(number) {
  * Initialize the Google Map.
  */
 function drawMap(weekIndex) {
+    console.log("called in");
     if (weekIndex) {
         timeFrame = weekIndex;
     } else {
