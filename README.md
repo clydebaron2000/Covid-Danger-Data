@@ -1,15 +1,16 @@
 # The Rona Go/No-Go 
 
-[Covid Evac](https://clydebaron2000.github.io/Project1/)
-![alt-text](xxxx.gif)
+[Covid Danger Data](https://clydebaron2000.github.io/Project1/)
+![screenshot of Covid Danger Data](xxxx.gif)
 
 Table of Contents:
 
 - [Section 1: Introduction](#Introduction)
 - [Section 2: User Story](#user-story)
 - [Section 3: APIs](#APIs)
-- [Section 4: Acknowledgments](#Resources)
-- [Section 5: License](#License)
+- [Section 4: Resources](#Resources)
+- [Section 5: Creation Team](#creation-team)
+- [Section 6: License](#License)
 
 ## Introduction
 
@@ -30,7 +31,7 @@ As a family with members at risk for Covid-19, we want to know which areas in th
 ### [The United States Census Bureau](https://www.census.gov/data/developers.html)
 * Used for population data at state and county levels
 
-### [Cal Fire](fire.ca.gov):
+### [CalFire](https://fire.ca.gov):
 * Used for location and containment status of wildfires
 
 ### [CSV to API](https://github.com/project-open-data/csv-to-api)
@@ -59,7 +60,7 @@ The source files for this quiz can be accessed through cloning the GitHub repo. 
 - [Clyde Baron Rapinan](https://github.com/clydebaron2000)
 - [Jeneth Diestra](https://github.com/jen6one9)
 - [Nancy Lambert-Brown](https://github.com/n-lambert)
-- [Plover Brown](https://https://github.com/rebgrasshopper)
+- [Plover Brown](https://github.com/rebgrasshopper)
 
 ## License
 * [GNU](LICENSE)
