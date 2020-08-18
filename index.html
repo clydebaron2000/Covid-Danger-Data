@@ -52,7 +52,7 @@
         </div>
     </nav>
     <div id='three-columns' class="body row">
-        <div id="left-column" class="col s12 m3 l3 grey" style='overflow: auto;'>
+        <section id="left-column" class="col s12 m3 l3 grey" style='overflow: auto;'>
             <div class="container" style='margin:0; width:100%'>
                 <section>
                     <h5>
@@ -60,10 +60,10 @@
                     </h5>
                     <ul class="collapsible">
                         <li class='active'>
-                            <div class="collapsible-header">
+                            <header class="collapsible-header">
                                 <i class="material-icons">drive_eta</i> Evacuation Plan
-                            </div>
-                            <div class="collapsible-body">
+                            </header>
+                            <article class="collapsible-body">
                                 <span>According to CalFire, create an
                                     <strong>evacuation plan</strong>
                                     that includes:
@@ -84,23 +84,23 @@
                                         </li>
                                     </ul>
                                 </span>
-                            </div>
+                            </article>
                         </li>
                         <li>
-                            <div class="collapsible-header"><i class="material-icons">add_alert</i> Real Time Alerts
-                            </div>
-                            <div class="collapsible-body">
+                            <header class="collapsible-header"><i class="material-icons">add_alert</i> Real Time Alerts
+                            </header>
+                            <article class="collapsible-body">
                                 <span> Sign up for
                                     <strong>mobile text alerts</strong>
                                     with just your mobile number and zip code
                                     <strong><a href="https://plan.readyforwildfire.org/">here:</a></strong>
                                 </span>
-                            </div>
+                            </article>
                         </li>
                         <li>
-                            <div class="collapsible-header"><i class="material-icons">assignment_turned_in</i>Emergency Supply Kit Checklist
-                            </div>
-                            <div class="collapsible-body"><span>Create an <strong>Emergency Kit</strong> which inlcudes
+                            <header class="collapsible-header"><i class="material-icons">assignment_turned_in</i>Emergency Supply Kit Checklist
+                            </header>
+                            <article class="collapsible-body"><span>Create an <strong>Emergency Kit</strong> which inlcudes
                                     the following:
                                     <br></br>
                                     <ul>
@@ -129,8 +129,8 @@
                                             <a href="https://www.ready.gov">www.ready.gov</a>
                                             . </p>
                                     </ul>
-                                </span></div>
-
+                                </span>
+                            </article>
                         </li>
                     </ul>
                 </section>
@@ -140,10 +140,10 @@
                     </h5>
                     <ul class="collapsible">
                         <li>
-                            <div class="collapsible-header">
+                            <header class="collapsible-header">
                                 <i class="material-icons">supervisor_account</i> Symptoms
-                            </div>
-                            <div class="collapsible-body">
+                            </header>
+                            <article class="collapsible-body">
                                 <span>
                                     According to the CDC, symptoms may appear 2-14 days after exposure to the virus.
                                     People with these
@@ -160,7 +160,6 @@
                                         <li class="defaultlist">• Congestion or runny nose</li>
                                         <li class="defaultlist">• Nausea or vomiting</li>
                                         <li class="defaultlist">• Diarrhea</li>
-                                        <li class="defaultlist">• Toilietries</li>
                                     </ul>
                                     <br>
                                     <p>Look for emergency warning signs for COVID-19. If someone is showing any of these
@@ -178,13 +177,15 @@
                                     <p>For more information on emergency supplies, visit
                                         <a href="https://www.cdc.gov">cdc.gov</a>
                                     </p>
+                                </span>
+                            </article>
                         </li>
                         <li>
-                            <div class="collapsible-header">
+                            <header class="collapsible-header">
                                 <i class="material-icons">local_hospital</i>
                                 Preventive Measures
-                            </div>
-                            <div class="collapsible-body">
+                            </header>
+                            <article class="collapsible-body">
                                 <span> Older adults and people who have severe underlying medical conditions like heart
                                     or lung disease or diabetes seem to be at higher risk for developing serious
                                     complications from COVID-19 illness.
@@ -207,14 +208,14 @@
                                             • Monitor your health
                                         </li>
                                 </span>
-                            </div>
+                            </article>
                         </li>
                         </li>
                         <li>
-                            <div class="collapsible-header">
+                            <header class="collapsible-header">
                                 <i class="material-icons">healing</i> Covid-19 Testing
-                            </div>
-                            <div class="collapsible-body">
+                            </header>
+                            <article class="collapsible-body">
                                 <span>There are two types of tests available for Covid-19:
                                     <strong>viral tests and antibody tests</strong>
                                     . A viral test tells you if you have a current infection. An antibody test might
@@ -235,16 +236,16 @@
                                         </li>
                                     </ul>
                                 </span>
-                            </div>
+                            </article>
                         </li>
                     </ul>
                 </section>
             </div>
-        </div>
-        <div class="col s12 m5 l5 grey lighten-3 flexwrap">
-            <div>
+        </section>
+        <section class="col s12 m5 l5 grey lighten-3 flexwrap">
+            <header>
                 <label for='weekIndex' class='black-text'>Weeks since the beginning of data (3/20/2020)</label>
-            </div>
+            </header>
             <div class=' block top ' style="display:flex">
                 <button id="play" class="red-text darken-4 white">
                     <i class="material-icons">play_arrow</i>
@@ -256,7 +257,7 @@
                     <input type="range" id="weekIndex" min="0" max="2" value="2" />
                 </p>
             </div>
-            <div id="main" class="map">
+            <article id="main" class="map">
                 <div id="map-holder">
                     <aside id='legend-aside'>
                         <div id="title">
@@ -288,14 +289,14 @@
                     </aside>
                 </div>
                 <!--/map-holder-->
-            </div>
+            </article>
             <div id="googMap" style="height: 100%;"></div>
 
             <!--main-->
-        </div>
-        <div id='sidePanel' class="col s12 m4 l4 grey lighten-1">
+        </section>
+        <section id='sidePanel' class="col s12 m4 l4 grey lighten-1">
             <div id="info"></div>
-        </div>
+        </section>
     </div>
     <!--main-->
     <!-- jquery -->
