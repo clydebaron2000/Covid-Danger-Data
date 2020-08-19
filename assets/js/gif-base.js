@@ -434,7 +434,8 @@ function getReady() {
     });
     $("#topbarsearch").on("input click paste change ", function(event) {
         event.preventDefault();
-        const input = $("#userCity").val();
+        var input = $("#userCity").val().replace(/\w\S*/g, function(txt) { return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase(); });
+        $("#userCity").val(input);
         if (countyAutofill[input] === 0) displayCounty(input);
         return false;
     });
