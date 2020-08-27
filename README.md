@@ -16,7 +16,7 @@ Table of Contents:
 
 ## Introduction
 
-As California enters it's peak during the annual wildfire season, there is added complexity and pressure to plan ahead given the current state of the Covid-19 outbreak. Families who are forced to evacuate will need an emergency plan. This project seeks to deliver a simple app that leverages data from a variety of APIs to deliver up to date visuals of Covid-19 and wildfire situations in California. It features a clean, user interactive map, indicating Covid-19 hotspots and allows users to make informed decisions on where to evacuate to.
+As California enters it's annual wildfire season, there is added complexity and pressure to plan ahead given the current state of the Covid-19 outbreak. Families who are forced to evacuate will need an emergency plan. This project seeks to deliver a simple app that leverages data from a variety of APIs to deliver up to date visuals of Covid-19 and wildfire situations in California. It features a clean, user interactive map, indicating Covid-19 hotspots and allows users to make informed decisions on where to evacuate to.
 
 
 ## User Story
@@ -28,7 +28,7 @@ As a family with members at risk for Covid-19, we want to know which areas in th
 
 ### [California Open Data Portal](https://data.ca.gov/dataset/covid-19-cases)
 * Used to retrieve Covid-19 data by county and state
-* please note that due to unacceptably long wait times to return queries from Covid Tracking Project, this project relies on a CSV to API hosting solution that delivers the same up to date information from a different query address.
+* please note that due to unacceptably long wait times to return queries from Covid Tracking Project, this project relies on a hosted CSV to API solution that delivers the same up to date information from a different query address.
 
 ### [The United States Census Bureau](https://www.census.gov/data/developers.html)
 * Used for population data at state and county levels
