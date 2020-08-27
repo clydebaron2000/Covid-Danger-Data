@@ -66,3 +66,4 @@ The source files for this quiz can be accessed through cloning the GitHub repo. 
 
 ## License
 * [GNU](LICENSE)
+![GitHub](https://img.shields.io/github/license/clydebaron2000/Covid-Danger-Data)
